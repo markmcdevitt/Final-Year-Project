@@ -205,16 +205,12 @@ public class WeeklyPlanController {
 
 		completeList.addAll(shoppingList);
 
-
 		List<IngredientsOwned> ingredientsOwned = user.getIngredientsOwned();
 		List<Ingredient> ingList = recipe.getIngredients();
 		
 		for(IngredientsOwned s : ingredientsOwned){
 			for(Ingredient ing: ingList){
 				if(ing.getIngredientName().contains(s.getIngredientOwned())){
-
-					System.out.println("u have "+s.getIngredientOwned());
-					System.out.println("removing "+ing.getIngredientName());
 					ingList.remove(ing);
 					break;
 				}
@@ -222,7 +218,7 @@ public class WeeklyPlanController {
 		}
 
 		List<Ingredient> ingredientList = new ArrayList<Ingredient>(ingList);
-		
+
 		if (shoppingListIngredient.isEmpty()) {
 			for (Ingredient ingredient : ingredientList) {
 				sl = new ShoppingList(ingredient.getIngredientAmount(), ingredient.getIngredientName());
@@ -284,6 +280,11 @@ public class WeeklyPlanController {
 
 		user.setUsername(username);
 		user.setWeeklyPlan(plan);
+		for(ShoppingList shoppingList: completeList){
+			String ingredient =shoppingList.getIngredient();
+			shoppingList.setIngredient(ingredient.replaceAll("[0-9]","".replaceAll("\\)","").replaceAll("\\(","")).replaceAll("ounce","").replaceAll("chopped","").replaceAll("cup",""));
+		    System.out.println(ingredient);
+		}
 		user.setShoppingList(completeList);
 		recipeService.saveOrUpdate(user);
 		List<User> userList = new ArrayList<User>();
