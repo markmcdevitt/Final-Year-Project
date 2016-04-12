@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.finalspringproject.dao.Review;
 import com.finalspringproject.dao.ReviewDao;
-import com.finalspringproject.dao.User;
+import com.finalspringproject.entity.Review;
+import com.finalspringproject.entity.User;
 
 @Service("reviewService")
 public class ReviewService {

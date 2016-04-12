@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.finalspringproject.dao.Recipe;
+import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.service.RecipeService;
 
 

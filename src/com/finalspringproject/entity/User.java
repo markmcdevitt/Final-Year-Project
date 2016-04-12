@@ -1,4 +1,4 @@
-package com.finalspringproject.dao;
+package com.finalspringproject.entity;
 
 import java.util.List;
 
@@ -18,6 +18,9 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.finalspringproject.dao.FormValidationGroup;
+import com.finalspringproject.dao.PersistenceValidationGroup;
 
 @Entity
 @Table(name = "user")

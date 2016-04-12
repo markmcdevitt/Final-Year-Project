@@ -42,6 +42,7 @@
 			<property name="packagesToScan">
 				<list>
 					<value>com.finalspringproject.dao</value>
+					<value>com.finalspringproject.entity</value>
 				</list>
 			</property>
 		</bean>

@@ -1,4 +1,4 @@
-package com.finalspringproject.dao;
+package com.finalspringproject.entity;
 
 import java.util.List;
 import javax.persistence.CascadeType;

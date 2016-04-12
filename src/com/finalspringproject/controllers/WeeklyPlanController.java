@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.finalspringproject.dao.Ingredient;
-import com.finalspringproject.dao.Recipe;
-import com.finalspringproject.dao.ShoppingList;
-import com.finalspringproject.dao.User;
-import com.finalspringproject.dao.WeeklyPlan;
+import com.finalspringproject.entity.Ingredient;
+import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.ShoppingList;
+import com.finalspringproject.entity.User;
+import com.finalspringproject.entity.WeeklyPlan;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.WeeklyPlanService;
 

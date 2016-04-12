@@ -10,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.finalspringproject.dao.Ingredient;
-import com.finalspringproject.dao.ShoppingList;
-import com.finalspringproject.dao.User;
+import com.finalspringproject.entity.Ingredient;
+import com.finalspringproject.entity.ShoppingList;
+import com.finalspringproject.entity.User;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.ShoppingListService;
 

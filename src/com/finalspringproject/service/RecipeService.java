@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.finalspringproject.dao.Recipe;
 import com.finalspringproject.dao.RecipeDAO;
-import com.finalspringproject.dao.Review;
-import com.finalspringproject.dao.User;
-import com.finalspringproject.dao.WeeklyPlan;
+import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.Review;
+import com.finalspringproject.entity.User;
+import com.finalspringproject.entity.WeeklyPlan;
 
 @Service("recipeService")
 public class RecipeService {

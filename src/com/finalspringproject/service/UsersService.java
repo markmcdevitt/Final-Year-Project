@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.finalspringproject.dao.User;
 import com.finalspringproject.dao.UsersDao;
+import com.finalspringproject.entity.User;
 
 
 @Service("usersService")

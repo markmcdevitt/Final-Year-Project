@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finalspringproject.dao.Ingredient;
-import com.finalspringproject.dao.Recipe;
+import com.finalspringproject.entity.Ingredient;
+import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
 

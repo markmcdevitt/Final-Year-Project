@@ -1,4 +1,4 @@
-package com.finalspringproject.dao;
+package com.finalspringproject.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

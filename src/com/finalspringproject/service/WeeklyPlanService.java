@@ -2,9 +2,10 @@ package com.finalspringproject.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.finalspringproject.dao.User;
-import com.finalspringproject.dao.WeeklyPlan;
+
 import com.finalspringproject.dao.WeeklyPlanDao;
+import com.finalspringproject.entity.User;
+import com.finalspringproject.entity.WeeklyPlan;
 
 @Service("weeklyPlanService")
 public class WeeklyPlanService {

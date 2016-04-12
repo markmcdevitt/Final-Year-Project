@@ -15,10 +15,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.finalspringproject.dao.Recipe;
 import com.finalspringproject.dao.RecipeDAO;
-import com.finalspringproject.dao.User;
 import com.finalspringproject.dao.UsersDao;
+import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.User;
 
 @ActiveProfiles("dev")
 @ContextConfiguration(locations = { "classpath:com/finalspringproject/config/dao-context.xml",

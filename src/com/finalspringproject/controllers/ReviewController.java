@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.finalspringproject.dao.Recipe;
-import com.finalspringproject.dao.Review;
-import com.finalspringproject.dao.User;
+import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.Review;
+import com.finalspringproject.entity.User;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
 

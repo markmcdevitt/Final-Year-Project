@@ -9,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.finalspringproject.dao.FormValidationGroup;
-import com.finalspringproject.dao.User;
+import com.finalspringproject.entity.User;
 import com.finalspringproject.service.UsersService;
 
 @Controller
