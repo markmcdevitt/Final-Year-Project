@@ -65,6 +65,7 @@ public class LoginController {//here
 			result.rejectValue("username", "DublicateName.user.username");
 			return "newaccount";
 		}
-		return "home";
+		
+		return "ingredientsowned";
 	}
 }

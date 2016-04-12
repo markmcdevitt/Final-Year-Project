@@ -36,6 +36,7 @@
 				<li class="active"><a href="#home" data-toggle="tab">Your
 						Recipes</a></li>
 				<li><a href="#settings" data-toggle="tab">User Details</a></li>
+				<li><a href="#ingredients" data-toggle="tab">Your Ingredients</a></li>
 			</ul>
 
 			<div class="tab-content">
@@ -89,6 +90,7 @@
 					</div>
 					<hr>
 				</div>
+
 				<div class="tab-pane" id="settings">
 					<hr>
 					<form class="form"
@@ -119,8 +121,6 @@
 									id="password" placeholder="New Password">
 							</div>
 						</div>
-
-
 						<div class="form-group">
 							<div class="col-xs-6">
 								<label for="mobile"><h4>Confirm Password</h4></label> <input
@@ -142,16 +142,43 @@
 						</div>
 					</form>
 				</div>
+				<div class="tab-pane" id="ingredients">
+					<hr>
+					<form class="form"
+						action="${pageContext.request.contextPath}/editDetails"
+						method="post">
+						<label for="last_name"><h4>Ingredients You Own</h4></label>
+						<c:forEach var="ingredientsOwned" items="${user.ingredientsOwned}">
 
+							<div class="form-group">
+
+								<div class="col-xs-6">
+									<input type="text" class="form-control" name="email" id="email"
+										value="<c:out value="${ingredientsOwned.ingredientOwned}"></c:out>">
+								</div>
+							</div>
+							<br>
+
+
+						</c:forEach>
+						<div class="form-group">
+
+							<div class="col-xs-12">
+								<br>
+								<button class="btn btn-lg btn-success" type="submit">
+									<i class="glyphicon glyphicon-ok-sign"></i> Save
+								</button>
+								<button class="btn btn-lg" type="reset">
+									<i class="glyphicon glyphicon-repeat"></i> Reset
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div>
-			<!--/tab-pane-->
 		</div>
-		<!--/tab-content-->
-
 	</div>
-	<!--/col-9-->
 </div>
-<!--/row-->
 <script>
 	$.fn.pageMe = function(opts) {
 		var $this = this, defaults = {

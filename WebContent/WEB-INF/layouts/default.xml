@@ -118,6 +118,11 @@
 		<put-attribute name="title" value="Your Profile"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/tiles/profile.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="ingredientsowned" extends="recipes.base">
+		<put-attribute name="title" value="Ingredients You Already Own"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/ingredientsowned.jsp"></put-attribute>
+	</definition>
 
 	<definition name="allshoppinglists" extends="recipes.base">
 		<put-attribute name="title" value="All The Shopping Lists"></put-attribute>

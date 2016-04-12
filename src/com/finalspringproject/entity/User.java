@@ -24,7 +24,6 @@ import com.finalspringproject.dao.PersistenceValidationGroup;
 
 @Entity
 @Table(name = "user")
-
 public class User {
 
 	@Id
@@ -40,18 +39,21 @@ public class User {
 	@NotBlank(groups = { FormValidationGroup.class, PersistenceValidationGroup.class })
 	@Size(min = 3, max = 15, groups = { FormValidationGroup.class })
 	private String password;
+	
+	private boolean enabled = false;
+	private String authority;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<IngredientsOwned> ingredientsOwned;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Recipe> recipes;
 
-	private boolean enabled = false;
-	private String authority;
-
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<WeeklyPlan> weeklyPlan;
-	
-	@OneToMany(cascade = {CascadeType.ALL},orphanRemoval=true)
+
+	@OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ShoppingList> shoppingList;
 
@@ -59,13 +61,12 @@ public class User {
 
 	}
 
-
-	public User(String username, String email, String password, List<Recipe> recipes, boolean enabled, String authority,
-			List<WeeklyPlan> weeklyPlan, List<ShoppingList> shoppingList) {
-		super();
+	public User(String username, String email, String password, List<IngredientsOwned> ingredientsOwned, List<Recipe> recipes,
+			boolean enabled, String authority, List<WeeklyPlan> weeklyPlan, List<ShoppingList> shoppingList) {
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.ingredientsOwned = ingredientsOwned;
 		this.recipes = recipes;
 		this.enabled = enabled;
 		this.authority = authority;
@@ -73,7 +74,13 @@ public class User {
 		this.shoppingList = shoppingList;
 	}
 
+	public List<IngredientsOwned> getIngredientsOwned() {
+		return ingredientsOwned;
+	}
 
+	public void setIngredientsOwned(List<IngredientsOwned> ingredientsOwned) {
+		this.ingredientsOwned = ingredientsOwned;
+	}
 
 	public boolean isEnabled() {
 		return enabled;
@@ -131,23 +138,19 @@ public class User {
 		this.weeklyPlan = weeklyPlan;
 	}
 
-
 	public List<ShoppingList> getShoppingList() {
 		return shoppingList;
 	}
-
 
 	public void setShoppingList(List<ShoppingList> shoppingList) {
 		this.shoppingList = shoppingList;
 	}
 
-
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", email=" + email + ", password=" + password + ", recipes=" + recipes
-				+ ", enabled=" + enabled + ", authority=" + authority + ", weeklyPlan=" + weeklyPlan + ", shoppingList="
-				+ shoppingList + "]";
+		return "User [username=" + username + ", email=" + email + ", password=" + password + ", ingredientsOwned="
+				+ ingredientsOwned + ", recipes=" + recipes + ", enabled=" + enabled + ", authority=" + authority
+				+ ", weeklyPlan=" + weeklyPlan + ", shoppingList=" + shoppingList + "]";
 	}
-
 
 }

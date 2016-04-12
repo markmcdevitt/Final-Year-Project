@@ -141,7 +141,7 @@ public class RecipeController {
 				ingList.add(ingredient);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 		}
 
 		return ingList;

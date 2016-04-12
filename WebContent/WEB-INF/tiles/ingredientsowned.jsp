@@ -25,14 +25,14 @@
 		<div class="col-md-6 col-md-offset-3">
 			<div class="well well-sm">
 				<form id="details" method="post"
-					action="${pageContext.request.contextPath}/findrecipe">
+					action="${pageContext.request.contextPath}/createingredientsowned">
 					<fieldset>
-						<legend class="text-center">Recipe Generator</legend>
+						<legend class="text-center">Ingredients I Always Own</legend>
 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Ingredient</label>
 							<div class="col-md-9">
-							<input class="form-control" name="ingredientName" placeholder="Name" type="text"></input>
+							<input class="form-control" name="ingredientName" placeholder="Ingredient Name" type="text"></input>
 							<div id="container2"></div>
 							<input type="button" onclick="createTextBox(1)" value="Add Ingredient" class="mybutton btn">
 							<div class="form-group">

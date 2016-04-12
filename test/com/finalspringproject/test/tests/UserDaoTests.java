@@ -47,15 +47,15 @@ public class UserDaoTests {
 
 	@Test
 	public void testCreateUser() {
-		User user =  new User("Terry","O2005@hotmail.com","letmein",null,true,"ROLE_USER",null,null);
+		//User user =  new User("Terry","O2005@hotmail.com","letmein",null,true,"ROLE_USER",null,null);
 	
 		//assertTrue("User creation should return true", usersDao.create(user));
 		
 //		s
-		
-		List<Recipe> userRecipes = recipeDao.getRecipe(user.getUsername());
-		
-		assertEquals("UserRecipes should be two",6, userRecipes.size());
+//		
+//		List<Recipe> userRecipes = recipeDao.getRecipe(user.getUsername());
+//		
+//		assertEquals("UserRecipes should be two",6, userRecipes.size());
 //		List<User> userList= usersDao.getAllUsers();
 //		
 //		assertEquals("Number of users should be 6 ",6,userList.size());

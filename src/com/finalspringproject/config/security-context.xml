@@ -27,7 +27,7 @@
 		<security:intercept-url pattern="/createrecipe"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/user/*"
-			access="isAuthenticated()" />	
+			access="isAuthenticated()" />
 		<security:intercept-url pattern="/doCreate"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/recipecreated"
@@ -70,6 +70,10 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/editDetails"
 			access="isAuthenticated()" />
+		<security:intercept-url pattern="/createingredientsowned"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/ingredientsowned"
+			access="isAuthenticated()" />	
 
 
 
