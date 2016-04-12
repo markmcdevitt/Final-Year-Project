@@ -36,7 +36,8 @@
 				<li class="active"><a href="#home" data-toggle="tab">Your
 						Recipes</a></li>
 				<li><a href="#settings" data-toggle="tab">User Details</a></li>
-				<li><a href="#ingredients" data-toggle="tab">Your Ingredients</a></li>
+				<li><a href="#ingredients" data-toggle="tab">Your
+						Ingredients</a></li>
 			</ul>
 
 			<div class="tab-content">
@@ -145,32 +146,40 @@
 				<div class="tab-pane" id="ingredients">
 					<hr>
 					<form class="form"
-						action="${pageContext.request.contextPath}/editDetails"
+						action="${pageContext.request.contextPath}/createingredientsowned"
 						method="post">
 						<label for="last_name"><h4>Ingredients You Own</h4></label>
 						<c:forEach var="ingredientsOwned" items="${user.ingredientsOwned}">
 
 							<div class="form-group">
-
 								<div class="col-xs-6">
-									<input type="text" class="form-control" name="email" id="email"
-										value="<c:out value="${ingredientsOwned.ingredientOwned}"></c:out>">
+									<input name ="ingredientName" type="text" class="form-control" 
+										value="<c:out value="${ingredientsOwned.ingredientOwned}" ></c:out>">
 								</div>
 							</div>
 							<br>
-
-
 						</c:forEach>
+						
+						<div class="form-group">
+							<div class="col-xs-6">
+								<div id="container2"></div>
+								<input type="button" onclick="createTextBox(1)"
+									value="Add Ingredient" class="mybutton btn">
+								
+							</div>
+						</div>
+
 						<div class="form-group">
 
 							<div class="col-xs-12">
 								<br>
 								<button class="btn btn-lg btn-success" type="submit">
-									<i class="glyphicon glyphicon-ok-sign"></i> Save
+									<i class="glyphicon glyphicon-ok-sign"></i> Update List
 								</button>
 								<button class="btn btn-lg" type="reset">
 									<i class="glyphicon glyphicon-repeat"></i> Reset
 								</button>
+								
 							</div>
 						</div>
 					</form>
@@ -354,4 +363,19 @@
 
 	$(document).ready(onLoad);
 </script>
+<script type="text/javascript">
+	function createTextBox(n) {
+
+		for (var i = 0; i < n; i++) {
+			var textBox = document.createElement("input");
+
+			textBox.setAttribute("name", "ingredientName");
+			textBox.setAttribute("class", "form-control");
+			textBox.setAttribute("type", "text");
+			textBox.setAttribute("align", "bottom");
+			textBox.setAttribute("placeholder", "Ingredient Name");
+			document.getElementById("container2").appendChild(textBox);
+
+		}
+	}
 </script>

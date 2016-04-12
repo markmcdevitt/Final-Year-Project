@@ -87,15 +87,17 @@ public class UserController {
 		}
 
 		return "loggedin";
-	}
+	} 
+	
 
 	@RequestMapping("/createingredientsowned")
 	public String createIngredientsOwned(Model model, Principal principal,
 			@RequestParam(value = "ingredientName") String ingredientName) {
 
 		User user = usersService.getUser(principal.getName());
+		System.out.println("here "+ingredientName);
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
-		List<IngredientsOwned> ingredients = user.getIngredientsOwned();
+		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
 	
 		for(String singleIng:  nameList){
 			IngredientsOwned ingredientsOwned = new IngredientsOwned(singleIng);
@@ -107,7 +109,7 @@ public class UserController {
 		ingredients.addAll(hs);
 		
 		List<Recipe> recipeList = user.getRecipes();
-		
+		user.setIngredientsOwned(ingredients);
 		usersService.update(user);
 
 		model.addAttribute("user", user);

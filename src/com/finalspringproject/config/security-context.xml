@@ -73,7 +73,9 @@
 		<security:intercept-url pattern="/createingredientsowned"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/ingredientsowned"
-			access="isAuthenticated()" />	
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/updateuseringredients"
+			access="isAuthenticated()" />
 
 
 
