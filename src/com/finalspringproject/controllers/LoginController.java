@@ -49,12 +49,14 @@ public class LoginController {//here
 	public String createAccount(@Validated(FormValidationGroup.class) User user, BindingResult result) {
 
 		if (result.hasErrors()) {
+			System.out.println("has errors");
 			return "newaccount";
 		}
 		user.setAuthority("ROLE_USER");// same as below
 		user.setEnabled(true);// not set in the form
 
 		if (usersService.exists(user.getUsername())) {
+			System.out.println("user exists");
 			result.rejectValue("username", "DuplicateName.user.username");
 			return "newaccount";
 		}
@@ -62,6 +64,7 @@ public class LoginController {//here
 		try {
 			usersService.create(user);
 		} catch (DuplicateKeyException e) {
+			System.out.println("duplicate name");
 			result.rejectValue("username", "DublicateName.user.username");
 			return "newaccount";
 		}

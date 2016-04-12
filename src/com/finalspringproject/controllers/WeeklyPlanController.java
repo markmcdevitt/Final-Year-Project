@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.finalspringproject.entity.Ingredient;
+import com.finalspringproject.entity.IngredientsOwned;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.ShoppingList;
 import com.finalspringproject.entity.User;
@@ -101,10 +103,10 @@ public class WeeklyPlanController {
 		List<ShoppingList> shoppingList = user.getShoppingList();
 		WeeklyPlan w = weeklyPlanService.getPlan(weeklyPlanId);
 		List<Recipe> listOfReipes = w.getRecipe();
-		
-		for (int i =0;i<shoppingList.size();i++){
-			if(listOfReipes.get(0).equals(shoppingList.get(i).getIngredient())){
-				System.out.println("here ffs "+i);
+
+		for (int i = 0; i < shoppingList.size(); i++) {
+			if (listOfReipes.get(0).equals(shoppingList.get(i).getIngredient())) {
+				System.out.println("here ffs " + i);
 				shoppingList.remove(i);
 			}
 		}
@@ -112,7 +114,7 @@ public class WeeklyPlanController {
 		user.setShoppingList(shoppingList);
 		listOfReipes.clear();
 		w.setRecipe(listOfReipes);
-		
+
 		weeklyPlanService.updateWeeklyPlan(w);
 		plan = user.getWeeklyPlan();
 
@@ -173,13 +175,12 @@ public class WeeklyPlanController {
 		shoppingListQuantity = new ArrayList<String>();
 		shoppingList = new ArrayList<ShoppingList>();
 		List<Recipe> updatedList;
-		List<Ingredient> ingredientList;
 
 		recipeList = new ArrayList<Recipe>();
 		try {
 			recipe = weeklyPlanController.getRecipe();
 		} catch (Exception e) {
-			System.out.println(" the page times out: " + e);
+			System.out.println(" the page timed out: " + e);
 			return "home";
 		}
 
@@ -203,7 +204,25 @@ public class WeeklyPlanController {
 		}
 
 		completeList.addAll(shoppingList);
-		ingredientList = recipe.getIngredients();
+
+
+		List<IngredientsOwned> ingredientsOwned = user.getIngredientsOwned();
+		List<Ingredient> ingList = recipe.getIngredients();
+		
+		for(IngredientsOwned s : ingredientsOwned){
+			for(Ingredient ing: ingList){
+				if(ing.getIngredientName().contains(s.getIngredientOwned())){
+
+					System.out.println("u have "+s.getIngredientOwned());
+					System.out.println("removing "+ing.getIngredientName());
+					ingList.remove(ing);
+					break;
+				}
+			}
+		}
+
+		List<Ingredient> ingredientList = new ArrayList<Ingredient>(ingList);
+		
 		if (shoppingListIngredient.isEmpty()) {
 			for (Ingredient ingredient : ingredientList) {
 				sl = new ShoppingList(ingredient.getIngredientAmount(), ingredient.getIngredientName());
@@ -271,7 +290,7 @@ public class WeeklyPlanController {
 		userList.add(user);
 		model.addAttribute("userList", userList);
 		return "allweeklyplans";
-		
+
 	}
 
 	public String date(String olddate) throws ParseException {

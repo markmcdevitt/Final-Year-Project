@@ -19,7 +19,7 @@ import com.finalspringproject.service.ShoppingListService;
 @Controller
 public class ShoppingListController {
 
-	@Autowired
+	
 	private RecipeController recipeController;
 	@Autowired
 	private ShoppingListService shoppingListService;

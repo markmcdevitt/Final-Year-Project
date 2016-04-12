@@ -20,12 +20,19 @@ import com.finalspringproject.dao.FormValidationGroup;
 import com.finalspringproject.entity.IngredientsOwned;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
+import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
 
 @Controller
 public class UserController {
 
 	private UsersService usersService;
+	private RecipeService recipeService;
+
+	@Autowired
+	public void setRecipeService(RecipeService recipeService) {
+		this.recipeService = recipeService;
+	}
 
 	@Autowired
 	public void setUsersService(UsersService usersService) {
@@ -87,8 +94,7 @@ public class UserController {
 		}
 
 		return "loggedin";
-	} 
-	
+	}
 
 	@RequestMapping("/createingredientsowned")
 	public String createIngredientsOwned(Model model, Principal principal,
@@ -110,7 +116,7 @@ public class UserController {
 		
 		List<Recipe> recipeList = user.getRecipes();
 		user.setIngredientsOwned(ingredients);
-		usersService.update(user);
+		recipeService.saveOrUpdate(user);
 
 		model.addAttribute("user", user);
 		model.addAttribute("recipeList", recipeList);
