@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	<definition name="recipes.base" template="/WEB-INF/templates/default.jsp">
+		<put-attribute name="includes" value=""></put-attribute>
+		<put-attribute name="title" value="Homepage"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/content.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"></put-attribute>
+	</definition>
+
+	<definition name="home" extends="recipes.base">
+		<put-attribute name="title" value="Homepage"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/home.jsp"></put-attribute>
+	</definition>
+
+	<definition name="inspection" extends="recipes.base">
+		<put-attribute name="title" value="Inspection"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/inspection.jsp"></put-attribute>
+	</definition>
+
+	<definition name="allrecipes" extends="recipes.base">
+		<put-attribute name="title" value="All Recipes"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/allrecipes.jsp"></put-attribute>
+	</definition>
+
+	<definition name="login" extends="recipes.base">
+		<put-attribute name="title" value="All Recipes"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/login.jsp"></put-attribute>
+	</definition>
+
+	<definition name="newaccount" extends="recipes.base">
+		<put-attribute name="includes"
+			value="/WEB-INF/tiles/newaccountscript.jsp"></put-attribute>
+		<put-attribute name="title" value="Create Account"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/newaccount.jsp"></put-attribute>
+	</definition>
+
+	<definition name="accountcreated" extends="recipes.base">
+		<put-attribute name="title" value="Account Created"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/accountcreated.jsp"></put-attribute>
+	</definition>
+
+	<definition name="admin" extends="recipes.base">
+		<put-attribute name="title" value="Admin Page"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/admin.jsp"></put-attribute>
+	</definition>
+
+	<definition name="createrecipe" extends="recipes.base">
+		<put-attribute name="title" value="Create Recipe"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/createrecipe.jsp"></put-attribute>
+	</definition>
+
+	<definition name="recipecreated" extends="recipes.base">
+		<put-attribute name="title" value="Recipe Is Created"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/recipecreated.jsp"></put-attribute>
+	</definition>
+
+	<definition name="denied" extends="recipes.base">
+		<put-attribute name="title" value="ACCESS DENIED"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/denied.jsp"></put-attribute>
+	</definition>
+
+	<definition name="error" extends="recipes.base">
+		<put-attribute name="title" value="ERROR"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/error.jsp"></put-attribute>
+	</definition>
+
+	<definition name="loggedout" extends="recipes.base">
+		<put-attribute name="title" value="Logged Out"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/loggedout.jsp"></put-attribute>
+	</definition>
+
+	<definition name="recipe" extends="recipes.base">
+		<put-attribute name="title" value="Recipe"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/recipe.jsp"></put-attribute>
+	</definition>
+
+	<definition name="showContactForm" extends="recipes.base">
+		<put-attribute name="title" value="Send Message"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/contact.jsp"></put-attribute>
+	</definition>
+
+	<definition name="foodgenerator" extends="recipes.base">
+		<put-attribute name="title" value="Food Generator"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/foodgenerator.jsp"></put-attribute>
+	</definition>
+
+	<definition name="result" extends="recipes.base">
+		<put-attribute name="title" value="Result"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/result.jsp"></put-attribute>
+	</definition>
+
+	<definition name="recipedeleted" extends="recipes.base">
+		<put-attribute name="title" value="Recipe Is Gone"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/recipedeleted.jsp"></put-attribute>
+	</definition>
+
+	<definition name="weeklyplan" extends="recipes.base">
+		<put-attribute name="title" value="Weekly Plan"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/weeklyplan.jsp"></put-attribute>
+	</definition>
+
+	<definition name="allweeklyplans" extends="recipes.base">
+		<put-attribute name="title" value="All The Weekly Plans"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/allweeklyplans.jsp"></put-attribute>
+	</definition>
+
+	<definition name="search" extends="recipes.base">
+		<put-attribute name="title" value="Search Results"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/search.jsp"></put-attribute>
+	</definition>
+
+	<definition name="profile" extends="recipes.base">
+		<put-attribute name="title" value="Your Profile"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/profile.jsp"></put-attribute>
+	</definition>
+
+	<definition name="allshoppinglists" extends="recipes.base">
+		<put-attribute name="title" value="All The Shopping Lists"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tiles/allshoppinglists.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>

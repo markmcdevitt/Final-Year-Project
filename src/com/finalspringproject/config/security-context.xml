@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service
+				data-source-ref="datasource"
+				authorities-by-username-query='select username,authority from user where binary username = ?'
+				users-by-username-query='select username,password, enabled from user where binary username = ?'
+				id="jdbcUserService" />
+			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<security:http use-expressions="true">
+		<security:intercept-url pattern="/admin"
+			access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/admin/alphabetical"
+			access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/delete/*"
+			access="hasRole('ROLE_ADMIN')" />
+
+		<security:intercept-url pattern="/createrecipe"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/user/*"
+			access="isAuthenticated()" />	
+		<security:intercept-url pattern="/doCreate"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/recipecreated"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/recipedeleted"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/foodgenerator"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/result"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/findrecipe"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/addToWeeklyPlan/*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/weeklyplan"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/allweeklyplans"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/saveToWeeklyPlan"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/viewyourweeklyplan"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/usersPlan"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteUsersDay/*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteRecipeFromPlan/**"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/viewshoppinglist"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/allshoppinglists"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteShoppingList/*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteEntireShoppingList"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/createreview/*"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/profile"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/editDetails"
+			access="isAuthenticated()" />
+
+
+
+		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/loggedout"
+			access="permitAll" />
+		<security:intercept-url pattern="/adjustRecipe/*"
+			access="permitAll" />
+		<security:intercept-url pattern="/recipe/*"
+			access="permitAll" />
+		<security:intercept-url pattern="/search"
+			access="permitAll" />
+		<security:intercept-url pattern="/message"
+			access="permitAll" />
+		<security:intercept-url pattern="/static/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/login"
+			access="permitAll" />
+		<security:intercept-url pattern="/allrecipes"
+			access="permitAll" />
+		<security:intercept-url pattern="/newaccount"
+			access="permitAll" />
+		<security:intercept-url pattern="/createaccount"
+			access="permitAll" />
+		<security:intercept-url pattern="/accountcreated"
+			access="permitAll" />
+
+
+		<security:intercept-url pattern="/**" access="denyAll" />
+
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?error=true" />
+
+		<security:logout logout-success-url="/loggedout" />
+
+		<security:access-denied-handler
+			error-page="/denied" />
+		<security:remember-me key="recipeKey"
+			user-service-ref="jdbcUserService" />
+	</security:http>
+
+	<security:global-method-security
+		secured-annotations="enabled"></security:global-method-security>
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+	</bean>
+</beans>
