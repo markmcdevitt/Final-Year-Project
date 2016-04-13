@@ -5,6 +5,18 @@
 <link rel="stylesheet"	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<head>
+	<style>
+		.myStars {
+			width:80px;
+		}
+		.test {
+			width:80px;
+		}
+	</style>
+</head>
+
 <div class="container" id="outer">
 	<div class="pricing-table pricing-four-column row" id="inner">
 		<c:forEach var="recipe" items="${recipe}">
@@ -17,11 +29,15 @@
 					<ul>
 						<li class="plan-feature"><c:out value="${recipe.titleParse}"></c:out></li>
 						<li class="plan-feature"><small><c:out value="${recipe.descriptionParse}"></c:out></small></li>
-						<li class="plan-feature"><span class="stars"><span><c:out
-										value="${recipe.totalRating}"></c:out></span></span></li>
+						<li class="plan-feature">
+							<span class="stars" >
+									<c:out value="${recipe.totalRating}"></c:out>
+								
+							</span>
+						</li>
 					</ul>
 				</div>
-				</a>
+			</a>
 		</c:forEach>
 	</div>
 </div>
@@ -32,7 +48,7 @@
 	<script>
 		$.fn.stars = function() {
 			return this.each(function(i, e) {
-				$(e).html($('<span/>').width($(e).text() * 16));
+				$(e).html($('<span/>').width($(e).text() * 16).css("float", "left"));
 			});
 		};
 		$('.stars').stars();
