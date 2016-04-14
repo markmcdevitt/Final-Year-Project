@@ -39,7 +39,7 @@ public class User {
 	@NotBlank(groups = { FormValidationGroup.class, PersistenceValidationGroup.class })
 	@Size(min = 3, max = 15, groups = { FormValidationGroup.class })
 	private String password;
-	
+
 	private boolean enabled = false;
 	private String authority;
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -57,21 +57,28 @@ public class User {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<ShoppingList> shoppingList;
 
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Allergy> usersAllergys;
+
 	public User() {
 
 	}
 
-	public User(String username, String email, String password, List<IngredientsOwned> ingredientsOwned, List<Recipe> recipes,
-			boolean enabled, String authority, List<WeeklyPlan> weeklyPlan, List<ShoppingList> shoppingList) {
+	public User(String username, String email, String password, boolean enabled, String authority,
+			List<IngredientsOwned> ingredientsOwned, List<Recipe> recipes, List<WeeklyPlan> weeklyPlan,
+			List<ShoppingList> shoppingList, List<Allergy> usersAllergys) {
+		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		this.ingredientsOwned = ingredientsOwned;
-		this.recipes = recipes;
 		this.enabled = enabled;
 		this.authority = authority;
+		this.ingredientsOwned = ingredientsOwned;
+		this.recipes = recipes;
 		this.weeklyPlan = weeklyPlan;
 		this.shoppingList = shoppingList;
+		this.usersAllergys = usersAllergys;
 	}
 
 	public List<IngredientsOwned> getIngredientsOwned() {
@@ -146,11 +153,19 @@ public class User {
 		this.shoppingList = shoppingList;
 	}
 
+	public List<Allergy> getUsersAllergys() {
+		return usersAllergys;
+	}
+
+	public void setUsersAllergys(List<Allergy> usersAllergys) {
+		this.usersAllergys = usersAllergys;
+	}
+
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", email=" + email + ", password=" + password + ", ingredientsOwned="
-				+ ingredientsOwned + ", recipes=" + recipes + ", enabled=" + enabled + ", authority=" + authority
-				+ ", weeklyPlan=" + weeklyPlan + ", shoppingList=" + shoppingList + "]";
+		return "User [username=" + username + ", email=" + email + ", password=" + password + ", enabled=" + enabled
+				+ ", authority=" + authority + ", ingredientsOwned=" + ingredientsOwned + ", recipes=" + recipes
+				+ ", weeklyPlan=" + weeklyPlan + ", shoppingList=" + shoppingList + ", allergys=" + usersAllergys + "]";
 	}
 
 }

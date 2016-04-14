@@ -123,6 +123,11 @@
 		<put-attribute name="title" value="Ingredients You Already Own"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/tiles/ingredientsowned.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="allergy" extends="recipes.base">
+		<put-attribute name="title" value="Allergys"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/allergy.jsp"></put-attribute>
+	</definition>
 
 	<definition name="allshoppinglists" extends="recipes.base">
 		<put-attribute name="title" value="All The Shopping Lists"></put-attribute>

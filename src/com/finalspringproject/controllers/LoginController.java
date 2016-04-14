@@ -1,5 +1,7 @@
 package com.finalspringproject.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,7 @@ import com.finalspringproject.entity.User;
 import com.finalspringproject.service.UsersService;
 
 @Controller
-public class LoginController {//here
+public class LoginController {// here
 
 	private UsersService usersService;
 
@@ -25,6 +27,11 @@ public class LoginController {//here
 	@RequestMapping("/login")
 	public String showLogin() {
 		return "login";
+
+	}
+
+	private static String removeLastChar(String str) {
+		return str.substring(0, str.length() - 1);
 	}
 
 	@RequestMapping("/denied")
@@ -42,8 +49,6 @@ public class LoginController {//here
 		model.addAttribute("user", new User());
 		return "newaccount";
 	}
-
-
 
 	@RequestMapping(value = "/createaccount")
 	public String createAccount(@Validated(FormValidationGroup.class) User user, BindingResult result) {
@@ -68,7 +73,7 @@ public class LoginController {//here
 			result.rejectValue("username", "DublicateName.user.username");
 			return "newaccount";
 		}
-		
+
 		return "ingredientsowned";
 	}
 }

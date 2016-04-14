@@ -14,7 +14,7 @@
 			textBox.setAttribute("class", "form-control");
 			textBox.setAttribute("type", "text");
 			textBox.setAttribute("align", "bottom");
-			textBox.setAttribute("placeholder", "Name");
+			textBox.setAttribute("placeholder", "Ingredient Name");
 			document.getElementById("container2").appendChild(textBox);
 
 		}

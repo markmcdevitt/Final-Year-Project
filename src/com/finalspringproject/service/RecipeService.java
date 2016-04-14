@@ -77,6 +77,7 @@ public class RecipeService {
 		recipeDao.saveOrUpdate(user);
 
 	}
+
 	public void saveOrUpdate(Recipe recipe) {
 
 		recipeDao.saveOrUpdate(recipe);
@@ -97,7 +98,7 @@ public class RecipeService {
 
 	public void merge(User user) {
 		recipeDao.merge(user);
-		
+
 	}
 
 	public List<Recipe> find(String search) {
@@ -108,8 +109,8 @@ public class RecipeService {
 		return recipeDao.getGeneratedRecipeSingleWord(ingredient);
 	}
 
-//	public Recipe getRecipeReview(Review review) {
-//		return recipeDao.getRecipeReview(review);
-//	}
+	// public Recipe getRecipeReview(Review review) {
+	// return recipeDao.getRecipeReview(review);
+	// }
 
 }

@@ -76,7 +76,12 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/updateuseringredients"
 			access="isAuthenticated()" />
-
+		<security:intercept-url pattern="/allergy"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/yourallergy"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/editAllergy"
+			access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/" access="permitAll" />

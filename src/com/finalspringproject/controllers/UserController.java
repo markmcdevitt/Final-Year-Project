@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.dao.FormValidationGroup;
+import com.finalspringproject.entity.Allergy;
 import com.finalspringproject.entity.IngredientsOwned;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
+import com.finalspringproject.service.AllergyService;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
 
@@ -28,6 +30,13 @@ public class UserController {
 
 	private UsersService usersService;
 	private RecipeService recipeService;
+	private AllergyService allergyService;
+	
+	
+	@Autowired
+	public void setAllergyService(AllergyService allergyService) {
+		this.allergyService = allergyService;
+	}
 
 	@Autowired
 	public void setRecipeService(RecipeService recipeService) {
@@ -101,11 +110,11 @@ public class UserController {
 			@RequestParam(value = "ingredientName") String ingredientName) {
 
 		User user = usersService.getUser(principal.getName());
-		System.out.println("here "+ingredientName);
+		System.out.println("here " + ingredientName);
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
 		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
-	
-		for(String singleIng:  nameList){
+
+		for (String singleIng : nameList) {
 			IngredientsOwned ingredientsOwned = new IngredientsOwned(singleIng);
 			ingredients.add(ingredientsOwned);
 		}
@@ -113,13 +122,74 @@ public class UserController {
 		hs.addAll(ingredients);
 		ingredients.clear();
 		ingredients.addAll(hs);
-		
+
 		List<Recipe> recipeList = user.getRecipes();
 		user.setIngredientsOwned(ingredients);
 		recipeService.saveOrUpdate(user);
 
 		model.addAttribute("user", user);
 		model.addAttribute("recipeList", recipeList);
+		return "allergy";
+	}
+	@RequestMapping("/editAllergy")
+	public String editAllergy(){
+		return "allergy";
+	}
+
+	@RequestMapping("/yourallergy")
+	public String allergy(Model model, Principal principal, @RequestParam(value = "nuts") String nuts,
+			@RequestParam(value = "milk") String milk, @RequestParam(value = "peanuts") String peanuts,
+			@RequestParam(value = "eggs") String eggs, @RequestParam(value = "fish") String fish,
+			@RequestParam(value = "shellfish") String shellfish, @RequestParam(value = "wheat") String wheat,
+			@RequestParam(value = "soy") String soy) {
+		
+		List<Allergy> allergyList = new ArrayList<Allergy>();
+		
+		if(soy.contains("on")){
+			Allergy soyAllergy =allergyService.getAllergy("soy");
+			allergyList.add(soyAllergy);
+		}
+		
+		if(milk.contains("on")){
+			Allergy milkAllergy = allergyService.getAllergy("milk");
+			allergyList.add(milkAllergy);
+		}
+		
+		if(nuts.contains("on")){
+			Allergy nutsAllergy = allergyService.getAllergy("nuts");
+			allergyList.add(nutsAllergy);
+		}
+		
+		if(fish.contains("on")){
+			Allergy fishAllergy = allergyService.getAllergy("fish");
+			allergyList.add(fishAllergy);
+		}
+		
+		if(peanuts.contains("on")){
+			Allergy peanutsAllergy = allergyService.getAllergy("peanuts");
+			allergyList.add(peanutsAllergy);
+		}
+		
+		if(shellfish.contains("on")){
+			Allergy shellfishAllergy = allergyService.getAllergy("shellfish");
+			allergyList.add(shellfishAllergy);
+		}
+		if(eggs.contains("on")){
+			Allergy eggsAllergy = allergyService.getAllergy("eggs");
+			allergyList.add(eggsAllergy);
+		}
+		if(wheat.contains("on")){
+			Allergy wheatAllergy = allergyService.getAllergy("wheat");
+			allergyList.add(wheatAllergy);
+		}
+		User user = usersService.getUser(principal.getName());
+		user.setUsersAllergys(null);
+		user.setUsersAllergys(allergyList);
+		recipeService.saveOrUpdate(user);
+
+		model.addAttribute("user", user);
+		model.addAttribute("recipeList", user.getRecipes());
+
 		return "profile";
 	}
 

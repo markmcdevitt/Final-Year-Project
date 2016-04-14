@@ -29,6 +29,13 @@
 					<c:out value="${user.email}"></c:out></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Level</strong></span>
 					TBC</li>
+				<li class="list-group-item text-right"><span class="pull-left"><strong><a
+							href="${pageContext.request.contextPath}/editAllergy">Your
+								Allergies</a></strong></span> <c:forEach var="allergys"
+						items="${user.usersAllergys}">
+						<c:out value="${allergys.allergy}"></c:out>
+						<br>
+					</c:forEach></li>
 			</ul>
 		</div>
 		<div class="col-sm-11">
@@ -153,19 +160,19 @@
 
 							<div class="form-group">
 								<div class="col-xs-6">
-									<input name ="ingredientName" type="text" class="form-control" 
+									<input name="ingredientName" type="text" class="form-control"
 										value="<c:out value="${ingredientsOwned.ingredientOwned}" ></c:out>">
 								</div>
 							</div>
 							<br>
 						</c:forEach>
-						
+
 						<div class="form-group">
 							<div class="col-xs-6">
 								<div id="container2"></div>
 								<input type="button" onclick="createTextBox(1)"
 									value="Add Ingredient" class="mybutton btn">
-								
+
 							</div>
 						</div>
 
@@ -179,7 +186,7 @@
 								<button class="btn btn-lg" type="reset">
 									<i class="glyphicon glyphicon-repeat"></i> Reset
 								</button>
-								
+
 							</div>
 						</div>
 					</form>
