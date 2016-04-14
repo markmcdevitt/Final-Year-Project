@@ -18,7 +18,7 @@
 		<c:out value="${recipe.titleParse}"></c:out>
 	</h3>
 	<center>
-		<img src="${recipe.imageURLParse}" class="img-rounded"
+		<img src="${recipe.imageURLParse}" class="img-rounded" width="250" height="250"
 			alt="Responsive image">
 	</center>
 

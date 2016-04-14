@@ -33,7 +33,7 @@
 						</form></td>
 					<td><c:out value="${weeklyplan.date}"></c:out></td>
 					<c:forEach var="recipe" items="${weeklyplan.recipe}">
-						<td><a href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}">
+						<td><a href="${pageContext.request.contextPath}/recipe/${recipe.id}">
 								<c:out value="${recipe.titleParse}"></c:out>
 						</a>
 							<form action="${pageContext.request.contextPath}/deleteRecipeFromPlan/${weeklyplan.id}/${recipe.titleParse}">

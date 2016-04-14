@@ -3,10 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+
 <c:if test="${empty recipe}" var='0'>
 	<p>
-		There are no recipes called:
-		<c:out value="${search}" /><br>
+		There are no suitable recipes called:
+		<c:out value="${search}" /><br> 
 	</p>
 </c:if>
 <c:if test="${recipe.size()>0}" var='0'>
@@ -16,7 +17,7 @@
 	<div class="container" id="outer">
 		<div class="pricing-table pricing-four-column row" id="inner">
 			<c:forEach var="recipe" items="${recipe}">
-				<a href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}">
+				<a href="${pageContext.request.contextPath}/recipe/${recipe.id}">
 					<div class="plan col-xs-6">
 						<div>
 							<img src="${recipe.imageURLParse}" class="img-thumbnail"
@@ -35,6 +36,41 @@
 		</div>
 	</div>
 </c:if>
+
+
+<c:if test="${empty allergicrecipe}" var='0'>
+	<p>
+		<c:out value="${search}" /><br>
+	</p>
+</c:if>
+<c:if test="${allergicrecipe.size()>0}" var='0'>
+	<h6>
+		<i><b><h3> Recipes That Contain  your allergies </h3></b></i>
+	</h6>
+	<div class="container" id="outer">
+		<div class="pricing-table pricing-four-column row" id="inner">
+			<c:forEach var="allergicrecipe" items="${allergicrecipe}">
+				<a href="${pageContext.request.contextPath}/recipe/${allergicrecipe.id}">
+					<div class="plan col-xs-6">
+						<div>
+							<img src="${allergicrecipe.imageURLParse}" class="img-thumbnail"
+								alt="Responsive image">
+						</div>
+						<ul>
+							<li class="plan-feature"><c:out value="${allergicrecipe.titleParse}"></c:out></li>
+							<li class="plan-feature"><small><c:out
+										value="${allergicrecipe.descriptionParse}"></c:out></small></li>
+							<li class="plan-feature"><span class="stars"><span id="normal"><c:out
+											value="${allergicrecipe.totalRating}"></c:out></span></span></li>
+						</ul>
+					</div>
+				</a>
+			</c:forEach>
+		</div>
+	</div>
+</c:if>
+
+
 
 <c:if test="${empty chefList}" var='0'>
 	<br><p>There are no chefs with this name</p>
@@ -64,7 +100,7 @@
 <script type="text/javascript">
 	$.fn.stars = function() {
 		return this.each(function(i, e) {
-			$(e).html($('<span/>').width($(e).text() * 16));
+			$(e).html($('<span/>').width($(e).text() * 16).css("float", "left"));
 		});
 	};
 	$('.stars').stars();

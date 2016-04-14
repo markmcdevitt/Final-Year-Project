@@ -11,7 +11,7 @@
 
 		<c:forEach var="recipe" items="${recipe}">
 			<tr>
-				<td><a href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}"><c:out value="${recipe.titleParse}"></c:out></a></td>
+				<td><a href="${pageContext.request.contextPath}/recipe/${recipe.id}"><c:out value="${recipe.titleParse}"></c:out></a></td>
 				<td><c:out value="${recipe.descriptionParse}"></c:out></td>
 				<td><span class="stars"><span><c:out value="${recipe.totalRating}"></c:out></span></span></td>	
 			</tr>

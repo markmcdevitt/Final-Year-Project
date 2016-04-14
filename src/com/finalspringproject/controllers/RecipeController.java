@@ -70,10 +70,10 @@ public class RecipeController {
 		return "allrecipes";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/recipe/{titleParse}")
-	public String showSpecificRecipe(@PathVariable String titleParse, Model model) {
+	@RequestMapping(method = RequestMethod.GET, value = "/recipe/{id}")
+	public String showSpecificRecipe(@PathVariable int id, Model model) {
 
-		List<Recipe> recipe = getOneRecipe(titleParse);
+		List<Recipe> recipe = getOneRecipe(id);
 		model.addAttribute("recipe", recipe);
 		return "recipe";
 	}
@@ -115,7 +115,7 @@ public class RecipeController {
 
 			recipeService.saveOrUpdate(user);
 
-			List<Recipe> recipeList = getOneRecipe(recipe.getTitleParse());
+			List<Recipe> recipeList = getOneRecipe(recipe.getId());
 			model.addAttribute("recipe", recipeList);
 			return "recipe";
 		} else {
@@ -268,12 +268,12 @@ public class RecipeController {
 		return finishedAmount;
 	}
 
-	public List<Recipe> getOneRecipe(String title) {
+	public List<Recipe> getOneRecipe(int id) {
 		List<Ingredient> ingredient = new ArrayList<Ingredient>();
-		List<Recipe> recipe = recipeService.getCurrent(title);
-		System.out.println(recipe.size());
+		Recipe oneRecipe = recipeService.getOneRecipe(id);
+		
 		try {
-			for (Ingredient i : recipe.get(0).getIngredients()) {
+			for (Ingredient i : oneRecipe.getIngredients()) {
 				Ingredient ing = new Ingredient();
 				String createAmount = i.getIngredientAmount();
 				double amount = Double.parseDouble(createAmount);
@@ -284,11 +284,13 @@ public class RecipeController {
 				ingredient.add(ing);
 
 			}
-			recipe.get(0).setIngredients(ingredient);
+			oneRecipe.setIngredients(ingredient);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
+		List<Recipe> recipe = new ArrayList<Recipe>();
+		recipe.add(oneRecipe);
 		return recipe;
 	}
 

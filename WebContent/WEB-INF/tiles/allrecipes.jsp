@@ -20,7 +20,7 @@
 <div class="container" id="outer">
 	<div class="pricing-table pricing-four-column row" id="inner">
 		<c:forEach var="recipe" items="${recipe}">
-			<a href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}">
+			<a href="${pageContext.request.contextPath}/recipe/${recipe.id}">
 			<div class="plan col-xs-6">
 					<div>
 						<img src="${recipe.imageURLParse}" class="img-thumbnail"

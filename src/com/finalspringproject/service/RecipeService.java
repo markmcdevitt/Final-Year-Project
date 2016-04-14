@@ -109,6 +109,10 @@ public class RecipeService {
 		return recipeDao.getGeneratedRecipeSingleWord(ingredient);
 	}
 
+	public Recipe getOneRecipe(int id) {
+		return recipeDao.getRecipe(id);
+	}
+
 	// public Recipe getRecipeReview(Review review) {
 	// return recipeDao.getRecipeReview(review);
 	// }
