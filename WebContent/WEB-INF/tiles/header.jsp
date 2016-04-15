@@ -1,9 +1,13 @@
-<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-<script	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <nav class="navbar navbar-findcond navbar-fixed-top">
 	<div class="container">
@@ -33,9 +37,8 @@
 								class="fa fa-fw fa-thumbs-o-up"></i>Food Generator</a></li>
 						<li><a href="${pageContext.request.contextPath}/allrecipes"><i
 								class="fa fa-fw fa-thumbs-o-up">All Recipes</i></a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/profile"><i
-								class="fa fa-fw fa-thumbs-o-up"></i>Your Profile</a></li>		
+						<li><a href="${pageContext.request.contextPath}/profile"><i
+								class="fa fa-fw fa-thumbs-o-up"></i>Your Profile</a></li>
 					</ul></li>
 
 				<li class="active"><a
@@ -74,15 +77,135 @@
 				</sec:authorize>
 			</ul>
 
-
 			<form class="navbar-form navbar-right search-form"
 				action="${pageContext.request.contextPath}/search" role="search">
-				<input type="text" class="form-control" placeholder="Search"
-					name="search" />
+
+				<div class="input-group" id="adv-search">
+
+					<input type="text" class="form-control" placeholder="Search"
+						name="search" />
+					<div class="input-group-btn">
+						<div class="btn-group" role="group">
+							<div class="dropdown dropdown-lg">
+								<button type="button" class="btn btn-default dropdown-toggle"
+									data-toggle="dropdown" aria-expanded="false">
+									<span class="caret"></span>
+								</button>
+								<div class="dropdown-menu dropdown-menu-right" role="menu">
+
+
+									<div class="form-group">
+										<label for="contain">Allergies</label> <br>
+
+										<tr>
+											<td>Nuts</td>
+											<td><input id="nuts" name="nuts" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="nutsHidden" name="nuts" type="hidden" value="no"></td>
+										</tr>
+										<tr>
+											<td>Milk</td>
+											<td><input id="milk" name="milk" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="milkHidden" name="milk" type="hidden" value="no"></td>
+										</tr>
+										<tr>
+											<td>Peanuts</td>
+											<td><input id="peanuts" name="peanuts" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="peanutsHidden" name="peanuts" type="hidden"
+												value="no"></td>
+										</tr>
+										<tr>
+											<td>Eggs</td>
+											<td><input id="eggs" name="eggs" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true"><input
+												id="eggsHidden" name="eggs" type="hidden" value="no"></td>
+										</tr>
+										<tr>
+											<td>Fish</td>
+											<td><input id="fish" name="fish" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="fishHidden" name="fish" type="hidden" value="no"></td>
+										</tr>
+										<tr>
+											<td>Shellfish</td>
+											<td><input id="shellfish" name="shellfish"
+												type="checkbox" data-toggle="checkbox-x"
+												data-enclosed-label="true"> <input
+												id="shellfishHidden" name="shellfish" type="hidden"
+												value="no"></td>
+										</tr>
+										<tr>
+											<td>Wheat</td>
+											<td><input id="wheat" name="wheat" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="wheatHidden" name="wheat" type="hidden"
+												value="no"></td>
+										</tr>
+										<tr>
+											<td>Soy</td>
+											<td><input id="soy" name="soy" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="soyHidden" name="soy" type="hidden" value="no"></td>
+										</tr>
+
+									</div>
+									<br>
+									<div class="form-group">
+										<label for="contain">Exclude Allergies</label>
+										<tr>
+											<br>
+											<td><input id="exclude" name="exclude" type="checkbox"
+												data-toggle="checkbox-x" data-enclosed-label="true">
+												<input id="excludeHidden" name="exclude" type="hidden"
+												value="no"></td>
+										</tr>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
 </nav>
+<script>
+if (document.getElementById("nuts").checked) {
+	document.getElementById('nutsHidden').disabled = true;
+}
+if (document.getElementById("milk").checked) {
+	document.getElementById('milkHidden').disabled = true;
+}
+if (document.getElementById("peanuts").checked) {
+	document.getElementById('peanutsHidden').disabled = true;
+}
+if (document.getElementById("eggs").checked) {
+	document.getElementById('eggsHidden').disabled = true;
+}
+if (document.getElementById("fish").checked) {
+	document.getElementById('fishHidden').disabled = true;
+}
+if (document.getElementById("shellfish").checked) {
+	document.getElementById('shellfishHidden').disabled = true;
+}
+if (document.getElementById("wheat").checked) {
+	document.getElementById('wheatHidden').disabled = true;
+}
+if (document.getElementById("soy").checked) {
+	document.getElementById('soyHidden').disabled = true;
+}
+if (document.getElementById("exclude").checked) {
+	document.getElementById('excludeHidden').disabled = true;
+}
+</script>
+
+<style>
+.caret{
+  height:20px;
+}
+</style>
 <style>
 nav.navbar-findcond {
 	background: #fff;

@@ -14,6 +14,7 @@ import com.finalspringproject.entity.Allergy;
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
+import com.finalspringproject.service.AllergyService;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
 
@@ -22,19 +23,39 @@ public class SearchController {
 
 	private RecipeService recipeService;
 	private UsersService userService;
+	private AllergyService allergyService;
+	private List<Allergy> allergyList = new ArrayList<Allergy>();
+
+	@Autowired
+	public void setRecipeService(RecipeService recipeService) {
+		this.recipeService = recipeService;
+	}
+
+	@Autowired
+	public void setAllergyService(AllergyService allergyService) {
+		this.allergyService = allergyService;
+	}
 
 	@Autowired
 	public void setUserService(UsersService userService) {
 		this.userService = userService;
 	}
 
-	@Autowired
-	public void RecipeService(RecipeService recipeService) {
-		this.recipeService = recipeService;
-	}
-
 	@RequestMapping(value = "/search")
-	public String completeorder(Model model, Principal principal, @RequestParam(value = "search") String search) {
+	public String completeorder(Model model, Principal principal, @RequestParam(value = "search") String search,
+			@RequestParam(value = "nuts") String nuts, @RequestParam(value = "milk") String milk,
+			@RequestParam(value = "peanuts") String peanuts, @RequestParam(value = "eggs") String eggs,
+			@RequestParam(value = "fish") String fish, @RequestParam(value = "shellfish") String shellfish,
+			@RequestParam(value = "wheat") String wheat, @RequestParam(value = "soy") String soy,
+			@RequestParam(value = "exclude") String exclude) {
+		
+		System.out.println(wheat+"/"+ soy+"/"+ eggs+"/"+ fish+"/"+ shellfish+"/"+ milk+"/"+ nuts+"/"+ peanuts);
+
+		allergyList = allergyList(wheat, soy, eggs, fish, shellfish, milk, nuts, peanuts);
+		
+		for(Allergy a:allergyList){
+			System.out.println(a.toString());
+		}
 
 		List<Recipe> allergicRecipes = new ArrayList<Recipe>();
 		List<Recipe> nonAllergicRecipes = new ArrayList<Recipe>();
@@ -44,43 +65,121 @@ public class SearchController {
 		boolean containsAllergy = false;
 
 		recipeList = recipeService.find(search);
-		if(!user.getUsersAllergys().isEmpty()){
-		for (Allergy allergy : user.getUsersAllergys()) {
-			for (Recipe recipe : recipeList) {
-				for (Ingredient ing : recipe.getIngredients()) {
-					System.out.println("ingredient--> "+ing.toString());
-					System.out.println("allergy-->"+ allergy.toString());
-					if (ing.getIngredientName().contains(allergy.getAllergy())) {
-						allergicRecipes.add(recipe);
-						containsAllergy = true;
-						System.out.println("allergys");
+		if (!exclude.contains("on") && allergyList.isEmpty()) {
+			
+			if (!user.getUsersAllergys().isEmpty()) {
+				for (Allergy allergy : user.getUsersAllergys()) {
+					for (Recipe recipe : recipeList) {
+						for (Ingredient ing : recipe.getIngredients()) {
+							if (ing.getIngredientName().contains(allergy.getAllergy())) {
+								allergicRecipes.add(recipe);
+								containsAllergy = true;
+							}
+						}
+						if (!containsAllergy) {
+							nonAllergicRecipes.add(recipe);
+						}
 					}
 				}
-				if (!containsAllergy) {
-					System.out.println(recipe.toString()+" didnt contain an allergy");
-					nonAllergicRecipes.add(recipe);
+			}
+			model.addAttribute("recipe", nonAllergicRecipes);
+		} else if (!exclude.contains("on") && !allergyList.isEmpty()) {
+			for (Allergy allergy : allergyList) {
+				System.out.println("size = "+allergyList.size());
+				for (Recipe recipe : recipeList) {
+					System.out.println("name = "+ allergy.toString());
+					for (Ingredient ing : recipe.getIngredients()) {
+						System.out.println("3 here");
+						if (ing.getIngredientName().contains(allergy.getAllergy())) {
+							System.out.println("4--> "+allergy.toString());
+							allergicRecipes.add(recipe);
+							containsAllergy = true;
+						}
+						if (allergy.getAllergy().equals("shellfish")) {
+							System.out.println("5");
+							if (ing.getIngredientName().contains("shrimp")
+									|| ing.getIngredientName().contains("lobster")
+									|| ing.getIngredientName().contains("crab")
+									|| ing.getIngredientName().contains("clams")
+									|| ing.getIngredientName().contains("mussels")
+									|| ing.getIngredientName().contains("oysters")
+									|| ing.getIngredientName().contains("scallops")) {
+								System.out.println("6");
+								System.out.println(ing.getIngredientName());
+								allergicRecipes.add(recipe);
+								containsAllergy = true;
+							}
+						}
+					}
+					if (!containsAllergy) {
+						nonAllergicRecipes.add(recipe);
+					}
 				}
 			}
-		}
+			model.addAttribute("recipe", nonAllergicRecipes);
+		} else {
+			System.out.println("9-- no allergys");
+			model.addAttribute("recipe", recipeList);
 		}
 
 		List<User> chefList = new ArrayList<User>();
 
 		chefList = userService.findChef(search);
-		
-		System.out.println("nonAllergicRecipes "+nonAllergicRecipes.size());
-		System.out.println("recipeList "+recipeList.size());
-		System.out.println("allergicRecipes "+allergicRecipes.size());
 
-		if(!user.getUsersAllergys().isEmpty()){
-		model.addAttribute("recipe", nonAllergicRecipes);
-		}else{
-			model.addAttribute("recipe", recipeList);
-		}
+		// if (!user.getUsersAllergys().isEmpty()) {
+		// model.addAttribute("recipe", nonAllergicRecipes);
+		// } else {
+		// model.addAttribute("recipe", recipeList);
+		// }
 
 		model.addAttribute("allergicrecipe", allergicRecipes);
 		model.addAttribute("search", search);
 		model.addAttribute("chefList", chefList);
 		return "search";
+	}
+
+	public List<Allergy> allergyList(String nuts, String milk, String peanuts, String eggs, String fish,
+			String shellfish, String wheat, String soy) {//WRONG ORDER
+
+		System.out.println("10");
+		if (soy.contains("on")) {
+			Allergy soyAllergy = allergyService.getAllergy("soy");
+			allergyList.add(soyAllergy);
+		}
+
+		if (milk.contains("on")) {
+			Allergy milkAllergy = allergyService.getAllergy("milk");
+			allergyList.add(milkAllergy);
+		}
+
+		if (nuts.contains("on")) {
+			Allergy nutsAllergy = allergyService.getAllergy("nuts");
+			allergyList.add(nutsAllergy);
+		}
+
+		if (fish.contains("on")) {
+			Allergy fishAllergy = allergyService.getAllergy("fish");
+			allergyList.add(fishAllergy);
+		}
+
+		if (peanuts.contains("on")) {
+			Allergy peanutsAllergy = allergyService.getAllergy("peanuts");
+			allergyList.add(peanutsAllergy);
+		}
+
+		if (shellfish.contains("on")) {
+			Allergy shellfishAllergy = allergyService.getAllergy("shellfish");
+			allergyList.add(shellfishAllergy);
+		}
+		if (eggs.contains("on")) {
+			Allergy eggsAllergy = allergyService.getAllergy("eggs");
+			allergyList.add(eggsAllergy);
+		}
+		if (wheat.contains("on")) {
+			Allergy wheatAllergy = allergyService.getAllergy("wheat");
+			allergyList.add(wheatAllergy);
+		}
+		System.out.println("11 " + allergyList.size());
+		return allergyList;
 	}
 }

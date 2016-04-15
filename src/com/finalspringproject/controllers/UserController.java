@@ -144,47 +144,57 @@ public class UserController {
 			@RequestParam(value = "soy") String soy) {
 		
 		List<Allergy> allergyList = new ArrayList<Allergy>();
+		Allergy soyAllergy = new Allergy();
+		Allergy milkAllergy = new Allergy();
+		Allergy nutsAllergy = new Allergy();
+		Allergy fishAllergy = new Allergy();
+		Allergy peanutsAllergy = new Allergy();
+		Allergy shellfishAllergy = new Allergy();
+		Allergy wheatAllergy = new Allergy();
+		Allergy eggsAllergy = new Allergy();
 		
 		if(soy.contains("on")){
-			Allergy soyAllergy =allergyService.getAllergy("soy");
+			soyAllergy =allergyService.getAllergy("soy");
 			allergyList.add(soyAllergy);
 		}
 		
 		if(milk.contains("on")){
-			Allergy milkAllergy = allergyService.getAllergy("milk");
+			milkAllergy = allergyService.getAllergy("milk");
 			allergyList.add(milkAllergy);
 		}
 		
 		if(nuts.contains("on")){
-			Allergy nutsAllergy = allergyService.getAllergy("nuts");
+			nutsAllergy = allergyService.getAllergy("nuts");
 			allergyList.add(nutsAllergy);
 		}
 		
 		if(fish.contains("on")){
-			Allergy fishAllergy = allergyService.getAllergy("fish");
+			fishAllergy = allergyService.getAllergy("fish");
 			allergyList.add(fishAllergy);
 		}
 		
 		if(peanuts.contains("on")){
-			Allergy peanutsAllergy = allergyService.getAllergy("peanuts");
+			peanutsAllergy = allergyService.getAllergy("peanuts");
 			allergyList.add(peanutsAllergy);
 		}
 		
 		if(shellfish.contains("on")){
-			Allergy shellfishAllergy = allergyService.getAllergy("shellfish");
+			shellfishAllergy = allergyService.getAllergy("shellfish");
 			allergyList.add(shellfishAllergy);
 		}
 		if(eggs.contains("on")){
-			Allergy eggsAllergy = allergyService.getAllergy("eggs");
+			eggsAllergy = allergyService.getAllergy("egg");
 			allergyList.add(eggsAllergy);
 		}
 		if(wheat.contains("on")){
-			Allergy wheatAllergy = allergyService.getAllergy("wheat");
+			wheatAllergy = allergyService.getAllergy("wheat");
 			allergyList.add(wheatAllergy);
 		}
 		User user = usersService.getUser(principal.getName());
-		user.setUsersAllergys(null);
+		System.out.println(allergyList.size());
+
 		user.setUsersAllergys(allergyList);
+		System.out.println(user.toString());
 		recipeService.saveOrUpdate(user);
 
 		model.addAttribute("user", user);
