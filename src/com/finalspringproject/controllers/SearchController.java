@@ -24,7 +24,6 @@ public class SearchController {
 	private RecipeService recipeService;
 	private UsersService userService;
 	private AllergyService allergyService;
-	private List<Allergy> allergyList = new ArrayList<Allergy>();
 
 	@Autowired
 	public void setRecipeService(RecipeService recipeService) {
@@ -48,12 +47,13 @@ public class SearchController {
 			@RequestParam(value = "fish") String fish, @RequestParam(value = "shellfish") String shellfish,
 			@RequestParam(value = "wheat") String wheat, @RequestParam(value = "soy") String soy,
 			@RequestParam(value = "exclude") String exclude) {
-		
-		System.out.println(wheat+"/"+ soy+"/"+ eggs+"/"+ fish+"/"+ shellfish+"/"+ milk+"/"+ nuts+"/"+ peanuts);
 
-		allergyList = allergyList(wheat, soy, eggs, fish, shellfish, milk, nuts, peanuts);
-		
-		for(Allergy a:allergyList){
+		System.out.println(wheat + "/" + soy + "/" + eggs + "/" + fish + "/" + shellfish + "/" + milk + "/" + nuts + "/"
+				+ peanuts);
+
+		List<Allergy> allergyList = allergyList(wheat, soy, eggs, fish, shellfish, milk, nuts, peanuts);
+
+		for (Allergy a : allergyList) {
 			System.out.println(a.toString());
 		}
 
@@ -66,12 +66,29 @@ public class SearchController {
 
 		recipeList = recipeService.find(search);
 		if (!exclude.contains("on") && allergyList.isEmpty()) {
-			
+
 			if (!user.getUsersAllergys().isEmpty()) {
 				for (Allergy allergy : user.getUsersAllergys()) {
 					for (Recipe recipe : recipeList) {
 						for (Ingredient ing : recipe.getIngredients()) {
-							if (ing.getIngredientName().contains(allergy.getAllergy())) {
+							if (allergy.getAllergy().equals("shellfish")) {
+								if (ing.getIngredientName().contains("shrimp")
+										|| ing.getIngredientName().contains("lobster")
+										|| ing.getIngredientName().contains("crab")
+										|| ing.getIngredientName().contains("clams")
+										|| ing.getIngredientName().contains("mussels")
+										|| ing.getIngredientName().contains("oysters")
+										|| ing.getIngredientName().contains("scallops")) {
+									allergicRecipes.add(recipe);
+									containsAllergy = true;
+								}
+							} else if (allergy.getAllergy().equals("milk")) {
+								if (ing.getIngredientName().contains(" milk ")) {
+									allergicRecipes.add(recipe);
+									containsAllergy = true;
+								}
+							} else if (ing.getIngredientName().contains(allergy.getAllergy())) {
+								System.out.println("4--> " + allergy.toString());
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
@@ -85,18 +102,9 @@ public class SearchController {
 			model.addAttribute("recipe", nonAllergicRecipes);
 		} else if (!exclude.contains("on") && !allergyList.isEmpty()) {
 			for (Allergy allergy : allergyList) {
-				System.out.println("size = "+allergyList.size());
 				for (Recipe recipe : recipeList) {
-					System.out.println("name = "+ allergy.toString());
 					for (Ingredient ing : recipe.getIngredients()) {
-						System.out.println("3 here");
-						if (ing.getIngredientName().contains(allergy.getAllergy())) {
-							System.out.println("4--> "+allergy.toString());
-							allergicRecipes.add(recipe);
-							containsAllergy = true;
-						}
 						if (allergy.getAllergy().equals("shellfish")) {
-							System.out.println("5");
 							if (ing.getIngredientName().contains("shrimp")
 									|| ing.getIngredientName().contains("lobster")
 									|| ing.getIngredientName().contains("crab")
@@ -104,11 +112,18 @@ public class SearchController {
 									|| ing.getIngredientName().contains("mussels")
 									|| ing.getIngredientName().contains("oysters")
 									|| ing.getIngredientName().contains("scallops")) {
-								System.out.println("6");
-								System.out.println(ing.getIngredientName());
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
+						} else if (allergy.getAllergy().equals("milk")) {
+							if (ing.getIngredientName().contains(" milk ")) {
+								allergicRecipes.add(recipe);
+								containsAllergy = true;
+							}
+						} else if (ing.getIngredientName().contains(allergy.getAllergy())) {
+							System.out.println("4--> " + allergy.toString());
+							allergicRecipes.add(recipe);
+							containsAllergy = true;
 						}
 					}
 					if (!containsAllergy) {
@@ -138,8 +153,9 @@ public class SearchController {
 		return "search";
 	}
 
-	public List<Allergy> allergyList(String nuts, String milk, String peanuts, String eggs, String fish,
-			String shellfish, String wheat, String soy) {//WRONG ORDER
+	public List<Allergy> allergyList(String wheat, String soy, String eggs, String fish, String shellfish, String milk,
+			String nuts, String peanuts) {// WRONG ORDER
+		List<Allergy> allergyList = new ArrayList<Allergy>();
 
 		System.out.println("10");
 		if (soy.contains("on")) {
