@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.dao.FormValidationGroup;
+import com.finalspringproject.entity.Category;
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Instructions;
 import com.finalspringproject.entity.Recipe;
@@ -62,11 +63,74 @@ public class RecipeController {
 		this.recipeService = recipeService;
 	}
 
+	@RequestMapping("/getMainDishes")
+	public String getMainDishes(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Main Dish");
+		
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+	
+	}
+	@RequestMapping("/getVegetarian")
+	public String getVegetarian(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Vegetarian");
+		
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+	
+	}
+	@RequestMapping("/getAppetisers")
+	public String getAppetisers(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Appetizers");
+		
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+	
+	}
+	@RequestMapping("/getDessert")
+	public String getDessert(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Dessert");
+		
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+	
+	}
+	
 	@RequestMapping("/allrecipes")
 	public String showRecipe(Model model) {
+		List<Recipe> recipes = recipeService.getCurrent();
 
-		List<Recipe> recipe = recipeService.getCurrent();
-		model.addAttribute("recipe", recipe);
+		Collections.sort(recipes, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", recipes);
 		return "allrecipes";
 	}
 
@@ -95,7 +159,7 @@ public class RecipeController {
 
 	@RequestMapping(value = "/docreate", method = RequestMethod.POST)
 	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,
-			@RequestParam(value = "ingredientQuantity") String ingredientAmount,
+			@RequestParam(value = "ingredientQuantity") String ingredientAmount,@RequestParam(value = "type") String category,
 			@RequestParam(value = "ingredientName") String ingredientName, BindingResult result, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
 
@@ -107,9 +171,16 @@ public class RecipeController {
 
 		if (delete == null) {
 			User user = usersService.getUser(principal.getName());
-
+			Category categoryObj = new Category(category);
 			List<Recipe> list = user.getRecipes();
+			
+			int score = recipe.getInstructions().size() + ingList.size() + Integer.parseInt(recipe.getPeopleFed());
+			
+			String level = recipeScore(score,recipe.getInstructions());
+			
+			recipe.setLevel(level);
 			recipe.setIngredients(ingList);
+			recipe.setCategory(categoryObj);
 			list.add(recipe);
 			user.setRecipes(list);
 
@@ -296,5 +367,86 @@ public class RecipeController {
 
 	private static String removeLastChar(String str) {
 		return str.substring(0, str.length() - 1);
+	}
+	
+	@RequestMapping("/title/alphabetical")
+	public String alphabeticalAuthor(Model model) {
+		List<Recipe> recipes = recipeService.getCurrent();
+
+		Collections.sort(recipes, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipes", recipes);
+		return "allrecipes";
+	}
+
+	@RequestMapping("/rating/alphabetical")
+	public String alphabeticalRating(Model model) {
+		List<Recipe> recipes = recipeService.getCurrent();
+
+		Collections.sort(recipes, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return Double.compare(Double.parseDouble(object2.getTotalRating()),
+						Double.parseDouble(object1.getTotalRating()));
+			}
+		});
+		model.addAttribute("allrecipes", recipes);
+		return "allbooks";
+	}
+	
+	private String recipeScore(int score,List<Instructions> instructionList){
+		
+		ArrayList<String> complicatedWords = new ArrayList<String>();
+		
+		complicatedWords.add("chopped");
+		complicatedWords.add("diced");
+		complicatedWords.add("saute");
+		complicatedWords.add("grated");
+		complicatedWords.add("dash");
+		complicatedWords.add("smidge");
+		complicatedWords.add("minced");
+		complicatedWords.add("sliced");
+		complicatedWords.add("pan fry");
+		complicatedWords.add("liquid measuring cup");
+		complicatedWords.add("broiling");
+		complicatedWords.add("simmer");
+		complicatedWords.add("shredded");
+
+		System.out.println(score + " before");
+		for (int i = 0; i < complicatedWords.size(); i++) {
+			for(Instructions instruction:instructionList){
+				if (instruction.getSteps().contains(complicatedWords.get(i))) {
+					score += 5;
+				}
+			}
+			
+		}
+
+		System.out.println(score + " after");
+
+		String level;
+		
+		if(score>45){
+			level = "Master Chef";
+		}else if(score>40){
+			level = "Executive Chef";
+		}else if(score>35){
+			level = "Sous Chef";
+		}else if(score>30){
+			level = "Prep Chef";
+		}else if(score>25){
+			level = "Wise Chef";
+		}else if(score>20){
+			level = "Gifted Chef";
+		}else if(score>16){
+			level = "Amatuer Cook";
+		}else{
+			level="Newbie";
+		}
+		return level;
 	}
 }

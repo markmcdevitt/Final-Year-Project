@@ -113,6 +113,10 @@ public class RecipeService {
 		return recipeDao.getRecipe(id);
 	}
 
+	public List<Recipe> getSpecific(String category) {
+		return recipeDao.getSpecific(category);
+	}
+
 	// public Recipe getRecipeReview(Review review) {
 	// return recipeDao.getRecipeReview(review);
 	// }

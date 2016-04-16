@@ -72,10 +72,22 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-md-3 control-label">Category</label>
+							<div class="col-md-7">
+								<select name="type" class="form-control">
+									<option value="Appetisers">Appetisers</option>
+									<option value="Main Dish">Main Dish</option>
+									<option value="Vegetarian">Vegetarian</option>
+									<option value="Dessert">Dessert</option>
+								</select> <br />
+							</div>
+						</div>
+
+						<div class="form-group">
 							<label class="col-md-3 control-label">Calories</label>
 							<div class="col-md-9">
-								<input class="form-control" placeholder="400"
-									name="calories" type="text" />
+								<input class="form-control" placeholder="400" name="calories"
+									type="text" />
 							</div>
 						</div>
 
@@ -86,7 +98,7 @@
 									name="peopleFed" type="text" />
 							</div>
 						</div>
-						
+
 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Image</label>

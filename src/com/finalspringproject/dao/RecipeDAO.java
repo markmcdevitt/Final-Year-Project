@@ -142,4 +142,12 @@ public class RecipeDAO {
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return criteria.list();
 	}
+
+	public List<Recipe> getSpecific(String category) {
+		Criteria criteria = session().createCriteria(Recipe.class, "recipe");
+		criteria.createAlias("recipe.category", "cat");
+		criteria.add(Restrictions.like("cat.category", category, MatchMode.EXACT));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return criteria.list();
+	}
 }

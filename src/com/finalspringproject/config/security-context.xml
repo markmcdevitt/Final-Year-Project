@@ -82,6 +82,10 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/editAllergy"
 			access="isAuthenticated()" />
+		<security:intercept-url pattern="/search"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/createIngredientsOwnedEdit"
+			access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/" access="permitAll" />
@@ -90,8 +94,6 @@
 		<security:intercept-url pattern="/adjustRecipe/*"
 			access="permitAll" />
 		<security:intercept-url pattern="/recipe/*"
-			access="permitAll" />
-		<security:intercept-url pattern="/search"
 			access="permitAll" />
 		<security:intercept-url pattern="/message"
 			access="permitAll" />
@@ -106,6 +108,14 @@
 		<security:intercept-url pattern="/createaccount"
 			access="permitAll" />
 		<security:intercept-url pattern="/accountcreated"
+			access="permitAll" />
+		<security:intercept-url pattern="/getMainDishes"
+			access="permitAll" />
+		<security:intercept-url pattern="/getVegetarian"
+			access="permitAll" />
+		<security:intercept-url pattern="/getAppetisers"
+			access="permitAll" />
+		<security:intercept-url pattern="/getDessert"
 			access="permitAll" />
 
 

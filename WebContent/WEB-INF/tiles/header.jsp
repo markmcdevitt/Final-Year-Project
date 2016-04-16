@@ -22,6 +22,25 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-expanded="false">Categories
+				</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a
+							href="${pageContext.request.contextPath}/getMainDishes"><i
+								class="fa fa-fw fa-tag"></i>Main Dishes</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/getVegetarian"><i
+								class="fa fa-fw fa-thumbs-o-up"></i>Vegetarian</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/getAppetisers"><i
+								class="fa fa-fw fa-thumbs-o-up"></i>Appetisers</a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/getDessert"><i
+								class="fa fa-fw fa-thumbs-o-up"></i>Desserts</a></li>				
+					</ul></li>
+			
+			
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-expanded="false">Hungry?
 				</a>

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,6 +36,9 @@ public class Recipe {
 	private String totalRating;
 	private String peopleFed;
 	private String calories;
+	private String level;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Category category;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@Fetch(value = FetchMode.SUBSELECT)
@@ -53,7 +57,7 @@ public class Recipe {
 	}
 
 	public Recipe(String titleParse, String descriptionParse, String imageURLParse, String peopleFed, String calories,
-			List<Instructions> instructions, List<Ingredient> ingredients) {
+			String level, Category category, List<Instructions> instructions, List<Ingredient> ingredients) {
 		super();
 		this.titleParse = titleParse;
 		this.descriptionParse = descriptionParse;
@@ -62,11 +66,13 @@ public class Recipe {
 		this.calories = calories;
 		this.instructions = instructions;
 		this.ingredients = ingredients;
+		this.level = level;
+		this.category = category;
 	}
 
 	public Recipe(String titleParse, String descriptionParse, String imageURLParse, String totalRating,
-			String peopleFed, String calories, List<Instructions> instructions, List<Ingredient> ingredients,
-			List<Review> review) {
+			String peopleFed, String calories, String level, Category category, List<Instructions> instructions,
+			List<Ingredient> ingredients, List<Review> review) {
 		super();
 		this.titleParse = titleParse;
 		this.descriptionParse = descriptionParse;
@@ -74,6 +80,8 @@ public class Recipe {
 		this.totalRating = totalRating;
 		this.peopleFed = peopleFed;
 		this.calories = calories;
+		this.level = level;
+		this.category = category;
 		this.instructions = instructions;
 		this.ingredients = ingredients;
 		this.review = review;
@@ -159,11 +167,30 @@ public class Recipe {
 		this.calories = calories;
 	}
 
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
-		return "Recipe [titleParse=" + titleParse + ", descriptionParse=" + descriptionParse + ", imageURLParse="
-				+ imageURLParse + ", totalRating=" + totalRating + ", peopleFed=" + peopleFed + ", calories=" + calories
-				+ ", instructions=" + instructions + ", ingredients=" + ingredients + ", review=" + review + "]";
+		return "Recipe [id=" + id + ", titleParse=" + titleParse + ", descriptionParse=" + descriptionParse
+				+ ", imageURLParse=" + imageURLParse + ", totalRating=" + totalRating + ", peopleFed=" + peopleFed
+				+ ", calories=" + calories + ", level=" + level + ", category=" + category + ", instructions="
+				+ instructions + ", ingredients=" + ingredients + ", review=" + review + "]";
 	}
+
+
 
 }

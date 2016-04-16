@@ -165,7 +165,10 @@ public class User {
 	public String toString() {
 		return "User [username=" + username + ", email=" + email + ", password=" + password + ", enabled=" + enabled
 				+ ", authority=" + authority + ", ingredientsOwned=" + ingredientsOwned + ", recipes=" + recipes
-				+ ", weeklyPlan=" + weeklyPlan + ", shoppingList=" + shoppingList + ", allergys=" + usersAllergys + "]";
+				+ ", weeklyPlan=" + weeklyPlan + ", shoppingList=" + shoppingList + ", usersAllergys=" + usersAllergys
+				+ "]";
 	}
+
+
 
 }

@@ -40,6 +40,7 @@
 		Recipe Rating: <span class="stars"><span><c:out
 					value="${recipe.totalRating}"></c:out></span></span>
 	</h4>
+	Recipe Level: <c:out value="${recipe.level}"></c:out><br>
 	Calories Per Serving: <c:out value="${recipe.calories}"></c:out><br>
 	Serves: <c:out value="${recipe.peopleFed}"></c:out>
 

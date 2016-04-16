@@ -1,5 +1,4 @@
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -153,7 +152,7 @@
 				<div class="tab-pane" id="ingredients">
 					<hr>
 					<form class="form"
-						action="${pageContext.request.contextPath}/createingredientsowned"
+						action="${pageContext.request.contextPath}/createIngredientsOwnedEdit"
 						method="post">
 						<label for="last_name"><h4>Ingredients You Own</h4></label>
 						<c:forEach var="ingredientsOwned" items="${user.ingredientsOwned}">

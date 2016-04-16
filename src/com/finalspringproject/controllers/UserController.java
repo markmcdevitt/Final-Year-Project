@@ -104,31 +104,25 @@ public class UserController {
 
 		return "loggedin";
 	}
+	@RequestMapping("/createIngredientsOwnedEdit")
+	public String createIngredientsOwned2(Model model, Principal principal,
+			@RequestParam(value = "ingredientName") String ingredientName) {
+
+		User user = usersService.getUser(principal.getName());
+		usersIngredients(user,ingredientName);
+		
+		model.addAttribute("user", user);
+		return "profile";
+	}
 
 	@RequestMapping("/createingredientsowned")
 	public String createIngredientsOwned(Model model, Principal principal,
 			@RequestParam(value = "ingredientName") String ingredientName) {
 
 		User user = usersService.getUser(principal.getName());
-		System.out.println("here " + ingredientName);
-		List<String> nameList = Arrays.asList(ingredientName.split(","));
-		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
-
-		for (String singleIng : nameList) {
-			IngredientsOwned ingredientsOwned = new IngredientsOwned(singleIng);
-			ingredients.add(ingredientsOwned);
-		}
-		Set<IngredientsOwned> hs = new HashSet<>();
-		hs.addAll(ingredients);
-		ingredients.clear();
-		ingredients.addAll(hs);
-
-		List<Recipe> recipeList = user.getRecipes();
-		user.setIngredientsOwned(ingredients);
-		recipeService.saveOrUpdate(user);
+		usersIngredients(user,ingredientName);
 
 		model.addAttribute("user", user);
-		model.addAttribute("recipeList", recipeList);
 		return "allergy";
 	}
 	@RequestMapping("/editAllergy")
@@ -201,6 +195,24 @@ public class UserController {
 		model.addAttribute("recipeList", user.getRecipes());
 
 		return "profile";
+	}
+	
+	public void usersIngredients(User user, String ingredientName){
+		List<String> nameList = Arrays.asList(ingredientName.split(","));
+		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
+
+		for (String singleIng : nameList) {
+			IngredientsOwned ingredientsOwned = new IngredientsOwned(singleIng);
+			ingredients.add(ingredientsOwned);
+		}
+		Set<IngredientsOwned> hs = new HashSet<>();
+		hs.addAll(ingredients);
+		ingredients.clear();
+		ingredients.addAll(hs);
+
+		user.setIngredientsOwned(ingredients);
+		recipeService.saveOrUpdate(user);
+
 	}
 
 }
