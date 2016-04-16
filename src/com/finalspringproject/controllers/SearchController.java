@@ -48,9 +48,6 @@ public class SearchController {
 			@RequestParam(value = "wheat") String wheat, @RequestParam(value = "soy") String soy,
 			@RequestParam(value = "exclude") String exclude) {
 
-		System.out.println(wheat + "/" + soy + "/" + eggs + "/" + fish + "/" + shellfish + "/" + milk + "/" + nuts + "/"
-				+ peanuts);
-
 		List<Allergy> allergyList = allergyList(wheat, soy, eggs, fish, shellfish, milk, nuts, peanuts);
 
 		for (Allergy a : allergyList) {
@@ -65,8 +62,8 @@ public class SearchController {
 		boolean containsAllergy = false;
 
 		recipeList = recipeService.find(search);
-		if (!exclude.contains("on") && allergyList.isEmpty()) {
 
+		if (!exclude.contains("on") && allergyList.isEmpty()) {
 			if (!user.getUsersAllergys().isEmpty()) {
 				for (Allergy allergy : user.getUsersAllergys()) {
 					for (Recipe recipe : recipeList) {
@@ -87,8 +84,16 @@ public class SearchController {
 									allergicRecipes.add(recipe);
 									containsAllergy = true;
 								}
+							} else if (allergy.getAllergy().equals("fish")) {
+								if (ing.getIngredientName().contains("Halibut")
+										|| ing.getIngredientName().contains("salmon")
+										|| ing.getIngredientName().contains("cod")
+										|| ing.getIngredientName().contains("sardines")
+										|| ing.getIngredientName().contains("sole")) {
+									allergicRecipes.add(recipe);
+									containsAllergy = true;
+								}
 							} else if (ing.getIngredientName().contains(allergy.getAllergy())) {
-								System.out.println("4--> " + allergy.toString());
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
@@ -97,9 +102,13 @@ public class SearchController {
 							nonAllergicRecipes.add(recipe);
 						}
 					}
+
+					model.addAttribute("recipe", nonAllergicRecipes);
 				}
+			} else {
+				model.addAttribute("recipe", recipeList);
+
 			}
-			model.addAttribute("recipe", nonAllergicRecipes);
 		} else if (!exclude.contains("on") && !allergyList.isEmpty()) {
 			for (Allergy allergy : allergyList) {
 				for (Recipe recipe : recipeList) {
@@ -115,13 +124,25 @@ public class SearchController {
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
+						} else if (allergy.getAllergy().equals("fish")) {
+							if (ing.getIngredientName().contains("Halibut")
+									|| ing.getIngredientName().contains("salmon")
+									|| ing.getIngredientName().contains("cod")
+									|| ing.getIngredientName().contains("sardines")
+									|| ing.getIngredientName().contains("sole")) {
+								allergicRecipes.add(recipe);
+								containsAllergy = true;
+							} else if (ing.getIngredientName().contains(allergy.getAllergy())) {
+								allergicRecipes.add(recipe);
+								containsAllergy = true;
+							}
+
 						} else if (allergy.getAllergy().equals("milk")) {
 							if (ing.getIngredientName().contains(" milk ")) {
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
 						} else if (ing.getIngredientName().contains(allergy.getAllergy())) {
-							System.out.println("4--> " + allergy.toString());
 							allergicRecipes.add(recipe);
 							containsAllergy = true;
 						}
@@ -133,7 +154,7 @@ public class SearchController {
 			}
 			model.addAttribute("recipe", nonAllergicRecipes);
 		} else {
-			System.out.println("9-- no allergys");
+			System.out.println("here??????");
 			model.addAttribute("recipe", recipeList);
 		}
 
@@ -141,15 +162,10 @@ public class SearchController {
 
 		chefList = userService.findChef(search);
 
-		// if (!user.getUsersAllergys().isEmpty()) {
-		// model.addAttribute("recipe", nonAllergicRecipes);
-		// } else {
-		// model.addAttribute("recipe", recipeList);
-		// }
-
 		model.addAttribute("allergicrecipe", allergicRecipes);
 		model.addAttribute("search", search);
 		model.addAttribute("chefList", chefList);
+		allergyList.clear();
 		return "search";
 	}
 
