@@ -84,28 +84,6 @@ public class RecipeDAO {
 		criteria.add(Restrictions.like("ing.ingredientName", ingredient, MatchMode.ANYWHERE));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return criteria.list();
-
-		// FullTextSession fullTextSession =
-		// Search.getFullTextSession(session());
-		// Transaction tx = fullTextSession.beginTransaction();
-		//
-		// QueryBuilder qb = fullTextSession.getSearchFactory()
-		// .buildQueryBuilder().forEntity(Recipe.class).get();
-		//
-		// org.apache.lucene.search.Query query = qb
-		// .keyword()
-		// .onFields("Ingredient.ingredientName")
-		// .matching(ingredient)
-		// .createQuery();
-		//
-		// org.hibernate.Query hibQuery =
-		// fullTextSession.createFullTextQuery(query, Recipe.class);
-		// List<Recipe> result = hibQuery.list();
-		// for(Recipe r :result){
-		// System.out.println(r.toString());
-		// }
-		// tx.commit();
-		// return result;
 	}
 
 	public void update(User user) {

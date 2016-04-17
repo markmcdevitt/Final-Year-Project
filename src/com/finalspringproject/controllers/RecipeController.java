@@ -66,7 +66,7 @@ public class RecipeController {
 	@RequestMapping("/getMainDishes")
 	public String getMainDishes(Model model) {
 		List<Recipe> categoryRecipe = recipeService.getSpecific("Main Dish");
-		
+
 		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
 			@Override
 			public int compare(final Recipe object1, final Recipe object2) {
@@ -75,12 +75,13 @@ public class RecipeController {
 		});
 		model.addAttribute("recipe", categoryRecipe);
 		return "allrecipes";
-	
+
 	}
+
 	@RequestMapping("/getVegetarian")
 	public String getVegetarian(Model model) {
 		List<Recipe> categoryRecipe = recipeService.getSpecific("Vegetarian");
-		
+
 		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
 			@Override
 			public int compare(final Recipe object1, final Recipe object2) {
@@ -89,12 +90,13 @@ public class RecipeController {
 		});
 		model.addAttribute("recipe", categoryRecipe);
 		return "allrecipes";
-	
+
 	}
+
 	@RequestMapping("/getAppetisers")
 	public String getAppetisers(Model model) {
 		List<Recipe> categoryRecipe = recipeService.getSpecific("Appetizers");
-		
+
 		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
 			@Override
 			public int compare(final Recipe object1, final Recipe object2) {
@@ -103,12 +105,13 @@ public class RecipeController {
 		});
 		model.addAttribute("recipe", categoryRecipe);
 		return "allrecipes";
-	
+
 	}
+
 	@RequestMapping("/getDessert")
 	public String getDessert(Model model) {
 		List<Recipe> categoryRecipe = recipeService.getSpecific("Dessert");
-		
+
 		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
 			@Override
 			public int compare(final Recipe object1, final Recipe object2) {
@@ -117,9 +120,9 @@ public class RecipeController {
 		});
 		model.addAttribute("recipe", categoryRecipe);
 		return "allrecipes";
-	
+
 	}
-	
+
 	@RequestMapping("/allrecipes")
 	public String showRecipe(Model model) {
 		List<Recipe> recipes = recipeService.getCurrent();
@@ -159,7 +162,8 @@ public class RecipeController {
 
 	@RequestMapping(value = "/docreate", method = RequestMethod.POST)
 	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,
-			@RequestParam(value = "ingredientQuantity") String ingredientAmount,@RequestParam(value = "type") String category,
+			@RequestParam(value = "ingredientQuantity") String ingredientAmount,
+			@RequestParam(value = "type") String category,
 			@RequestParam(value = "ingredientName") String ingredientName, BindingResult result, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
 
@@ -173,11 +177,11 @@ public class RecipeController {
 			User user = usersService.getUser(principal.getName());
 			Category categoryObj = new Category(category);
 			List<Recipe> list = user.getRecipes();
-			
+
 			int score = recipe.getInstructions().size() + ingList.size() + Integer.parseInt(recipe.getPeopleFed());
-			
-			String level = recipeScore(score,recipe.getInstructions());
-			
+
+			String level = recipeScore(score, recipe.getInstructions());
+
 			recipe.setLevel(level);
 			recipe.setIngredients(ingList);
 			recipe.setCategory(categoryObj);
@@ -212,7 +216,7 @@ public class RecipeController {
 				ingList.add(ingredient);
 			}
 		} catch (Exception e) {
-			
+
 		}
 
 		return ingList;
@@ -221,7 +225,7 @@ public class RecipeController {
 	@RequestMapping("/findrecipe")
 	public String findRecipe(Model model, @Validated(value = FormValidationGroup.class) Ingredient ingredient,
 			BindingResult result) throws InterruptedException {
-		
+
 		List<String> list = Arrays.asList(ingredient.getIngredientName().split(","));
 		List<Recipe> recipeList2 = new ArrayList<Recipe>();
 		ArrayList<Recipe> r = new ArrayList<Recipe>();
@@ -229,7 +233,13 @@ public class RecipeController {
 		for (String s : list) {
 			String s2 = removeLastChar(s);
 
+			recipeList2 = recipeService.getGeneratedRecipe(" " + s);
+			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipe(" " + s + " ");
+			r.addAll(recipeList2);
+			recipeList2 = recipeService.getGeneratedRecipe(" " + s + ",");
+			r.addAll(recipeList2);
+			recipeList2 = recipeService.getGeneratedRecipe(" " + s + "s,");
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipe(" " + s + "s ");
 			r.addAll(recipeList2);
@@ -239,19 +249,14 @@ public class RecipeController {
 			r.addAll(recipeList2);
 
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s2);
-			System.out.println(s2);
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s);
 			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + "s");
+			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s+",");
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + "es");
 			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + "'s");
-			r.addAll(recipeList2);
-
-			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s2);
-			r.addAll(recipeList2);
+		
 
 		}
 		ArrayList<Integer> anotherList = new ArrayList<Integer>();
@@ -267,18 +272,20 @@ public class RecipeController {
 		}
 		ArrayList<Integer> tracker = new ArrayList<Integer>();
 		HashMap<Recipe, Integer> hmap = new HashMap<Recipe, Integer>();
+		
 		for (int i = 0; i < frequencyList.size(); i++) {
 			int freq = frequencyList.get(i);
 			Recipe recipe = r.get(i);
 			if (!tracker.contains(recipe.getId())) {
 				tracker.add(recipe.getId());
-				System.out.println("HERE  --- " + recipe.getTitleParse() + "/" + freq);
-				hmap.put(recipe, freq);
+				int score = freq-(recipe.getIngredients().size()-freq);
+				System.out.println(freq+" ---> "+score);
+				hmap.put(recipe, score);
 			}
 		}
 		ArrayList<Recipe> waitingList = new ArrayList<Recipe>();
 		List<Map.Entry<Recipe, Integer>> entries = new ArrayList<Map.Entry<Recipe, Integer>>(hmap.entrySet());
-		
+
 		Collections.sort(entries, new Comparator<Map.Entry<Recipe, Integer>>() {
 			public int compare(Map.Entry<Recipe, Integer> a, Map.Entry<Recipe, Integer> b) {
 				return Integer.compare(b.getValue(), a.getValue());
@@ -295,7 +302,17 @@ public class RecipeController {
 		Set<Recipe> set = new LinkedHashSet<>(waitingList);
 		List<Recipe> recipeList = new ArrayList<Recipe>();
 		recipeList.addAll(set);
-		model.addAttribute("recipe", recipeList);
+		List<Recipe> shortenedRecipeList = new ArrayList<>();
+		try {
+			for(int i=0;i<=29;i++){
+				shortenedRecipeList.add(recipeList.get(i));
+			}
+			model.addAttribute("recipe", shortenedRecipeList);
+		} catch (Exception e) {
+			model.addAttribute("recipe", recipeList);
+		}
+		
+		
 		model.addAttribute("matches", matches);
 		return "result";
 
@@ -342,7 +359,7 @@ public class RecipeController {
 	public List<Recipe> getOneRecipe(int id) {
 		List<Ingredient> ingredient = new ArrayList<Ingredient>();
 		Recipe oneRecipe = recipeService.getOneRecipe(id);
-		
+
 		try {
 			for (Ingredient i : oneRecipe.getIngredients()) {
 				Ingredient ing = new Ingredient();
@@ -368,7 +385,7 @@ public class RecipeController {
 	private static String removeLastChar(String str) {
 		return str.substring(0, str.length() - 1);
 	}
-	
+
 	@RequestMapping("/title/alphabetical")
 	public String alphabeticalAuthor(Model model) {
 		List<Recipe> recipes = recipeService.getCurrent();
@@ -397,11 +414,11 @@ public class RecipeController {
 		model.addAttribute("allrecipes", recipes);
 		return "allbooks";
 	}
-	
-	private String recipeScore(int score,List<Instructions> instructionList){
-		
+
+	private String recipeScore(int score, List<Instructions> instructionList) {
+
 		ArrayList<String> complicatedWords = new ArrayList<String>();
-		
+
 		complicatedWords.add("chopped");
 		complicatedWords.add("diced");
 		complicatedWords.add("saute");
@@ -418,34 +435,34 @@ public class RecipeController {
 
 		System.out.println(score + " before");
 		for (int i = 0; i < complicatedWords.size(); i++) {
-			for(Instructions instruction:instructionList){
+			for (Instructions instruction : instructionList) {
 				if (instruction.getSteps().contains(complicatedWords.get(i))) {
 					score += 5;
 				}
 			}
-			
+
 		}
 
 		System.out.println(score + " after");
 
 		String level;
-		
-		if(score>45){
+
+		if (score > 45) {
 			level = "Master Chef";
-		}else if(score>40){
+		} else if (score > 40) {
 			level = "Executive Chef";
-		}else if(score>35){
+		} else if (score > 35) {
 			level = "Sous Chef";
-		}else if(score>30){
+		} else if (score > 30) {
 			level = "Prep Chef";
-		}else if(score>25){
+		} else if (score > 25) {
 			level = "Wise Chef";
-		}else if(score>20){
+		} else if (score > 20) {
 			level = "Gifted Chef";
-		}else if(score>16){
+		} else if (score > 16) {
 			level = "Amatuer Cook";
-		}else{
-			level="Newbie";
+		} else {
+			level = "Newbie";
 		}
 		return level;
 	}
