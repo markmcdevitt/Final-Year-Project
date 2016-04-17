@@ -3,6 +3,7 @@ package com.finalspringproject.entity;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -61,13 +62,21 @@ public class User {
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Allergy> usersAllergys;
 
+	@Column(nullable = true)
+	private String userLevel;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@Fetch(value = FetchMode.SUBSELECT)
+	private List<Favorite> usersFavorites;
+
 	public User() {
 
 	}
 
 	public User(String username, String email, String password, boolean enabled, String authority,
 			List<IngredientsOwned> ingredientsOwned, List<Recipe> recipes, List<WeeklyPlan> weeklyPlan,
-			List<ShoppingList> shoppingList, List<Allergy> usersAllergys) {
+			List<ShoppingList> shoppingList, List<Allergy> usersAllergys, String userLevel,
+			List<Favorite> usersFavorites) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -79,6 +88,8 @@ public class User {
 		this.weeklyPlan = weeklyPlan;
 		this.shoppingList = shoppingList;
 		this.usersAllergys = usersAllergys;
+		this.userLevel = userLevel;
+		this.usersFavorites = usersFavorites;
 	}
 
 	public List<IngredientsOwned> getIngredientsOwned() {
@@ -161,14 +172,28 @@ public class User {
 		this.usersAllergys = usersAllergys;
 	}
 
+	public String getUserLevel() {
+		return userLevel;
+	}
+
+	public void setUserLevel(String userLevel) {
+		this.userLevel = userLevel;
+	}
+
+	public List<Favorite> getUsersFavorites() {
+		return usersFavorites;
+	}
+
+	public void setUsersFavorites(List<Favorite> usersFavorites) {
+		this.usersFavorites = usersFavorites;
+	}
+
 	@Override
 	public String toString() {
 		return "User [username=" + username + ", email=" + email + ", password=" + password + ", enabled=" + enabled
 				+ ", authority=" + authority + ", ingredientsOwned=" + ingredientsOwned + ", recipes=" + recipes
 				+ ", weeklyPlan=" + weeklyPlan + ", shoppingList=" + shoppingList + ", usersAllergys=" + usersAllergys
-				+ "]";
+				+ ", userLevel=" + userLevel + ", usersFavorites=" + usersFavorites + "]";
 	}
-
-
 
 }

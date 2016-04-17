@@ -252,11 +252,10 @@ public class RecipeController {
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s);
 			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s+",");
+			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + ",");
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + "es");
 			r.addAll(recipeList2);
-		
 
 		}
 		ArrayList<Integer> anotherList = new ArrayList<Integer>();
@@ -272,14 +271,14 @@ public class RecipeController {
 		}
 		ArrayList<Integer> tracker = new ArrayList<Integer>();
 		HashMap<Recipe, Integer> hmap = new HashMap<Recipe, Integer>();
-		
+
 		for (int i = 0; i < frequencyList.size(); i++) {
 			int freq = frequencyList.get(i);
 			Recipe recipe = r.get(i);
 			if (!tracker.contains(recipe.getId())) {
 				tracker.add(recipe.getId());
-				int score = freq-(recipe.getIngredients().size()-freq);
-				System.out.println(freq+" ---> "+score);
+				int score = freq - (recipe.getIngredients().size() - freq);
+				System.out.println(freq + " ---> " + score);
 				hmap.put(recipe, score);
 			}
 		}
@@ -304,15 +303,14 @@ public class RecipeController {
 		recipeList.addAll(set);
 		List<Recipe> shortenedRecipeList = new ArrayList<>();
 		try {
-			for(int i=0;i<=29;i++){
+			for (int i = 0; i <= 29; i++) {
 				shortenedRecipeList.add(recipeList.get(i));
 			}
 			model.addAttribute("recipe", shortenedRecipeList);
 		} catch (Exception e) {
 			model.addAttribute("recipe", recipeList);
 		}
-		
-		
+
 		model.addAttribute("matches", matches);
 		return "result";
 

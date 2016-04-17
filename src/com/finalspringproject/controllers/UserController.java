@@ -31,8 +31,7 @@ public class UserController {
 	private UsersService usersService;
 	private RecipeService recipeService;
 	private AllergyService allergyService;
-	
-	
+
 	@Autowired
 	public void setAllergyService(AllergyService allergyService) {
 		this.allergyService = allergyService;
@@ -52,6 +51,12 @@ public class UserController {
 	public String profile(Model model, Principal principal) {
 		User user = usersService.getUser(principal.getName());
 		List<Recipe> recipeList = user.getRecipes();
+		String level=null;
+		if(!user.getRecipes().isEmpty()){
+		level = calculateUserLevel(user);
+		}
+		user.setUserLevel(level);
+		recipeService.saveOrUpdate(user);
 
 		model.addAttribute("user", user);
 		model.addAttribute("recipeList", recipeList);
@@ -94,6 +99,7 @@ public class UserController {
 		}
 		user.setAuthority("ROLE_USER");
 		user.setEnabled(true);
+		user.setUserLevel("Newbie");
 
 		try {
 			usersService.create(user);
@@ -104,13 +110,14 @@ public class UserController {
 
 		return "loggedin";
 	}
+
 	@RequestMapping("/createIngredientsOwnedEdit")
 	public String createIngredientsOwned2(Model model, Principal principal,
 			@RequestParam(value = "ingredientName") String ingredientName) {
 
 		User user = usersService.getUser(principal.getName());
-		usersIngredients(user,ingredientName);
-		
+		usersIngredients(user, ingredientName);
+
 		model.addAttribute("user", user);
 		return "profile";
 	}
@@ -120,13 +127,14 @@ public class UserController {
 			@RequestParam(value = "ingredientName") String ingredientName) {
 
 		User user = usersService.getUser(principal.getName());
-		usersIngredients(user,ingredientName);
+		usersIngredients(user, ingredientName);
 
 		model.addAttribute("user", user);
 		return "allergy";
 	}
+
 	@RequestMapping("/editAllergy")
-	public String editAllergy(){
+	public String editAllergy() {
 		return "allergy";
 	}
 
@@ -136,7 +144,7 @@ public class UserController {
 			@RequestParam(value = "eggs") String eggs, @RequestParam(value = "fish") String fish,
 			@RequestParam(value = "shellfish") String shellfish, @RequestParam(value = "wheat") String wheat,
 			@RequestParam(value = "soy") String soy) {
-		
+
 		List<Allergy> allergyList = new ArrayList<Allergy>();
 		Allergy soyAllergy = new Allergy();
 		Allergy milkAllergy = new Allergy();
@@ -146,41 +154,41 @@ public class UserController {
 		Allergy shellfishAllergy = new Allergy();
 		Allergy wheatAllergy = new Allergy();
 		Allergy eggsAllergy = new Allergy();
-		
-		if(soy.contains("on")){
-			soyAllergy =allergyService.getAllergy("soy");
+
+		if (soy.contains("on")) {
+			soyAllergy = allergyService.getAllergy("soy");
 			allergyList.add(soyAllergy);
 		}
-		
-		if(milk.contains("on")){
+
+		if (milk.contains("on")) {
 			milkAllergy = allergyService.getAllergy("milk");
 			allergyList.add(milkAllergy);
 		}
-		
-		if(nuts.contains("on")){
+
+		if (nuts.contains("on")) {
 			nutsAllergy = allergyService.getAllergy("nuts");
 			allergyList.add(nutsAllergy);
 		}
-		
-		if(fish.contains("on")){
+
+		if (fish.contains("on")) {
 			fishAllergy = allergyService.getAllergy("fish");
 			allergyList.add(fishAllergy);
 		}
-		
-		if(peanuts.contains("on")){
+
+		if (peanuts.contains("on")) {
 			peanutsAllergy = allergyService.getAllergy("peanuts");
 			allergyList.add(peanutsAllergy);
 		}
-		
-		if(shellfish.contains("on")){
+
+		if (shellfish.contains("on")) {
 			shellfishAllergy = allergyService.getAllergy("shellfish");
 			allergyList.add(shellfishAllergy);
 		}
-		if(eggs.contains("on")){
+		if (eggs.contains("on")) {
 			eggsAllergy = allergyService.getAllergy("egg");
 			allergyList.add(eggsAllergy);
 		}
-		if(wheat.contains("on")){
+		if (wheat.contains("on")) {
 			wheatAllergy = allergyService.getAllergy("wheat");
 			allergyList.add(wheatAllergy);
 		}
@@ -188,16 +196,15 @@ public class UserController {
 		System.out.println(allergyList.size());
 
 		user.setUsersAllergys(allergyList);
-		System.out.println(user.toString());
 		recipeService.saveOrUpdate(user);
 
 		model.addAttribute("user", user);
 		model.addAttribute("recipeList", user.getRecipes());
 
-		return "profile";
+		return "home";
 	}
-	
-	public void usersIngredients(User user, String ingredientName){
+
+	public void usersIngredients(User user, String ingredientName) {
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
 		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
 
@@ -213,6 +220,54 @@ public class UserController {
 		user.setIngredientsOwned(ingredients);
 		recipeService.saveOrUpdate(user);
 
+	}
+
+	private String calculateUserLevel(User user) {
+		int userLevel = 0;
+		int recipesNo = user.getRecipes().size();
+		System.out.println("should be 2: " + recipesNo);
+		List<Recipe> ratingCalc = user.getRecipes();
+		int ratingScore = 0;
+		
+		for (Recipe recipe : ratingCalc) {
+			double number=0;
+			try {
+				 number = Double.parseDouble(recipe.getTotalRating());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+			int number2 =(int)number;
+			ratingScore +=  number2* 2;
+		}
+
+		userLevel = recipesNo + ratingScore;
+		String level = calculateTitle(userLevel);
+		return level;
+	}
+
+	private String calculateTitle(int userLevel) {
+		System.out.println("HIS SCORE IS " + userLevel);
+		String level;
+
+		if (userLevel > 50) {
+			level = "Master Chef";
+		} else if (userLevel > 40) {
+			level = "Executive Chef";
+		} else if (userLevel > 35) {
+			level = "Sous Chef";
+		} else if (userLevel > 30) {
+			level = "Prep Chef";
+		} else if (userLevel > 25) {
+			level = "Wise Chef";
+		} else if (userLevel > 20) {
+			level = "Gifted Chef";
+		} else if (userLevel > 16) {
+			level = "Amatuer Cook";
+		} else {
+			level = "Newbie";
+		}
+		return level;
 	}
 
 }

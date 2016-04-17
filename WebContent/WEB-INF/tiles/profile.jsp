@@ -1,4 +1,5 @@
-<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -27,14 +28,24 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Email</strong></span>
 					<c:out value="${user.email}"></c:out></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Level</strong></span>
-					TBC</li>
-				<li class="list-group-item text-right"><span class="pull-left"><strong><a
-							href="${pageContext.request.contextPath}/editAllergy">Your
-								Allergies</a></strong></span> <c:forEach var="allergys"
-						items="${user.usersAllergys}">
-						<c:out value="${allergys.allergy}"></c:out>
-						<br>
-					</c:forEach></li>
+					<c:out value="${user.userLevel}"></c:out></li>
+				<c:if test="${empty user.usersAllergys}">
+					<li class="list-group-item text-left"><a
+						href="${pageContext.request.contextPath}/editAllergy"><small><font
+								color="black">You Dont Have Any Allergies</font></small></a></li>
+				</c:if>
+				<c:if test="${not empty user.usersAllergys}">
+					<li class="list-group-item text-right"><span class="pull-left"><strong><a
+								href="${pageContext.request.contextPath}/editAllergy">Your
+									Allergies</a></strong></span> <c:forEach var="allergys"
+							items="${user.usersAllergys}">
+							<c:out value="${allergys.allergy}"></c:out>
+							<br>
+						</c:forEach></li>
+
+				</c:if>
+
+
 			</ul>
 		</div>
 		<div class="col-sm-11">
@@ -70,7 +81,7 @@
 									<c:forEach var="recipe" items="${recipeList}">
 										<tr>
 											<td><a
-												href="${pageContext.request.contextPath}/recipe/${recipe.id}"><c:out
+												href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}"><c:out
 														value="${recipe.titleParse}"></c:out></a></td>
 											<c:if test="${not empty recipe.totalRating}">
 												<td><span class="stars"><span><c:out
@@ -152,7 +163,7 @@
 				<div class="tab-pane" id="ingredients">
 					<hr>
 					<form class="form"
-						action="${pageContext.request.contextPath}/createIngredientsOwnedEdit"
+						action="${pageContext.request.contextPath}/createingredientsowned"
 						method="post">
 						<label for="last_name"><h4>Ingredients You Own</h4></label>
 						<c:forEach var="ingredientsOwned" items="${user.ingredientsOwned}">

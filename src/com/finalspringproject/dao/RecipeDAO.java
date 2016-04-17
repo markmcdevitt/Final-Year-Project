@@ -102,12 +102,6 @@ public class RecipeDAO {
 		return criteria.list();
 	}
 
-//	public Recipe getRecipeReview(Review review) {
-////		Criteria criteria = session().createCriteria(Recipe.class, "recipe");
-////		criteria.add(Restrictions.like("recipe.review.username", review.getUser().getUsername(),MatchMode.ANYWHERE));
-////		return (Recipe) criteria.uniqueResult();
-//	}
-
 	public void update(Recipe recipe) {
 		session().update(recipe);
 		
