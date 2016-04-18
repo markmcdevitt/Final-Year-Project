@@ -88,6 +88,8 @@ public class UserController {
 		user.setEnabled(true);
 		usersService.update(user);
 
+		model.addAttribute("user", user);
+		model.addAttribute("recipeList", user.getRecipes());
 		return "profile";
 	}
 

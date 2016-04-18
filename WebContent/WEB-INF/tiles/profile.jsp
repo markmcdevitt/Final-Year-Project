@@ -234,10 +234,11 @@
 										<c:if test="${empty favouriteList.recipe.totalRating}">
 											<td>Not Rated Yet</td>
 										</c:if>
-										<td><c:out
-												value="${favouriteList.recipe.descriptionParse}"></c:out></td>
+										<td><c:out value="${favouriteList.recipe.descriptionParse}"></c:out></td>
 										<td><c:out value="${favouriteList.recipe.calories}"></c:out></td>
 										<td><c:out value="${favouriteList.recipe.peopleFed}"></c:out></td>
+										<td><a href="<c:out value="${pageContext.request.contextPath}/deleteFavourite/${favouriteList.recipe.id}"></c:out>" class="btn btn-default"><span class="glyphicon glyphicon-floppy-remove"></span>
+										</a></td>
 									</tr>
 
 								</c:forEach>

@@ -71,4 +71,9 @@ public class UsersDao {
 		session().delete(user);
 	}
 
+	public void updateUser(User user) {
+		session().update(user);
+		
+	}
+
 }

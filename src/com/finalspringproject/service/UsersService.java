@@ -50,4 +50,9 @@ public class UsersService {
 		usersDao.deleteUser(user);
 		
 	}
+
+	public void updateUser(User user) {
+		usersDao.updateUser(user);
+		
+	}
 }

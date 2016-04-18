@@ -88,6 +88,8 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/favourite/*"
 			access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteFavourite/*"
+			access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/" access="permitAll" />

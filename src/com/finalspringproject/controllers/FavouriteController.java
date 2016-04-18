@@ -39,25 +39,43 @@ public class FavouriteController {
 		this.usersService = usersService;
 	}
 
-	@RequestMapping(value="/favourite/{id}")
+	@RequestMapping(value = "/favourite/{id}")
 	public String profile(Model model, Principal principal, @PathVariable int id) {
 		User user = usersService.getUser(principal.getName());
 		Recipe recipe = recipeService.getOneRecipe(id);
 		Favorite favorite = new Favorite(recipe);
+
+		user.getUsersFavorites().add(favorite);
+		usersService.updateUser(user);
+
+		model.addAttribute("user", user);
+		model.addAttribute("recipeList", user.getRecipes());
+
+		return "recipe";
+
+	}
+
+	@RequestMapping(value = "/deleteFavourite/{id}")
+	public String delete(Model model, Principal principal, @PathVariable int id) {
 		
-		List<Favorite> favouriteList = new ArrayList<Favorite>();
-		try {
-			favouriteList = user.getUsersFavorites();
-		} catch (Exception e) {
+		User user = usersService.getUser(principal.getName());
+		Recipe recipe = recipeService.getOneRecipe(id);
+
+		System.out.println(user.getUsersFavorites().size());
+		List<Favorite>favoriteList = user.getUsersFavorites();
+		for(int i = 0;i<favoriteList.size();i++){
+			if(favoriteList.get(i).getRecipe().getId()==id){
+				favoriteList.remove(i);
+			}
 		}
-		favouriteList.add(favorite);
-		user.setUsersFavorites(favouriteList);
-		recipeService.saveOrUpdate(user);
+		System.out.println(user.getUsersFavorites().size());
+		usersService.updateUser(user);
 		List<Recipe> recipeList = new ArrayList<>();
 		recipeList.add(recipe);
 
-		model.addAttribute("recipe", recipeList);
-		return "recipe";
+		model.addAttribute("user", user);
+		model.addAttribute("recipeList", user.getRecipes());
+		return "profile";
 
 	}
 }
