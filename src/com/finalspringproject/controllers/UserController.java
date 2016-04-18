@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.dao.FormValidationGroup;
 import com.finalspringproject.entity.Allergy;
+import com.finalspringproject.entity.Favorite;
 import com.finalspringproject.entity.IngredientsOwned;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
@@ -51,6 +52,7 @@ public class UserController {
 	public String profile(Model model, Principal principal) {
 		User user = usersService.getUser(principal.getName());
 		List<Recipe> recipeList = user.getRecipes();
+		
 		String level=null;
 		if(!user.getRecipes().isEmpty()){
 		level = calculateUserLevel(user);
@@ -111,16 +113,6 @@ public class UserController {
 		return "loggedin";
 	}
 
-	@RequestMapping("/createIngredientsOwnedEdit")
-	public String createIngredientsOwned2(Model model, Principal principal,
-			@RequestParam(value = "ingredientName") String ingredientName) {
-
-		User user = usersService.getUser(principal.getName());
-		usersIngredients(user, ingredientName);
-
-		model.addAttribute("user", user);
-		return "profile";
-	}
 
 	@RequestMapping("/createingredientsowned")
 	public String createIngredientsOwned(Model model, Principal principal,
@@ -130,7 +122,8 @@ public class UserController {
 		usersIngredients(user, ingredientName);
 
 		model.addAttribute("user", user);
-		return "allergy";
+		model.addAttribute("recipeList", user.getRecipes());
+		return "profile";
 	}
 
 	@RequestMapping("/editAllergy")
@@ -206,6 +199,9 @@ public class UserController {
 
 	public void usersIngredients(User user, String ingredientName) {
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
+		for(String s:nameList){
+			System.out.println("here--> "+s);
+		}
 		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
 
 		for (String singleIng : nameList) {
@@ -225,7 +221,6 @@ public class UserController {
 	private String calculateUserLevel(User user) {
 		int userLevel = 0;
 		int recipesNo = user.getRecipes().size();
-		System.out.println("should be 2: " + recipesNo);
 		List<Recipe> ratingCalc = user.getRecipes();
 		int ratingScore = 0;
 		
@@ -247,7 +242,6 @@ public class UserController {
 	}
 
 	private String calculateTitle(int userLevel) {
-		System.out.println("HIS SCORE IS " + userLevel);
 		String level;
 
 		if (userLevel > 50) {

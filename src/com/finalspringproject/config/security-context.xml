@@ -86,6 +86,8 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/createIngredientsOwnedEdit"
 			access="isAuthenticated()" />
+		<security:intercept-url pattern="/favourite/*"
+			access="isAuthenticated()" />
 
 
 		<security:intercept-url pattern="/" access="permitAll" />

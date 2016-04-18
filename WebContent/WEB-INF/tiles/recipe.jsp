@@ -16,32 +16,42 @@
 <c:forEach var="recipe" items="${recipe}">
 	<h3 align="center">
 		<c:out value="${recipe.titleParse}"></c:out>
+
 	</h3>
+
+	<div align="right">
+		<a href="${pageContext.request.contextPath}/favourite/${recipe.id}"
+			class="btn btn-default"><span class="glyphicon glyphicon-star"></span>
+		</a>
+	</div>
+
 	<center>
-		<img src="${recipe.imageURLParse}" class="img-rounded" width="250" height="250"
-			alt="Responsive image">
+		<img src="${recipe.imageURLParse}" class="img-rounded" width="250"
+			height="250" alt="Responsive image">
 	</center>
 
 	<br>
-		<div align="right">
-			<h5>How many do you want to feed?</h5>
-			<form
-				action="${pageContext.request.contextPath}/adjustRecipe/${recipe.titleParse}"
-				method="post">
-				<input type='button' value='-' class='qtyminus' field='quantity' />
-				<input type='text' name='quantity' value='${recipe.peopleFed}' class='qty'
-					style="width: 20px" /> <input type='button' value='+'
-					class='qtyplus' field='quantity' /><br> <br>
-				<button type="submit" class="btn btn-primary btn-sm">Submit</button>
-			</form>
-		</div>
+	<div align="right">
+		<h5>How many do you want to feed?</h5>
+		<form
+			action="${pageContext.request.contextPath}/adjustRecipe/${recipe.id}"
+			method="post">
+			<input type='button' value='-' class='qtyminus' field='quantity' />
+			<input type='text' name='quantity' value='${recipe.peopleFed}'
+				class='qty' style="width: 20px" /> <input type='button' value='+'
+				class='qtyplus' field='quantity' /><br> <br>
+			<button type="submit" class="btn btn-primary btn-sm">Submit</button>
+		</form>
+	</div>
 
 	<h4>
 		Recipe Rating: <span class="stars"><span><c:out
 					value="${recipe.totalRating}"></c:out></span></span>
 	</h4>
-	Recipe Level: <c:out value="${recipe.level}"></c:out><br>
-	Calories Per Serving: <c:out value="${recipe.calories}"></c:out><br>
+	Recipe Level: <c:out value="${recipe.level}"></c:out>
+	<br>
+	Calories Per Serving: <c:out value="${recipe.calories}"></c:out>
+	<br>
 	Serves: <c:out value="${recipe.peopleFed}"></c:out>
 
 </c:forEach>
@@ -74,7 +84,7 @@
 </table>
 <c:forEach var="recipe" items="${recipe}">
 	<a
-		href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.titleParse}"><button
+		href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.id}"><button
 			type="button" class="btn btn-primary btn-sm">
 			<c:out value="Add To Weekly Plan "></c:out>
 		</button></a>

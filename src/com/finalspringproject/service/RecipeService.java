@@ -7,6 +7,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.finalspringproject.dao.RecipeDAO;
+import com.finalspringproject.entity.IngredientsOwned;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.Review;
 import com.finalspringproject.entity.User;
@@ -116,9 +117,4 @@ public class RecipeService {
 	public List<Recipe> getSpecific(String category) {
 		return recipeDao.getSpecific(category);
 	}
-
-	// public Recipe getRecipeReview(Review review) {
-	// return recipeDao.getRecipeReview(review);
-	// }
-
 }

@@ -7,7 +7,6 @@
 
 <script type="text/javascript">
 	function createTextBox(n) {
-
 		for (var i = 0; i < n; i++) {
 			var textBox = document.createElement("input");
 

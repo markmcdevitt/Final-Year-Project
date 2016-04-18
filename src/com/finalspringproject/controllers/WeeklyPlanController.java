@@ -152,8 +152,8 @@ public class WeeklyPlanController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/addToWeeklyPlan/{weeklyPlanRecipe}")
-	public String addToWeeklyPlan(Model model, Principal principal, @PathVariable String weeklyPlanRecipe) {
-		recipe = recipeService.getCurrentRecipe(weeklyPlanRecipe);
+	public String addToWeeklyPlan(Model model, Principal principal, @PathVariable int weeklyPlanRecipe) {
+		recipe = recipeService.getOneRecipe(weeklyPlanRecipe);
 		weeklyPlanController = new WeeklyPlanController();
 		weeklyPlanController.setRecipe(recipe);
 		weeklyPlan = new WeeklyPlan(timeStamp, null);

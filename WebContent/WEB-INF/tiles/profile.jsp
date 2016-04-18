@@ -55,6 +55,7 @@
 				<li><a href="#settings" data-toggle="tab">User Details</a></li>
 				<li><a href="#ingredients" data-toggle="tab">Your
 						Ingredients</a></li>
+				<li><a href="#favourite" data-toggle="tab">Favourite</a></li>
 			</ul>
 
 			<div class="tab-content">
@@ -81,7 +82,7 @@
 									<c:forEach var="recipe" items="${recipeList}">
 										<tr>
 											<td><a
-												href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}"><c:out
+												href="${pageContext.request.contextPath}/recipe/${recipe.id}"><c:out
 														value="${recipe.titleParse}"></c:out></a></td>
 											<c:if test="${not empty recipe.totalRating}">
 												<td><span class="stars"><span><c:out
@@ -201,6 +202,56 @@
 						</div>
 					</form>
 				</div>
+				<div class="tab-pane" id="favourite">
+					<div class="table-responsive">
+						<table class="table table-hover">
+
+							<c:if test="${empty recipeList}">
+								<br>
+								<p>You dont have any favourites.</p>
+								<a href="${pageContext.request.contextPath}/createrecipe">Click
+									here to find a recipe that you like</a>
+							</c:if>
+							<thead>
+								<tr>
+									<td><b>Recipe Name</b></td>
+									<td><b>Description</b></td>
+									<td><b>Rating</b></td>
+									<td><b>Calories</b></td>
+									<td><b>Serves</b></td>
+								</tr>
+							</thead>
+							<tbody id="items">
+								<c:forEach var="favouriteList" items="${user.usersFavorites}">
+									<tr>
+										<td><a
+											href="${pageContext.request.contextPath}/recipe/${favouriteList.recipe.id}"><c:out
+													value="${favouriteList.recipe.titleParse}"></c:out></a></td>
+										<c:if test="${not empty favouriteList.recipe.totalRating}">
+											<td><span class="stars"><span><c:out
+															value="${favouriteList.recipe.totalRating}"></c:out></span></span></td>
+										</c:if>
+										<c:if test="${empty favouriteList.recipe.totalRating}">
+											<td>Not Rated Yet</td>
+										</c:if>
+										<td><c:out
+												value="${favouriteList.recipe.descriptionParse}"></c:out></td>
+										<td><c:out value="${favouriteList.recipe.calories}"></c:out></td>
+										<td><c:out value="${favouriteList.recipe.peopleFed}"></c:out></td>
+									</tr>
+
+								</c:forEach>
+							</tbody>
+						</table>
+						<hr>
+						<div class="row">
+							<div class="col-md-4 col-md-offset-4 text-center">
+								<ul class="pagination" id="myPager2"></ul>
+							</div>
+						</div>
+					</div>
+					<hr>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -233,12 +284,12 @@
 		pager.data("curr", 0);
 
 		if (settings.showPrevNext) {
-			$('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
+			$('_$ta_$tag_________________________«_$ta_$tag').appendTo(pager);
 		}
 
 		var curr = 0;
 		while (numPages > curr && (settings.hidePageNumbers == false)) {
-			$('<li><a href="#" class="page_link">' + (curr + 1) + '</a></li>')
+			$('_$ta_$tag_________________________' + (curr + 1) + '_$ta_$tag')
 					.appendTo(pager);
 			curr++;
 		}
@@ -250,7 +301,7 @@
 		}
 
 		if (settings.showPrevNext) {
-			$('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
+			$('_$ta_$tag_________________________»_$ta_$tag').appendTo(pager);
 		}
 
 		pager.find('.page_link:first').addClass('active');

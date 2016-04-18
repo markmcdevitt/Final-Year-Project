@@ -1,7 +1,5 @@
 package com.finalspringproject.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -28,10 +26,6 @@ public class LoginController {// here
 	public String showLogin() {
 		return "login";
 
-	}
-
-	private static String removeLastChar(String str) {
-		return str.substring(0, str.length() - 1);
 	}
 
 	@RequestMapping("/denied")
