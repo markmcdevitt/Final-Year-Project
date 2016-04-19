@@ -1,5 +1,7 @@
 package com.finalspringproject.controllers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +23,7 @@ public class IngredientController {
 	private RecipeService recipeService;
 	private UsersService usersService;
 	private RecipeController recipeController;
-	
-	
+
 	@Autowired
 	public void setRecipeController(RecipeController recipeController) {
 		this.recipeController = recipeController;
@@ -39,11 +40,10 @@ public class IngredientController {
 	}
 
 	@RequestMapping("/adjustRecipe/{id}")
-	public String adjustRecipe(Model model, @PathVariable int id,
-			@RequestParam(value = "quantity") String quan) {
+	public String adjustRecipe(Model model, @PathVariable int id, @RequestParam(value = "quantity") String quan) {
 
 		Recipe recipe = recipeService.getOneRecipe(id);
-		List<Recipe> recipeList= new ArrayList<Recipe>();
+		List<Recipe> recipeList = new ArrayList<Recipe>();
 		int quantity = Integer.parseInt(quan);
 
 		List<Ingredient> ingredientList = recipe.getIngredients();// ingredients
@@ -53,17 +53,35 @@ public class IngredientController {
 			double ingAmount = 0;
 			try {
 				ingAmount = Double.parseDouble(ingredient.getIngredientAmount());// amount
+
 			} catch (Exception e) {
 			}
-			double oneServing = ingAmount / serves;
-			double newAmount = oneServing * quantity;
-			ingredient.setIngredientAmount(recipeController.ingredientAmount(newAmount));
-			
+
+			if (ingAmount == 1) {
+				double oneServing = ingAmount * quantity;
+				ingredient.setIngredientAmount(String.valueOf((int)oneServing));
+			} else {
+				double oneServing = ingAmount / serves;
+				double newAmount = oneServing * quantity;
+				ingredient.setIngredientAmount(recipeController.ingredientAmount(newAmount));
+			}
+
 		}
-		
+		double calories = ((Double.parseDouble(recipe.getCalories())/serves)*Double.parseDouble(quan));
+		String cal= String.valueOf((int)round(calories,0));
 		recipe.setIngredients(ingredientList);
+		recipe.setPeopleFed(quan);
+		recipe.setCalories(cal);
 		recipeList.add(recipe);
 		model.addAttribute("recipe", recipeList);
 		return "recipe";
+	}
+	
+	public double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
 	}
 }

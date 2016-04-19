@@ -7,16 +7,16 @@
 		document.f.j_username.focus();
 	});
 </script>
-
-
-<div class="container">
+<br>
+<br>
+<div class="container" style="margin-top:30px">
 	<form name='f'
 		action='${pageContext.request.contextPath}/j_spring_security_check'
 		method='POST'>
 		<div class="row">
-			<div class="col-md-offset-5 col-md-3">
+			<div class="col-md-offset-4 col-md-3">
 				<div class="form-login">
-					<h4>Welcome back.</h4>
+					<h4>Welcome back</h4>
 
 					<input type='text' name='j_username'
 						class="form-control input-sm chat-input" placeholder="Username">
@@ -38,7 +38,7 @@
 						<span class="group-btn">
 							<button type="submit" value="login"
 								class="btn btn-primary btn-md">
-								login <i class="fa fa-sign-in"></i>
+								Login <i class="fa fa-sign-in"></i>
 							</button>
 						</span>
 
@@ -47,7 +47,7 @@
 				</div>
 				<br />
 				<p>
-					<a href="<c:url value="/newaccount"/>">Dont Have A Account?</a>
+					<a href="<c:url value="/newaccount"/>">Don't have an account?</a>
 				</p>
 			</div>
 		</div>

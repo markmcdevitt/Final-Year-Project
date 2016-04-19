@@ -18,7 +18,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<c:url value='/'/>">Repice</a>
+			<a class="navbar-brand" href="<c:url value='/'/>">Recipe</a>
 		</div>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav navbar-right">
@@ -101,8 +101,7 @@
 
 				<div class="input-group" id="adv-search">
 
-
-					<div class="input-group-btn">
+				<div class="input-group-btn">
 						<div class="btn-group" role="group">
 							<div class="dropdown dropdown-lg">
 								<input type="text" class="form-control" placeholder="Search"
@@ -119,7 +118,7 @@
 											<thead>
 												<tr>
 													<th>Allergy</th>
-													<th>Checkbox</th>
+													<th></th>
 												</tr>
 											</thead>
 											<tbody>
@@ -179,19 +178,16 @@
 														<input id="soyHidden" name="soy" type="hidden" value="no"></td>
 												</tr>
 											</tbody>
-										</table>
-									</div>
-									<br>
-									<div class="form-group">
-										<label for="contain">Exclude Allergies</label>
-										<tr>
-											<br>
-											<td><input id="exclude" name="exclude" type="checkbox"
+												<tr>
+													<th>Exclude Allergies</th>
+													<td><input id="exclude" name="exclude" type="checkbox"
 												data-toggle="checkbox-x" data-enclosed-label="true">
 												<input id="excludeHidden" name="exclude" type="hidden"
 												value="no"></td>
-										</tr>
+												</tr>
+												</table>
 									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -229,6 +225,18 @@
 	if (document.getElementById("exclude").checked) {
 		document.getElementById('excludeHidden').disabled = true;
 	}
+</script>
+
+<script>
+$(document).ready(function(e){
+    $('.search-panel .dropdown-menu').find('a').click(function(e) {
+		e.preventDefault();
+		var param = $(this).attr("href").replace("#","");
+		var concept = $(this).text();
+		$('.search-panel span#search_concept').text(concept);
+		$('.input-group #search_param').val(param);
+	});
+});
 </script>
 
 <style>

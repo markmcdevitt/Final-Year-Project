@@ -43,6 +43,8 @@
 		}
 	}
 </script>
+<br>
+<br>
 <div class="container">
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
@@ -136,7 +138,7 @@
 						</div>
 
 						<div class="form-group">
-							<div class="col-md-12 text-right">
+							<div class="col-md-12 text-center">
 								<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 							</div>
 						</div>

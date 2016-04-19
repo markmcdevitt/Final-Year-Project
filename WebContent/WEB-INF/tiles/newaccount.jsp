@@ -2,7 +2,8 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<br>
+<br>
 <div class="container">
 	<div class="row centered-form">
 		<div
@@ -55,7 +56,7 @@
 
 
 						<div class="form-group">
-							<div class="col-md-12 text-right">
+							<div class="col-md-12 text-center">
 								<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 							</div>
 						</div>

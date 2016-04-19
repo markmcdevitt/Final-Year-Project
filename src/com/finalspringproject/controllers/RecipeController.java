@@ -322,20 +322,21 @@ public class RecipeController {
 		String finishedAmount;
 		if (amount % 1 == 0) {
 			int noDecimalPoint = (int) amount;
+			System.out.println("no decimal point "+noDecimalPoint);
 			finishedAmount = String.valueOf(noDecimalPoint);
 		} else {
 			String aString = Double.toString(amount);
 			String[] fraction = aString.split("\\.");
 			denominator = (int) Math.pow(10, fraction[1].length());
 
-			if (fraction[1].equals("333333333333333")) {
+			if (fraction[1].equals("333333333333333")||fraction[1].contains("3333333333333333")) {
 				fraction[1] = "33";
 				denominator = 99;
-			}
-			if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
+			}else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
 				fraction[1] = "66";
 				denominator = 99;
 			}
+			
 			numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
 			for (int i2 = 2; i2 <= 33; i2++) {
 				if (numerator % i2 == 0 && denominator % i2 == 0) {
@@ -345,12 +346,11 @@ public class RecipeController {
 				}
 			}
 			if (numerator > denominator && !(denominator == 1)) {
-
 				int whole = (int) Math.floor(numerator / denominator);
 				int newNum2 = numerator - (whole * denominator);
-				finishedAmount = whole + " " + newNum2 + "/" + denominator;
-			} else if (numerator > denominator && (denominator == 1)) {
-				
+				finishedAmount = whole + "-" + newNum2 + "/" + denominator;
+			} else if (numerator > denominator && (denominator == 1)||numerator > denominator && (denominator == 0)) {
+				System.out.println("numerator "+numerator);
 				finishedAmount = String.valueOf(numerator);
 			}else{
 				finishedAmount = numerator + "/" + denominator;
