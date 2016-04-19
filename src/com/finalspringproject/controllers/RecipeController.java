@@ -320,7 +320,6 @@ public class RecipeController {
 		int denominator;
 		int numerator;
 		String finishedAmount;
-		System.out.println(amount);
 		if (amount % 1 == 0) {
 			int noDecimalPoint = (int) amount;
 			finishedAmount = String.valueOf(noDecimalPoint);
@@ -345,7 +344,19 @@ public class RecipeController {
 					i2 = 2;
 				}
 			}
-			finishedAmount = numerator + "/" + denominator;
+			if (numerator > denominator && !(denominator == 1)) {
+
+				int whole = (int) Math.floor(numerator / denominator);
+				int newNum2 = numerator - (whole * denominator);
+				finishedAmount = whole + " " + newNum2 + "/" + denominator;
+			} else if (numerator > denominator && (denominator == 1)) {
+				
+				finishedAmount = String.valueOf(numerator);
+			}else{
+				finishedAmount = numerator + "/" + denominator;
+			}
+			
+			
 		}
 		if (amount == 0.0) {
 			System.out.println("in the zero " + amount);
@@ -358,22 +369,24 @@ public class RecipeController {
 		List<Ingredient> ingredient = new ArrayList<Ingredient>();
 		Recipe oneRecipe = recipeService.getOneRecipe(id);
 
-		try {
-			for (Ingredient i : oneRecipe.getIngredients()) {
-				Ingredient ing = new Ingredient();
-				String createAmount = i.getIngredientAmount();
-				double amount = Double.parseDouble(createAmount);
+		for (Ingredient i : oneRecipe.getIngredients()) {
+			Ingredient ing = new Ingredient();
+			String createAmount = i.getIngredientAmount();
+			double amount=0;
+			try {
+				 amount = Double.parseDouble(createAmount);
 
-				String finishedAmount = ingredientAmount(amount);
-				ing.setIngredientAmount(finishedAmount);
-				ing.setIngredientName(i.getIngredientName());
-				ingredient.add(ing);
-
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
-			oneRecipe.setIngredients(ingredient);
-		} catch (Exception e) {
-			// TODO: handle exception
+			
+			String finishedAmount = ingredientAmount(amount);
+			ing.setIngredientAmount(finishedAmount);
+			ing.setIngredientName(i.getIngredientName());
+			ingredient.add(ing);
 		}
+
+		oneRecipe.setIngredients(ingredient);
 
 		List<Recipe> recipe = new ArrayList<Recipe>();
 		recipe.add(oneRecipe);
@@ -431,7 +444,6 @@ public class RecipeController {
 		complicatedWords.add("simmer");
 		complicatedWords.add("shredded");
 
-		System.out.println(score + " before");
 		for (int i = 0; i < complicatedWords.size(); i++) {
 			for (Instructions instruction : instructionList) {
 				if (instruction.getSteps().contains(complicatedWords.get(i))) {
@@ -440,9 +452,6 @@ public class RecipeController {
 			}
 
 		}
-
-		System.out.println(score + " after");
-
 		String level;
 
 		if (score > 45) {

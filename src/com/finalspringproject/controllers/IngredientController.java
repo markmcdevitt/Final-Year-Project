@@ -1,5 +1,6 @@
 package com.finalspringproject.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,20 +43,27 @@ public class IngredientController {
 			@RequestParam(value = "quantity") String quan) {
 
 		Recipe recipe = recipeService.getOneRecipe(id);
+		List<Recipe> recipeList= new ArrayList<Recipe>();
 		int quantity = Integer.parseInt(quan);
 
 		List<Ingredient> ingredientList = recipe.getIngredients();// ingredients
 		int serves = Integer.parseInt(recipe.getPeopleFed());// how many
 
 		for (Ingredient ingredient : ingredientList) {
-			double ingAmount = Double.parseDouble(ingredient.getIngredientAmount());// amount
+			double ingAmount = 0;
+			try {
+				ingAmount = Double.parseDouble(ingredient.getIngredientAmount());// amount
+			} catch (Exception e) {
+			}
 			double oneServing = ingAmount / serves;
 			double newAmount = oneServing * quantity;
-			
 			ingredient.setIngredientAmount(recipeController.ingredientAmount(newAmount));
+			
 		}
+		
 		recipe.setIngredients(ingredientList);
-		model.addAttribute("recipe", recipe);
+		recipeList.add(recipe);
+		model.addAttribute("recipe", recipeList);
 		return "recipe";
 	}
 }

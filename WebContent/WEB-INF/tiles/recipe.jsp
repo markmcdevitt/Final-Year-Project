@@ -1,6 +1,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -266,4 +267,13 @@ body {
 							}
 						});
 			});
+</script>
+<script>
+	function reduce(numerator, denominator) {
+		var gcd = function gcd(a, b) {
+			return b ? gcd(b, a % b) : a;
+		};
+		gcd = gcd(numerator, denominator);
+		return [ numerator / gcd, denominator / gcd ];
+	}
 </script>
