@@ -29,22 +29,22 @@
 
         <!-- First Featurette -->
         <div class="featurette" id="about">
-            <img class="featurette-image img-circle img-responsive pull-right" src="${pageContext.request.contextPath}/static/images/pic3.jpg">
-            <h2 class="featurette-heading">Learn a Huge Range of Recipes
-                <span class="text-muted">For Any Occassion </span>
+            <img class="featurette-image img-circle img-responsive pull-right" src="${pageContext.request.contextPath}/static/images/pic.jpg">
+            <h2 class="featurette-heading">Dont Know What To Cook?
+                <span class="text-muted">Try The Recipe Generator </span>
             </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <p class="lead">All you have to do is enter the ingredients you have at home, and the generator will pick the best suited recipes for you.</p>
         </div>
 
         <hr class="featurette-divider">
 
         <!-- Second Featurette -->
         <div class="featurette" id="services">
-            <img class="featurette-image img-circle img-responsive pull-left" src="${pageContext.request.contextPath}/static/images/pic.jpg">
-            <h2 class="featurette-heading">The Second Heading
-                <span class="text-muted">Is Pretty Cool Too.</span>
+            <img class="featurette-image img-circle img-responsive pull-left" src="${pageContext.request.contextPath}/static/images/pic3.jpg">
+            <h2 class="featurette-heading">Plan Your Meals
+                <span class="text-muted">With The Recipe Planner </span>
             </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <p class="lead">To help orgainise your meals for the week. Planning your meals will help you eat healthier, shop more efficently and will save you money.</p>
         </div>
 
         <hr class="featurette-divider">
@@ -52,10 +52,10 @@
         <!-- Third Featurette -->
         <div class="featurette" id="contact">
             <img class="featurette-image img-circle img-responsive pull-right" src="${pageContext.request.contextPath}/static/images/pic2.jpg">
-            <h2 class="featurette-heading">The Third Heading
-                <span class="text-muted">Will Seal the Deal.</span>
+            <h2 class="featurette-heading">Save Money
+                <span class="text-muted">By Using the Shopping List.</span>
             </h2>
-            <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+            <p class="lead">Using your recipe planner will add the ingredients of any recipe saved to your shopping list. Using the shopping list will save you time, reduce waste and will help you eat healthier.</p>
         </div>
 
         <hr class="featurette-divider">

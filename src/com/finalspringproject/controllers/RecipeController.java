@@ -316,53 +316,23 @@ public class RecipeController {
 
 	}
 
-	public String ingredientAmount(double amount) {
-		int denominator;
-		int numerator;
+	public Ingredient ingredientAmount(double amount, String name) {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setIngredientName(name);
 		String finishedAmount;
-		if (amount % 1 == 0) {
-			int noDecimalPoint = (int) amount;
-			System.out.println("no decimal point "+noDecimalPoint);
-			finishedAmount = String.valueOf(noDecimalPoint);
-		} else {
-			String aString = Double.toString(amount);
-			String[] fraction = aString.split("\\.");
-			denominator = (int) Math.pow(10, fraction[1].length());
-
-			if (fraction[1].equals("333333333333333")||fraction[1].contains("3333333333333333")) {
-				fraction[1] = "33";
-				denominator = 99;
-			}else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
-				fraction[1] = "66";
-				denominator = 99;
-			}
-			
-			numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
-			for (int i2 = 2; i2 <= 33; i2++) {
-				if (numerator % i2 == 0 && denominator % i2 == 0) {
-					numerator = numerator / i2;
-					denominator = denominator / i2;
-					i2 = 2;
-				}
-			}
-			if (numerator > denominator && !(denominator == 1)) {
-				int whole = (int) Math.floor(numerator / denominator);
-				int newNum2 = numerator - (whole * denominator);
-				finishedAmount = whole + "-" + newNum2 + "/" + denominator;
-			} else if (numerator > denominator && (denominator == 1)||numerator > denominator && (denominator == 0)) {
-				System.out.println("numerator "+numerator);
-				finishedAmount = String.valueOf(numerator);
-			}else{
-				finishedAmount = numerator + "/" + denominator;
-			}
-			
-			
-		}
 		if (amount == 0.0) {
 			System.out.println("in the zero " + amount);
 			finishedAmount = "-";
+			ingredient.setIngredientAmount(finishedAmount);
+		}else if (amount % 1 == 0) {
+			System.out.println(ingredient.getIngredientName()+ " is a whole number no fraction "+ amount);	
+			ingredient = noFraction(amount, name);
+		} else {
+			System.out.println(ingredient.getIngredientName()+ " is a fraction "+ amount);	
+			ingredient = fraction(amount, name);
 		}
-		return finishedAmount;
+		System.out.println("THE INGREDIENT: "+ ingredient.toString());
+		return ingredient;
 	}
 
 	public List<Recipe> getOneRecipe(int id) {
@@ -372,14 +342,14 @@ public class RecipeController {
 		for (Ingredient i : oneRecipe.getIngredients()) {
 			Ingredient ing = new Ingredient();
 			String createAmount = i.getIngredientAmount();
-			double amount=0;
+			double amount = 0;
 			try {
-				 amount = Double.parseDouble(createAmount);
+				amount = Double.parseDouble(createAmount);
 
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
+
 			String finishedAmount = ingredientAmount(amount);
 			ing.setIngredientAmount(finishedAmount);
 			ing.setIngredientName(i.getIngredientName());
@@ -472,5 +442,163 @@ public class RecipeController {
 			level = "Newbie";
 		}
 		return level;
+	}
+
+	public String ingredientAmount(double amount) {
+		int denominator;
+		int numerator;
+		String finishedAmount;
+		if (amount % 1 == 0) {
+			int noDecimalPoint = (int) amount;
+			System.out.println("no decimal point " + noDecimalPoint);
+			finishedAmount = String.valueOf(noDecimalPoint);
+		} else {
+			String aString = Double.toString(amount);
+			String[] fraction = aString.split("\\.");
+			denominator = (int) Math.pow(10, fraction[1].length());
+
+			if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")) {
+				fraction[1] = "33";
+				denominator = 99;
+			} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
+				fraction[1] = "66";
+				denominator = 99;
+			}
+
+			numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
+			for (int i2 = 2; i2 <= 33; i2++) {
+				if (numerator % i2 == 0 && denominator % i2 == 0) {
+					numerator = numerator / i2;
+					denominator = denominator / i2;
+					i2 = 2;
+				}
+			}
+			if (numerator > denominator && !(denominator == 1)) {
+				int whole = (int) Math.floor(numerator / denominator);
+				int newNum2 = numerator - (whole * denominator);
+
+				finishedAmount = whole + "-" + newNum2 + "/" + denominator;
+			} else if (numerator > denominator && (denominator == 1) || numerator > denominator && (denominator == 0)) {
+				System.out.println("numerator " + numerator);
+				finishedAmount = String.valueOf(numerator);
+			} else {
+				finishedAmount = numerator + "/" + denominator;
+			}
+
+		}
+		if (amount == 0.0) {
+			System.out.println("in the zero " + amount);
+			finishedAmount = "-";
+		}
+		return finishedAmount;
+	}
+
+	public Ingredient noFraction(double amount, String name) {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setIngredientName(name);
+		int noDecimalPoint = (int) amount;
+		String finishedAmount = null;
+		int tablespoon = 0;
+		
+		if (amount % 3 == 0 && name.contains("teaspoon")) {
+			
+			System.out.println(name+ " can be diveded by 3 and has a teaspoon "+ amount);
+			
+			tablespoon = (int) (amount / 3.0);
+			name.replace("teaspoon", "tablespoon");
+			ingredient.setIngredientName(name);
+			System.out.println(name);
+			ingredient.setIngredientAmount(String.valueOf(tablespoon));
+			System.out.println(ingredient.getIngredientName());
+
+		} else if (name.contains("teaspoon")) {
+
+			System.out.println(name+ " cannot be diveded by 3 and has a teaspoon "+ amount);
+			System.out.println("no here");
+			int check = (int) amount;
+			do {
+				check -= 3;
+				amount -= 3;
+				tablespoon += 1;
+			} while (check >= 3);
+			ingredient.setIngredientName(name);
+
+			finishedAmount = tablespoon + " tablespoons and " + amount;
+			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
+		} else {
+			System.out.println(name+ " NO TEASPOON "+ amount);
+			System.out.println("HEREEEE " + noDecimalPoint);
+			finishedAmount = String.valueOf(noDecimalPoint);
+			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
+		}
+		return ingredient;
+
+	}
+
+	public Ingredient fraction(double amount, String name) {
+		Ingredient ingredient = new Ingredient();
+		int denominator;
+		int numerator;
+		String finishedAmount = null;
+		String aString = Double.toString(amount);
+		String[] fraction = aString.split("\\.");
+		denominator = (int) Math.pow(10, fraction[1].length());
+
+		if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")) {
+			fraction[1] = "33";
+			denominator = 99;
+		} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
+			fraction[1] = "66";
+			denominator = 99;
+		}
+
+		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
+		for (int i2 = 2; i2 <= 33; i2++) {
+			if (numerator % i2 == 0 && denominator % i2 == 0) {
+				numerator = numerator / i2;
+				denominator = denominator / i2;
+				i2 = 2;
+			}
+		}
+		if (numerator > denominator && !(denominator == 1)) {
+			int whole = (int) Math.floor(numerator / denominator);
+			int newNum2 = numerator - (whole * denominator);
+			if (name.contains("teaspoon") && whole >= 3) {
+				int tablespoon = 0;
+				if (whole % 3 == 0) {
+					tablespoon = whole / 3;
+					finishedAmount = tablespoon + " tablespoons " + newNum2 + "/" + denominator;
+					ingredient.setIngredientAmount(finishedAmount);
+					ingredient.setIngredientName(name);
+				} else {
+					int check = whole;
+					do {
+						check -= 3;
+						whole -= 3;
+						tablespoon += 1;
+					} while (check >= 3);
+					finishedAmount = tablespoon + " tablespoons " + whole + "-" + newNum2 + "/" + denominator;
+					ingredient.setIngredientAmount(finishedAmount);
+					ingredient.setIngredientName(name);
+				}
+
+			} else {
+
+				finishedAmount = whole + "-" + newNum2 + "/" + denominator;
+				ingredient.setIngredientAmount(finishedAmount);
+				ingredient.setIngredientName(name);
+			}
+		} else if (numerator > denominator && (denominator == 1) || numerator > denominator && (denominator == 0)) {
+			System.out.println("numerator " + numerator);
+			finishedAmount = String.valueOf(numerator);
+			ingredient.setIngredientAmount(finishedAmount);
+			ingredient.setIngredientName(name);
+		} else {
+			finishedAmount = numerator + "/" + denominator;
+			ingredient.setIngredientAmount(finishedAmount);
+			ingredient.setIngredientName(name);
+		}
+
+		return ingredient;
 	}
 }
