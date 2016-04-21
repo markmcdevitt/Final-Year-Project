@@ -78,7 +78,6 @@ public class IngredientController {
 		double calories = ((Double.parseDouble(recipe.getCalories()) / serves) * Double.parseDouble(quan));
 		String cal = String.valueOf((int) round(calories, 0));
 		recipe.setIngredients(ingredientList);
-		System.out.println("/////////////////////////////////////////////////////////////////////////");
 		for (Ingredient ingredient : ingredientList) {
 			System.out.println(ingredient.toString());
 		}
