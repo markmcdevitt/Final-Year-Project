@@ -167,7 +167,8 @@ public class RecipeController {
 			@RequestParam(value = "ingredientName") String ingredientName, BindingResult result, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
 
-		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName);
+		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName, recipe);
+
 		recipeList = new ArrayList<Recipe>();
 		if (result.hasErrors()) {
 			return "createrecipe";
@@ -200,9 +201,13 @@ public class RecipeController {
 
 	}
 
-	public List<Ingredient> ingredients(String ingredientAmount, String ingredientName) {
+	public List<Ingredient> ingredients(String ingredientAmount, String ingredientName, Recipe recipe) {
+
 		List<Ingredient> ingList = new ArrayList<Ingredient>();
 		List<String> amountList = Arrays.asList(ingredientAmount.split(","));
+		for (String s : amountList) {
+			System.out.println(s);
+		}
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
 
 		try {
@@ -218,8 +223,89 @@ public class RecipeController {
 		} catch (Exception e) {
 
 		}
-
+		for (Ingredient i : ingList) {
+			if (i.getIngredientAmount().contains("/")) {
+				System.out.println(i.getIngredientAmount());
+				System.out.println("fraction");
+				List<String> list = Arrays.asList(i.getIngredientAmount().split("/"));
+				String whole = "0";
+				int n = 0;
+				if (list.get(0).contains(" ")) {
+					String str = list.get(0);
+					System.out.println(" has a space "+ str);
+					String[] splited = str.split("\\s+");
+					System.out.println("splited:"+ splited[0]);
+					whole = splited[0] + " ";
+					System.out.println("should be 1 "+ splited[splited.length-1]);
+					n = Integer.parseInt(splited[splited.length-1]);
+				} else if (list.get(0).contains("-")) {
+					String str = list.get(0);
+					String[] splited = str.split("\\-");
+					whole = splited[0] + " ";
+					n = Integer.parseInt(splited[splited.length-1]);
+				}else{
+					n = Integer.parseInt(list.get(0));
+				}
+				System.out.println(list.get(0)+"something "+ list.get(1));
+				int d = Integer.parseInt(list.get(1));
+				list=null;
+				double fraction  = (double)n / (double)d;
+				System.out.println(fraction +" = "+ (double) n + "/" +(double) d);
+				double complete=Double.parseDouble(whole) + fraction;
+				System.out.println(complete +" = "+ whole + "+" +fraction);
+				
+				String string = (String.valueOf(complete));
+				System.out.println("string   "+string);
+				i.setIngredientName(i.getIngredientName());
+				i.setIngredientAmount(string);
+			}
+			
+		}
+		for(Ingredient i : ingList){
+			System.out.println(i.toString());
+		}
 		return ingList;
+	}
+
+	public Ingredient wholeNumber(double ingAmount, int serves, int quantity, Ingredient ingredient) {
+
+		double oneServing = ingAmount / serves;
+		double newAmount = oneServing * quantity;
+
+		if (newAmount % 1 == 0) {
+			System.out.println(ingredient.getIngredientName() + " is a one " + ingredient.getIngredientAmount());
+
+			int tablespoon = 0;
+
+			if (newAmount % 3 == 0 && ingredient.getIngredientName().contains("teaspoon")) {
+
+				tablespoon = (int) (newAmount / 3.0);
+				String name = ingredient.getIngredientName().replace("teaspoon", "tablespoon");
+				ingredient.setIngredientName(name);
+				ingredient.setIngredientAmount(String.valueOf(tablespoon));
+
+			} else if (ingredient.getIngredientName().contains("teaspoon") && newAmount >= 3) {
+
+				int check = (int) newAmount;
+				do {
+					check -= 3;
+					newAmount -= 3;
+					tablespoon += 1;
+				} while (check >= 3);
+
+				String finishedAmount = tablespoon + " tablespoons and " + newAmount;
+				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
+			} else {
+				System.out.println(ingredient.getIngredientName() + " else " + newAmount);
+
+				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
+			}
+
+		} else {
+			ingredient = ingredientAmount(newAmount, ingredient.getIngredientName());
+		}
+
+		return ingredient;
 	}
 
 	@RequestMapping("/findrecipe")
@@ -320,11 +406,11 @@ public class RecipeController {
 		Ingredient ingredient = new Ingredient();
 		ingredient.setIngredientName(name);
 		String finishedAmount;
-		
+
 		if (amount == 0.0) {
 			finishedAmount = "-";
 			ingredient.setIngredientAmount(finishedAmount);
-		}else if (amount % 1 == 0) {
+		} else if (amount % 1 == 0) {
 			ingredient = noFraction(amount, name);
 		} else {
 			ingredient = fraction(amount, name);
@@ -447,7 +533,6 @@ public class RecipeController {
 		String finishedAmount;
 		if (amount % 1 == 0) {
 			int noDecimalPoint = (int) amount;
-			System.out.println("no decimal point " + noDecimalPoint);
 			finishedAmount = String.valueOf(noDecimalPoint);
 		} else {
 			String aString = Double.toString(amount);
@@ -476,7 +561,6 @@ public class RecipeController {
 
 				finishedAmount = whole + "-" + newNum2 + "/" + denominator;
 			} else if (numerator > denominator && (denominator == 1) || numerator > denominator && (denominator == 0)) {
-				System.out.println("numerator " + numerator);
 				finishedAmount = String.valueOf(numerator);
 			} else {
 				finishedAmount = numerator + "/" + denominator;
@@ -484,7 +568,6 @@ public class RecipeController {
 
 		}
 		if (amount == 0.0) {
-			System.out.println("in the zero " + amount);
 			finishedAmount = "-";
 		}
 		return finishedAmount;
@@ -496,22 +579,16 @@ public class RecipeController {
 		int noDecimalPoint = (int) amount;
 		String finishedAmount = null;
 		int tablespoon = 0;
-		
+
 		if (amount % 3 == 0 && name.contains("teaspoon")) {
-			
-			System.out.println(name+ " can be diveded by 3 and has a teaspoon "+ amount);
-			
+
 			tablespoon = (int) (amount / 3.0);
 			name.replace("teaspoon", "tablespoon");
 			ingredient.setIngredientName(name);
-			System.out.println(name);
 			ingredient.setIngredientAmount(String.valueOf(tablespoon));
-			System.out.println(ingredient.getIngredientName());
 
 		} else if (name.contains("teaspoon")) {
 
-			System.out.println(name+ " cannot be diveded by 3 and has a teaspoon "+ amount);
-			System.out.println("no here");
 			int check = (int) amount;
 			do {
 				check -= 3;
@@ -523,7 +600,7 @@ public class RecipeController {
 			finishedAmount = tablespoon + " tablespoons and " + amount;
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
-			System.out.println(name+ " NO TEASPOON "+ amount);
+			System.out.println(name + " NO TEASPOON " + amount);
 			System.out.println("HEREEEE " + noDecimalPoint);
 			finishedAmount = String.valueOf(noDecimalPoint);
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));

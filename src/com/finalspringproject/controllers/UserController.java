@@ -104,6 +104,7 @@ public class UserController {
 		user.setAuthority("ROLE_USER");
 		user.setEnabled(true);
 		user.setUserLevel("Newbie");
+		System.out.println("HERE  -->"+user.getUserLevel());
 
 		try {
 			usersService.create(user);
@@ -201,9 +202,7 @@ public class UserController {
 
 	public void usersIngredients(User user, String ingredientName) {
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
-		for(String s:nameList){
-			System.out.println("here--> "+s);
-		}
+
 		List<IngredientsOwned> ingredients = new ArrayList<IngredientsOwned>();
 
 		for (String singleIng : nameList) {

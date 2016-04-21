@@ -53,6 +53,7 @@ public class LoginController {// here
 		}
 		user.setAuthority("ROLE_USER");// same as below
 		user.setEnabled(true);// not set in the form
+		user.setUserLevel("Newbie");
 
 		if (usersService.exists(user.getUsername())) {
 			System.out.println("user exists");
