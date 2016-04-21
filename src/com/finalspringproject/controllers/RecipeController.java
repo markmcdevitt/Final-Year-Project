@@ -232,36 +232,36 @@ public class RecipeController {
 				int n = 0;
 				if (list.get(0).contains(" ")) {
 					String str = list.get(0);
-					System.out.println(" has a space "+ str);
+					System.out.println(" has a space " + str);
 					String[] splited = str.split("\\s+");
-					System.out.println("splited:"+ splited[0]);
+					System.out.println("splited:" + splited[0]);
 					whole = splited[0] + " ";
-					System.out.println("should be 1 "+ splited[splited.length-1]);
-					n = Integer.parseInt(splited[splited.length-1]);
+					System.out.println("should be 1 " + splited[splited.length - 1]);
+					n = Integer.parseInt(splited[splited.length - 1]);
 				} else if (list.get(0).contains("-")) {
 					String str = list.get(0);
 					String[] splited = str.split("\\-");
 					whole = splited[0] + " ";
-					n = Integer.parseInt(splited[splited.length-1]);
-				}else{
+					n = Integer.parseInt(splited[splited.length - 1]);
+				} else {
 					n = Integer.parseInt(list.get(0));
 				}
-				System.out.println(list.get(0)+"something "+ list.get(1));
+				System.out.println(list.get(0) + "something " + list.get(1));
 				int d = Integer.parseInt(list.get(1));
-				list=null;
-				double fraction  = (double)n / (double)d;
-				System.out.println(fraction +" = "+ (double) n + "/" +(double) d);
-				double complete=Double.parseDouble(whole) + fraction;
-				System.out.println(complete +" = "+ whole + "+" +fraction);
-				
+				list = null;
+				double fraction = (double) n / (double) d;
+				System.out.println(fraction + " = " + (double) n + "/" + (double) d);
+				double complete = Double.parseDouble(whole) + fraction;
+				System.out.println(complete + " = " + whole + "+" + fraction);
+
 				String string = (String.valueOf(complete));
-				System.out.println("string   "+string);
+				System.out.println("string   " + string);
 				i.setIngredientName(i.getIngredientName());
 				i.setIngredientAmount(string);
 			}
-			
+
 		}
-		for(Ingredient i : ingList){
+		for (Ingredient i : ingList) {
 			System.out.println(i.toString());
 		}
 		return ingList;
@@ -542,7 +542,8 @@ public class RecipeController {
 			if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")) {
 				fraction[1] = "33";
 				denominator = 99;
-			} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
+			} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")
+					|| fraction[1].equals("06666666666666666") || fraction[1].equals("6666666666666666")) {
 				fraction[1] = "66";
 				denominator = 99;
 			}

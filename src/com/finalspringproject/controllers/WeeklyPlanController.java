@@ -223,6 +223,17 @@ public class WeeklyPlanController {
 
 		List<Ingredient> ingredientList = new ArrayList<Ingredient>(ingList);
 
+		for (Ingredient i : ingredientList) {
+			try {
+				double number = Double.parseDouble(i.getIngredientAmount());
+				int rounded = (int) Math.ceil(number);
+				i.setIngredientAmount(String.valueOf(rounded));
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+
 		if (shoppingListIngredient.isEmpty()) {
 			for (Ingredient ingredient : ingredientList) {
 				ShoppingList shoppingList = new ShoppingList(ingredient.getIngredientAmount(),
@@ -232,11 +243,20 @@ public class WeeklyPlanController {
 				completeList.add(sl);
 			}
 		} else {
+			for (Ingredient ingredient : ingredientList) {
+				ShoppingList shoppingList = new ShoppingList(ingredient.getIngredientAmount(),
+						ingredient.getIngredientName());
+				shoppingList = CheckforConversion(shoppingList);
+				sl = new ShoppingList(shoppingList.getQuantity(), shoppingList.getIngredient());
+				ingredient.setIngredientAmount(sl.getQuantity());
+				ingredient.setIngredientName(sl.getIngredient());
+			}
 			List<ShoppingList> forList = completeList;
 			for (int i = 0; i < forList.size() + ingredientList.size(); i++) {
 				try {
 					if (shoppingListIngredient.contains(ingredientList.get(i).getIngredientName())) {
 						for (int i2 = 0; i2 < completeList.size(); i2++) {
+
 							if (completeList.get(i2).getIngredient()
 									.equals(ingredientList.get(i).getIngredientName())) {
 
@@ -251,17 +271,18 @@ public class WeeklyPlanController {
 								double realAmount2 = Double.parseDouble(amount2);
 
 								double newAmount = realAmount + realAmount2;
-								String finalAmount = String.valueOf(newAmount);
+								int rounded = (int) Math.ceil(newAmount);
+								String finalAmount = String.valueOf(rounded);
 								completeList.get(i2).setQuantity(finalAmount);
 								sl.setQuantity(finalAmount);
 							}
 						}
 
 					} else {
-						sl = new ShoppingList(ingredientList.get(i).getIngredientAmount(),
-								ingredientList.get(i).getIngredientName());
+						double number = Double.parseDouble(ingredientList.get(i).getIngredientAmount());
+						int rounded = (int) Math.ceil(number);
+						sl = new ShoppingList(String.valueOf(rounded), ingredientList.get(i).getIngredientName());
 						completeList.add(sl);
-						System.out.println("in the else " + sl.toString());
 					}
 				} catch (Exception e) {
 					System.out.println(e);
@@ -315,7 +336,7 @@ public class WeeklyPlanController {
 			int rounded = (int) Math.ceil(amountIng);
 			String amount = String.valueOf(rounded);
 			shoppingList.setQuantity(amount);
-			
+
 		} else if (tea.indexOf("cup") != -1) {
 			String ing = shoppingList2.getIngredient().replace("cup", "gram");
 			shoppingList.setIngredient(ing);
@@ -323,7 +344,7 @@ public class WeeklyPlanController {
 			int rounded = (int) Math.ceil(amountIng);
 			String amount = String.valueOf((int) rounded);
 			shoppingList.setQuantity(amount);
-		}else {
+		} else {
 			shoppingList.setIngredient(shoppingList2.getIngredient());
 			shoppingList.setQuantity(shoppingList2.getQuantity());
 		}

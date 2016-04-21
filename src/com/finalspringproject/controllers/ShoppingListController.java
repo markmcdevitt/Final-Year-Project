@@ -77,6 +77,7 @@ public class ShoppingListController {
 		List<User> userList = new ArrayList<User>();
 		User user = shoppingListService.getUserShoppingList(principal.getName());
 		ShoppingList shoppingList = new ShoppingList(ingredientAmount, ingredientName);
+		System.out.println("??"+ingredientName);
 		boolean sameIng = false;
 		
 		for(ShoppingList sl:user.getShoppingList()){
