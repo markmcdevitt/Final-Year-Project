@@ -1,5 +1,7 @@
 package com.finalspringproject.controllers;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -223,7 +225,10 @@ public class WeeklyPlanController {
 
 		if (shoppingListIngredient.isEmpty()) {
 			for (Ingredient ingredient : ingredientList) {
-				sl = new ShoppingList(ingredient.getIngredientAmount(), ingredient.getIngredientName());
+				ShoppingList shoppingList = new ShoppingList(ingredient.getIngredientAmount(),
+						ingredient.getIngredientName());
+				shoppingList = CheckforConversion(shoppingList);
+				sl = new ShoppingList(shoppingList.getQuantity(), shoppingList.getIngredient());
 				completeList.add(sl);
 			}
 		} else {
@@ -290,6 +295,42 @@ public class WeeklyPlanController {
 
 	}
 
+	private ShoppingList CheckforConversion(ShoppingList shoppingList2) {
+		ShoppingList shoppingList = new ShoppingList();
+		String tea = shoppingList2.getIngredient();
+
+		if (tea.indexOf("teaspoon") != -1) {
+
+			String ing = shoppingList2.getIngredient().replace("teaspoon", "gram");
+			shoppingList.setIngredient(ing);
+			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 5;
+			int rounded = (int) Math.ceil(amountIng);
+			String amount = String.valueOf((int) rounded);
+			shoppingList.setQuantity(amount);
+
+		} else if (tea.indexOf("tablespoon") != -1) {
+			String ing = shoppingList2.getIngredient().replace("tablespoon", "gram");
+			shoppingList.setIngredient(ing);
+			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
+			int rounded = (int) Math.ceil(amountIng);
+			String amount = String.valueOf(rounded);
+			shoppingList.setQuantity(amount);
+			
+		} else if (tea.indexOf("cup") != -1) {
+			String ing = shoppingList2.getIngredient().replace("cup", "gram");
+			shoppingList.setIngredient(ing);
+			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
+			int rounded = (int) Math.ceil(amountIng);
+			String amount = String.valueOf((int) rounded);
+			shoppingList.setQuantity(amount);
+		}else {
+			shoppingList.setIngredient(shoppingList2.getIngredient());
+			shoppingList.setQuantity(shoppingList2.getQuantity());
+		}
+
+		return shoppingList;
+	}
+
 	public String date(String olddate) throws ParseException {
 		final String OLD_FORMAT = "yyyy-MM-dd";
 		final String NEW_FORMAT = "dd/MM/yyyy";
@@ -301,6 +342,15 @@ public class WeeklyPlanController {
 		Date d = sdf.parse(oldDateString);
 		sdf.applyPattern(NEW_FORMAT);
 		return newDateString = sdf.format(d);
+	}
+
+	public double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 
 	public Recipe getRecipe() {
