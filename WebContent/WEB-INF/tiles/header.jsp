@@ -22,7 +22,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav navbar-right">
-			<li class="dropdown"><a href="#" class="dropdown-toggle"
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-expanded="false">Categories
 				</a>
 					<ul class="dropdown-menu" role="menu">
@@ -35,12 +35,11 @@
 						<li><a
 							href="${pageContext.request.contextPath}/getAppetisers"><i
 								class="fa fa-fw fa-thumbs-o-up"></i>Appetisers</a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/getDessert"><i
-								class="fa fa-fw fa-thumbs-o-up"></i>Desserts</a></li>				
+						<li><a href="${pageContext.request.contextPath}/getDessert"><i
+								class="fa fa-fw fa-thumbs-o-up"></i>Desserts</a></li>
 					</ul></li>
-			
-			
+
+
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-expanded="false">Hungry?
 				</a>
@@ -101,93 +100,93 @@
 
 				<div class="input-group" id="adv-search">
 
-				<div class="input-group-btn">
+					<div class="input-group-btn">
 						<div class="btn-group" role="group">
 							<div class="dropdown dropdown-lg">
-								<input type="text" class="form-control" placeholder="Search"
-									name="search" />
-								<button type="button" class="btn btn-default dropdown-toggle"
-									data-toggle="dropdown" aria-expanded="false">
-									<span class="caret "></span>
-								</button>
-								<div class="dropdown-menu dropdown-menu-right" role="menu">
+								<div class="form-group">
+									<input type="text" class="form-control" placeholder="Search"
+										name="search"> <input type="button"
+										class="form-control" data-toggle="dropdown"
+										aria-expanded="false" value="Allergies">
 
-
-									<div class="form-group">
-										<table class='table borderless' style="width: 30%" style="width: 50%">
-											<thead>
-												<tr>
-													<th>Allergy</th>
-													<th></th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td>Nuts</td>
-													<td><input id="nuts" name="nuts" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true">
-														<input id="nutsHidden" name="nuts" type="hidden"
-														value="no"></td>
-												</tr>
-												<tr>
-													<td>Milk</td>
-													<td><input id="milk" name="milk" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true">
-														<input id="milkHidden" name="milk" type="hidden"
-														value="no"></td>
-												</tr>
-												<tr>
-													<td>Peanuts</td>
-													<td><input id="peanuts" name="peanuts" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true">
-														<input id="peanutsHidden" name="peanuts" type="hidden"
-														value="no"></td>
-												</tr>
-												<tr>
-													<td>Eggs</td>
-													<td><input id="eggs" name="eggs" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true"><input
-														id="eggsHidden" name="eggs" type="hidden" value="no"></td>
-												</tr>
-												<tr>
-													<td>Fish</td>
-													<td><input id="fish" name="fish" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true">
-														<input id="fishHidden" name="fish" type="hidden"
-														value="no"></td>
-												</tr>
-												<tr>
-													<td>Shellfish</td>
-													<td><input id="shellfish" name="shellfish"
-														type="checkbox" data-toggle="checkbox-x"
-														data-enclosed-label="true"> <input
-														id="shellfishHidden" name="shellfish" type="hidden"
-														value="no"></td>
-												</tr>
-												<tr>
-													<td>Wheat</td>
-													<td><input id="wheat" name="wheat" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true">
-														<input id="wheatHidden" name="wheat" type="hidden"
-														value="no"></td>
-												</tr>
-												<tr>
-													<td>Soy</td>
-													<td><input id="soy" name="soy" type="checkbox"
-														data-toggle="checkbox-x" data-enclosed-label="true">
-														<input id="soyHidden" name="soy" type="hidden" value="no"></td>
-												</tr>
-											</tbody>
+									<div class="dropdown-menu dropdown-menu-right" role="menu">
+										<div class="form-group">
+											<table class='table borderless' style="width: 30%"
+												style="width: 50%">
+												<thead>
+													<tr>
+														<th>Allergy</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td>Nuts</td>
+														<td><input id="nuts" name="nuts" type="checkbox"
+															data-toggle="checkbox-x" data-enclosed-label="true">
+															<input id="nutsHidden" name="nuts" type="hidden"
+															value="no"></td>
+													</tr>
+													<tr>
+														<td>Milk</td>
+														<td><input id="milk" name="milk" type="checkbox"
+															data-toggle="checkbox-x" data-enclosed-label="true">
+															<input id="milkHidden" name="milk" type="hidden"
+															value="no"></td>
+													</tr>
+													<tr>
+														<td>Peanuts</td>
+														<td><input id="peanuts" name="peanuts"
+															type="checkbox" data-toggle="checkbox-x"
+															data-enclosed-label="true"> <input
+															id="peanutsHidden" name="peanuts" type="hidden"
+															value="no"></td>
+													</tr>
+													<tr>
+														<td>Eggs</td>
+														<td><input id="eggs" name="eggs" type="checkbox"
+															data-toggle="checkbox-x" data-enclosed-label="true"><input
+															id="eggsHidden" name="eggs" type="hidden" value="no"></td>
+													</tr>
+													<tr>
+														<td>Fish</td>
+														<td><input id="fish" name="fish" type="checkbox"
+															data-toggle="checkbox-x" data-enclosed-label="true">
+															<input id="fishHidden" name="fish" type="hidden"
+															value="no"></td>
+													</tr>
+													<tr>
+														<td>Shellfish</td>
+														<td><input id="shellfish" name="shellfish"
+															type="checkbox" data-toggle="checkbox-x"
+															data-enclosed-label="true"> <input
+															id="shellfishHidden" name="shellfish" type="hidden"
+															value="no"></td>
+													</tr>
+													<tr>
+														<td>Wheat</td>
+														<td><input id="wheat" name="wheat" type="checkbox"
+															data-toggle="checkbox-x" data-enclosed-label="true">
+															<input id="wheatHidden" name="wheat" type="hidden"
+															value="no"></td>
+													</tr>
+													<tr>
+														<td>Soy</td>
+														<td><input id="soy" name="soy" type="checkbox"
+															data-toggle="checkbox-x" data-enclosed-label="true">
+															<input id="soyHidden" name="soy" type="hidden" value="no"></td>
+													</tr>
+												</tbody>
 												<tr>
 													<th>Exclude Allergies</th>
 													<td><input id="exclude" name="exclude" type="checkbox"
-												data-toggle="checkbox-x" data-enclosed-label="true">
-												<input id="excludeHidden" name="exclude" type="hidden"
-												value="no"></td>
+														data-toggle="checkbox-x" data-enclosed-label="true">
+														<input id="excludeHidden" name="exclude" type="hidden"
+														value="no"></td>
 												</tr>
-												</table>
+											</table>
+										</div>
 									</div>
-									
 								</div>
 							</div>
 						</div>
@@ -228,15 +227,15 @@
 </script>
 
 <script>
-$(document).ready(function(e){
-    $('.search-panel .dropdown-menu').find('a').click(function(e) {
-		e.preventDefault();
-		var param = $(this).attr("href").replace("#","");
-		var concept = $(this).text();
-		$('.search-panel span#search_concept').text(concept);
-		$('.input-group #search_param').val(param);
+	$(document).ready(function(e) {
+		$('.search-panel .dropdown-menu').find('a').click(function(e) {
+			e.preventDefault();
+			var param = $(this).attr("href").replace("#", "");
+			var concept = $(this).text();
+			$('.search-panel span#search_concept').text(concept);
+			$('.input-group #search_param').val(param);
+		});
 	});
-});
 </script>
 
 <style>

@@ -15,7 +15,6 @@
 	margin: 5px;
 }
 </style>
-<br>
 <c:forEach var="user" items="${userList}">
 <c:if test="${user.shoppingList.size()>0}" var='0'>
 <form

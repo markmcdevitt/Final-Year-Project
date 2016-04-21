@@ -55,11 +55,9 @@ public class SearchController {
 		List<Recipe> recipeList = new ArrayList<Recipe>();
 		recipeList = recipeService.find(search);
 		User user = userService.getUser(principal.getName());
-	
+
 		boolean containsAllergy = false;
-
-		
-
+	
 		if (!exclude.contains("on") && allergyList.isEmpty()) {
 			if (!user.getUsersAllergys().isEmpty()) {
 				for (Allergy allergy : user.getUsersAllergys()) {
@@ -154,7 +152,7 @@ public class SearchController {
 		List<User> chefList = new ArrayList<User>();
 
 		chefList = userService.findChef(search);
-		
+
 		model.addAttribute("allergicrecipe", allergicRecipes);
 		model.addAttribute("search", search);
 		model.addAttribute("chefList", chefList);
@@ -163,35 +161,29 @@ public class SearchController {
 	}
 
 	public List<Allergy> allergyList(String wheat, String soy, String eggs, String fish, String shellfish, String milk,
-			String nuts, String peanuts) {// WRONG ORDER
+			String nuts, String peanuts) {
 		List<Allergy> allergyList = new ArrayList<Allergy>();
 
-		System.out.println("10");
 		if (soy.contains("on")) {
 			Allergy soyAllergy = allergyService.getAllergy("soy");
 			allergyList.add(soyAllergy);
 		}
-
 		if (milk.contains("on")) {
 			Allergy milkAllergy = allergyService.getAllergy("milk");
 			allergyList.add(milkAllergy);
 		}
-
 		if (nuts.contains("on")) {
 			Allergy nutsAllergy = allergyService.getAllergy("nuts");
 			allergyList.add(nutsAllergy);
 		}
-
 		if (fish.contains("on")) {
 			Allergy fishAllergy = allergyService.getAllergy("fish");
 			allergyList.add(fishAllergy);
 		}
-
 		if (peanuts.contains("on")) {
 			Allergy peanutsAllergy = allergyService.getAllergy("peanuts");
 			allergyList.add(peanutsAllergy);
 		}
-
 		if (shellfish.contains("on")) {
 			Allergy shellfishAllergy = allergyService.getAllergy("shellfish");
 			allergyList.add(shellfishAllergy);
@@ -204,7 +196,6 @@ public class SearchController {
 			Allergy wheatAllergy = allergyService.getAllergy("wheat");
 			allergyList.add(wheatAllergy);
 		}
-		System.out.println("11 " + allergyList.size());
 		return allergyList;
 	}
 }

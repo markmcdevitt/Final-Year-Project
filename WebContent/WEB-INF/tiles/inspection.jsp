@@ -37,7 +37,7 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Email</strong></span>
 					<c:out value="${user.email}"></c:out></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Level</strong></span>
-					TBC</li>
+					<c:out value="${user.userLevel}"></c:out></li>
 			</ul>
 		</div>
 		<div class="col-sm-11">

@@ -7,8 +7,7 @@
 		document.f.j_username.focus();
 	});
 </script>
-<br>
-<br>
+
 <div class="container" style="margin-top:30px">
 	<form name='f'
 		action='${pageContext.request.contextPath}/j_spring_security_check'

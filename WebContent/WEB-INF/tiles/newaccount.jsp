@@ -2,8 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<br>
-<br>
+
 <div class="container">
 	<div class="row centered-form">
 		<div

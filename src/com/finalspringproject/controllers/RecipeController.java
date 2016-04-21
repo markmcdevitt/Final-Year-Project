@@ -320,18 +320,15 @@ public class RecipeController {
 		Ingredient ingredient = new Ingredient();
 		ingredient.setIngredientName(name);
 		String finishedAmount;
+		
 		if (amount == 0.0) {
-			System.out.println("in the zero " + amount);
 			finishedAmount = "-";
 			ingredient.setIngredientAmount(finishedAmount);
 		}else if (amount % 1 == 0) {
-			System.out.println(ingredient.getIngredientName()+ " is a whole number no fraction "+ amount);	
 			ingredient = noFraction(amount, name);
 		} else {
-			System.out.println(ingredient.getIngredientName()+ " is a fraction "+ amount);	
 			ingredient = fraction(amount, name);
 		}
-		System.out.println("THE INGREDIENT: "+ ingredient.toString());
 		return ingredient;
 	}
 
