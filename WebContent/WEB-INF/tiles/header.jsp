@@ -78,7 +78,10 @@
 					</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<c:url value='/admin'/>">See The Users</a></li>
-						</ul></li>
+							
+								<li><a href="<c:url value='/scrape'/>">Scrape
+										Recipes</a></li>
+							</ul></li>
 				</sec:authorize>
 				<sec:authorize access="!isAuthenticated()">
 					<ul class="nav navbar-nav navbar-right">

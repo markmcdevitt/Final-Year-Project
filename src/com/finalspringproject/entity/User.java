@@ -73,6 +73,24 @@ public class User {
 
 	}
 
+	public User(String username, String email, String password, boolean enabled, String authority, String userLevel,
+			List<Favorite> usersFavorites, List<Allergy> usersAllergys, List<IngredientsOwned> ingredientsOwned,
+			List<Recipe> recipes, List<WeeklyPlan> weeklyPlan, List<ShoppingList> shoppingList) {
+		super();
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.enabled = enabled;
+		this.authority = authority;
+		this.userLevel = userLevel;
+		this.usersFavorites = usersFavorites;
+		this.usersAllergys = usersAllergys;
+		this.ingredientsOwned = ingredientsOwned;
+		this.recipes = recipes;
+		this.weeklyPlan = weeklyPlan;
+		this.shoppingList = shoppingList;
+	}
+
 	public User(String username, String email, String password, boolean enabled, String authority,
 			List<IngredientsOwned> ingredientsOwned, List<Recipe> recipes, List<WeeklyPlan> weeklyPlan,
 			List<ShoppingList> shoppingList, List<Allergy> usersAllergys, String userLevel,

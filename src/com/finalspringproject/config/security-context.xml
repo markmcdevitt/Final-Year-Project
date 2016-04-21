@@ -23,6 +23,12 @@
 			access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/delete/*"
 			access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/scrapeRecipesDefault"
+			access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/scrapeRecipes"
+			access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/scrape"
+			access="hasRole('ROLE_ADMIN')" />
 
 		<security:intercept-url pattern="/createrecipe"
 			access="isAuthenticated()" />

@@ -1,5 +1,6 @@
 package com.finalspringproject.controllers;
 
+import java.io.IOException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,10 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.Review;
 import com.finalspringproject.entity.User;
+import com.finalspringproject.scrape.Scrape;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.ReviewService;
 import com.finalspringproject.service.UsersService;
@@ -90,5 +93,24 @@ public class AdminController {
 		List<User> users = usersService.getAllUsers();
 		model.addAttribute("users", users);
 		return "admin";
+	}
+	
+	@RequestMapping("/scrape")
+	public String scrape() {
+		return "scraperecipes";
+	}
+	
+	@RequestMapping("/scrapeRecipes")
+	public String scrapeRecipes(Model model,@RequestParam(value = "link") String link) throws IOException{
+		Scrape scrape = new Scrape();
+		scrape.createEverything(link);
+		return "scraperecipes";
+	}
+	
+	@RequestMapping("/scrapeRecipesDefault")
+	public String scrapeRecipesDefault(Model model) throws IOException{
+		Scrape scrape = new Scrape();
+		scrape.createEverything("http://allrecipes.com/");
+		return "scraperecipes";
 	}
 }

@@ -74,9 +74,7 @@ public class RecipeService {
 	}
 
 	public void saveOrUpdate(User user) {
-
 		recipeDao.saveOrUpdate(user);
-
 	}
 
 	public void saveOrUpdate(Recipe recipe) {

@@ -70,6 +70,22 @@ public class Recipe {
 		this.category = category;
 	}
 
+	public Recipe(String titleParse, String level, String descriptionParse, String imageURLParse, String peopleFed,
+			String calories, Category category, List<Instructions> instructions, List<Ingredient> ingredients,
+			String totalRating) {
+		super();
+		this.level = level;
+		this.category = category;
+		this.titleParse = titleParse;
+		this.descriptionParse = descriptionParse;
+		this.imageURLParse = imageURLParse;
+		this.peopleFed = peopleFed;
+		this.calories = calories;
+		this.instructions = instructions;
+		this.ingredients = ingredients;
+		this.totalRating = totalRating;
+	}
+
 	public Recipe(String titleParse, String descriptionParse, String imageURLParse, String totalRating,
 			String peopleFed, String calories, String level, Category category, List<Instructions> instructions,
 			List<Ingredient> ingredients, List<Review> review) {
@@ -190,7 +206,5 @@ public class Recipe {
 				+ ", calories=" + calories + ", level=" + level + ", category=" + category + ", instructions="
 				+ instructions + ", ingredients=" + ingredients + ", review=" + review + "]";
 	}
-
-
 
 }
