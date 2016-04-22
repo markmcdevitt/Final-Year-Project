@@ -134,7 +134,9 @@
 		<security:intercept-url pattern="/**" access="denyAll" />
 
 		<security:form-login login-page="/login"
-			authentication-failure-url="/login?error=true" />
+			authentication-failure-url="/login?error=true"
+			  default-target-url="/" 
+			  always-use-default-target = "true"/>
 
 		<security:logout logout-success-url="/loggedout" />
 
