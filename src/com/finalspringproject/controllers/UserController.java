@@ -197,7 +197,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("recipeList", user.getRecipes());
 
-		return "home";
+		return "profile";
 	}
 
 	public void usersIngredients(User user, String ingredientName) {
