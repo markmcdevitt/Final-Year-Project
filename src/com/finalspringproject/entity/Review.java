@@ -18,7 +18,7 @@ public class Review {
 	private String rating;
 	private String message;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
 
 	public Review() {

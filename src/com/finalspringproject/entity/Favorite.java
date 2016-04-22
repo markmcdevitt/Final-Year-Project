@@ -14,7 +14,7 @@ public class Favorite {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Recipe recipe;
 
 	public Favorite() {

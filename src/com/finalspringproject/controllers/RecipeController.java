@@ -166,6 +166,12 @@ public class RecipeController {
 			@RequestParam(value = "type") String category,
 			@RequestParam(value = "ingredientName") String ingredientName, BindingResult result, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
+		
+		if(recipe.getCalories().equals(",no")){
+			recipe.setCalories("Unknown");
+		}else{
+			recipe.getCalories().replace(",no","");
+		}
 
 		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName, recipe);
 

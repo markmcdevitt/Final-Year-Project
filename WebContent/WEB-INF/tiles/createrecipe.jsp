@@ -87,7 +87,8 @@
 							<label class="col-md-3 control-label">Calories</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="400" name="calories"
-									type="text" />
+									type="text" /> <input id="caloriesHidden" name="calories"
+									type="hidden" value="no">
 							</div>
 						</div>
 
@@ -147,3 +148,8 @@
 		</div>
 	</div>
 </div>
+<script>
+if (document.getElementById("calories").checked) {
+	document.getElementById('caloriesHidden').disabled = true;
+}
+</script>

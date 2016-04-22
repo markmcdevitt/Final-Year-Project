@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.finalspringproject.entity.Favorite;
+import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
 import com.finalspringproject.service.AllergyService;
@@ -44,15 +45,22 @@ public class FavouriteController {
 		User user = usersService.getUser(principal.getName());
 		Recipe recipe = recipeService.getOneRecipe(id);
 		Favorite favorite = new Favorite(recipe);
-
+		
+		List<Recipe>recipeList = new ArrayList<>();
+		recipeList.add(recipe);
+		
 		user.getUsersFavorites().add(favorite);
 		usersService.updateUser(user);
+		
+		RecipeController recipeController = new RecipeController();
+		for(Ingredient r:recipeList.get(0).getIngredients()){
+			r.setIngredientAmount(recipeController.ingredientAmount(Double.parseDouble(r.getIngredientAmount())));
+		}
+		
 
-		model.addAttribute("user", user);
-		model.addAttribute("recipeList", user.getRecipes());
-
+		model.addAttribute("recipe", recipeList);
+		
 		return "recipe";
-
 	}
 
 	@RequestMapping(value = "/deleteFavourite/{id}")
