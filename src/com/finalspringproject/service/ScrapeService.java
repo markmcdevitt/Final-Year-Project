@@ -1,4 +1,4 @@
-package com.finalspringproject.scrape;
+package com.finalspringproject.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,21 +12,29 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
 
 import com.finalspringproject.entity.Category;
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Instructions;
 import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
-import com.finalspringproject.service.UsersService;
 
-public class Scrape {
+@Service("scrapeService")
+public class ScrapeService {
 
 	private List<Ingredient> ingList;
 	private List<Instructions> instructionList;
 	private String chefs;
 	private List<Recipe> recipes = new ArrayList<Recipe>();
-	private UsersService usersService = new UsersService();
+	private UsersService usersService;
+	private RecipeService recipeService;
+	
+	
+	@Autowired
+	public void setRecipeService(RecipeService recipeService) {
+		this.recipeService = recipeService;
+	}
 
 	@Autowired
 	public void setUsersService(UsersService usersService) {
@@ -192,7 +200,8 @@ public class Scrape {
 					System.out.println(user.toString());
 					
 					try {
-						usersService.create(user);
+						
+						recipeService.saveOrUpdate(recipesFromParsed);
 					} catch (DuplicateKeyException e) {
 
 					}

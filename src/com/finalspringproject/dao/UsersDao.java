@@ -36,7 +36,7 @@ public class UsersDao {
 		return (User) crit.uniqueResult();
 	}
 
-	@Transactional // causes a rollback if one of the sql querys fails
+	@Transactional 
 	public void create(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		session().save(user);
@@ -75,5 +75,12 @@ public class UsersDao {
 		session().update(user);
 		
 	}
+	
+	public void saveOrUpdateUser(User user) {
+		session().saveOrUpdate(user);
+		
+	}
+
+
 
 }

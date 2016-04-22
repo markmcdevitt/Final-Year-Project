@@ -1,7 +1,6 @@
 package com.finalspringproject.controllers;
 
 import java.io.IOException;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.entity.Recipe;
-import com.finalspringproject.entity.Review;
 import com.finalspringproject.entity.User;
-import com.finalspringproject.scrape.Scrape;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.ReviewService;
+import com.finalspringproject.service.ScrapeService;
 import com.finalspringproject.service.UsersService;
 
 @Controller
@@ -28,8 +26,13 @@ public class AdminController {
 	private UsersService usersService;
 	private ReviewService reviewService;
 	private RecipeService recipeService;
+	private ScrapeService scrapeService;
 	
-	
+	@Autowired
+	public void setScrapeService(ScrapeService scrapeService) {
+		this.scrapeService = scrapeService;
+	}
+
 	@Autowired
 	public void setRecipeService(RecipeService	 recipeService) {
 		this.recipeService = recipeService;
@@ -102,15 +105,17 @@ public class AdminController {
 	
 	@RequestMapping("/scrapeRecipes")
 	public String scrapeRecipes(Model model,@RequestParam(value = "link") String link) throws IOException{
-		Scrape scrape = new Scrape();
-		scrape.createEverything(link);
+		scrapeService.createEverything(link);
 		return "scraperecipes";
 	}
 	
 	@RequestMapping("/scrapeRecipesDefault")
 	public String scrapeRecipesDefault(Model model) throws IOException{
-		Scrape scrape = new Scrape();
-		scrape.createEverything("http://allrecipes.com/");
+		try {
+			scrapeService.createEverything("http://allrecipes.com/");
+		} catch (Exception e) {
+			
+		}
 		return "scraperecipes";
 	}
 }

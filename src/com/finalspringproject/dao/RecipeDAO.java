@@ -63,7 +63,11 @@ public class RecipeDAO {
 	}
 
 	public void saveOrUpdate(Recipe recipe) {
-		session().saveOrUpdate(recipe);
+		try {
+			session().saveOrUpdate(recipe);
+		} catch (Exception e) {
+		}
+
 	}
 
 	public boolean delete(int id) {
@@ -105,7 +109,7 @@ public class RecipeDAO {
 
 	public void update(Recipe recipe) {
 		session().update(recipe);
-		
+
 	}
 
 	public List<Recipe> getGeneratedRecipeSingleWord(String ingredient) {

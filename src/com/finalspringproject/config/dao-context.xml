@@ -43,7 +43,6 @@
 				<list>
 					<value>com.finalspringproject.dao</value>
 					<value>com.finalspringproject.entity</value>
-					<value>com.finalspringproject.scrape</value>
 				</list>
 			</property>
 		</bean>

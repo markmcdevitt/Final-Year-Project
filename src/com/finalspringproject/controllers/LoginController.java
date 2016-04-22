@@ -13,7 +13,7 @@ import com.finalspringproject.entity.User;
 import com.finalspringproject.service.UsersService;
 
 @Controller
-public class LoginController {// here
+public class LoginController {
 
 	private UsersService usersService;
 

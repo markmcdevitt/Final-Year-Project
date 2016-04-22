@@ -10,20 +10,24 @@ import org.springframework.stereotype.Service;
 import com.finalspringproject.dao.UsersDao;
 import com.finalspringproject.entity.User;
 
-
 @Service("usersService")
 public class UsersService {
 
 	private UsersDao usersDao;
 
 	@Autowired
-	public void setRecipeDao(UsersDao usersDao) {
+	public void setUsersDao(UsersDao usersDao) {
 		this.usersDao = usersDao;
 	}
 
 	public void create(User user) {
 		usersDao.create(user);
 	}
+	
+	public void saveOrUpdateUser(User user) {
+		usersDao.saveOrUpdateUser(user);
+	}
+
 	public User getUser(String username) {
 		return usersDao.getUser(username);
 	}
@@ -32,7 +36,6 @@ public class UsersService {
 		return usersDao.exists(username);
 	}
 
-	
 	public List<User> getAllUsers() {
 		return usersDao.getAllUsers();
 	}
@@ -43,16 +46,17 @@ public class UsersService {
 
 	public void update(User user) {
 		usersDao.update(user);
-		
+
 	}
 
 	public void deleteUser(User user) {
 		usersDao.deleteUser(user);
-		
+
 	}
 
 	public void updateUser(User user) {
 		usersDao.updateUser(user);
-		
+
 	}
+
 }

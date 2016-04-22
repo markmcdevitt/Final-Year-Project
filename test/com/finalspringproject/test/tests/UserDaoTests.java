@@ -1,23 +1,17 @@
 package com.finalspringproject.test.tests;
 
-import static org.junit.Assert.*;
 
-import java.util.List;
+import static org.junit.Assert.assertTrue;
 
-import javax.sql.DataSource;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.finalspringproject.dao.RecipeDAO;
 import com.finalspringproject.dao.UsersDao;
-import com.finalspringproject.entity.Recipe;
 import com.finalspringproject.entity.User;
 
 @ActiveProfiles("dev")
@@ -27,42 +21,44 @@ import com.finalspringproject.entity.User;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserDaoTests {
 
-	@Autowired
 	private UsersDao usersDao;
 	
-	@Autowired
+	
 	private RecipeDAO recipeDao;
 
 	@Autowired
-	private DataSource dataSource;
-
-	@Before
-	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-
-		
-		//jdbc.execute("delete from users");
-
+	public void setUsersDao(UsersDao usersDao) {
+		this.usersDao = usersDao;
 	}
+
+	@Autowired
+	public void setRecipeDao(RecipeDAO recipeDao) {
+		this.recipeDao = recipeDao;
+	}
+
+
 
 	@Test
 	public void testCreateUser() {
-		//User user =  new User("Terry","O2005@hotmail.com","letmein",null,true,"ROLE_USER",null,null);
+		User user =  new User("Terry","O2005@hotmail.com","letmein",true,"ROLE_USER",null,null,null,null,null,"Newbie",null);
 	
-		//assertTrue("User creation should return true", usersDao.create(user));
 		
-//		s
-//		
+		//assertTrue("User creation should return true", usersDao.createTest(user));
+		recipeDao.saveOrUpdate(user);
+		//assertEquals("The users ",6,userList.size());
+		
+
+		
 //		List<Recipe> userRecipes = recipeDao.getRecipe(user.getUsername());
 //		
-//		assertEquals("UserRecipes should be two",6, userRecipes.size());
+//		assertEquals("UserRecipes should be six",6, userRecipes.size());
 //		List<User> userList= usersDao.getAllUsers();
 //		
 //		assertEquals("Number of users should be 6 ",6,userList.size());
 //		
 //		assertTrue("User should exist ",usersDao.exists("mark"));
-		
-		//assertEquals("Created user should be equal to the retrieved user ", user, userList.get(0));
+//		
+//		assertEquals("Created user should be equal to the retrieved user ", user, userList.get(0));
 	}
 	
 }

@@ -14,19 +14,26 @@
 					</h3>
 				</div>
 				<div class="panel-body">
-					<sf:form method="post" action="${pageContext.request.contextPath}/scrapeRecipes"
+					<sf:form method="post"
+						action="${pageContext.request.contextPath}/scrapeRecipes"
 						modelAttribute="weeklyPlan">
 						<div class="row">
 							<div class="col-xs-8 col-sm-8 col-md-8">
 								<div class="form-group">
-									<input type="text" class="form-control"	name="link"></input><br />
+									<input type="text" class="form-control" name="link"></input><br />
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
-							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							<button type="submit" class="btn btn-primary btn-lg">Scrape
+								Link</button>
 						</div>
 					</sf:form>
+					<a href="${pageContext.request.contextPath}/scrapeRecipesDefault">
+						<button type="button" class="btn btn-primary">
+							<c:out value="Default Scrape"></c:out>
+						</button>
+					</a>
 				</div>
 			</div>
 		</div>
