@@ -31,12 +31,7 @@ import com.finalspringproject.entity.WeeklyPlan;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.WeeklyPlanService;
 
-/**
- * DELETE FROM table WHERE date < '2011-09-21 08:21:22';
- * 
- * @author Mark
- *
- */
+
 @Controller
 public class WeeklyPlanController {
 
@@ -437,22 +432,15 @@ public class WeeklyPlanController {
 
 	public List<Ingredient> ingredients(List<Ingredient> ingList) {
 
-		ingList = new ArrayList<Ingredient>();
-
 		for (Ingredient i : ingList) {
 			if (i.getIngredientAmount().contains("/")) {
-				System.out.println(i.getIngredientAmount());
-				System.out.println("fraction");
 				List<String> list = Arrays.asList(i.getIngredientAmount().split("/"));
 				String whole = "0";
 				int n = 0;
 				if (list.get(0).contains(" ")) {
 					String str = list.get(0);
-					System.out.println(" has a space " + str);
 					String[] splited = str.split("\\s+");
-					System.out.println("splited:" + splited[0]);
 					whole = splited[0] + " ";
-					System.out.println("should be 1 " + splited[splited.length - 1]);
 					n = Integer.parseInt(splited[splited.length - 1]);
 				} else if (list.get(0).contains("-")) {
 					String str = list.get(0);
@@ -462,13 +450,10 @@ public class WeeklyPlanController {
 				} else {
 					n = Integer.parseInt(list.get(0));
 				}
-				System.out.println(list.get(0) + "something " + list.get(1));
 				int d = Integer.parseInt(list.get(1));
 				list = null;
 				double fraction = (double) n / (double) d;
-				System.out.println(fraction + " = " + (double) n + "/" + (double) d);
 				double complete = Double.parseDouble(whole) + fraction;
-				System.out.println(complete + " = " + whole + "+" + fraction);
 
 				String string = (String.valueOf(complete));
 				i.setIngredientName(i.getIngredientName());
