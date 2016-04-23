@@ -14,10 +14,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 
+
+<input id="answer" name="answer" type="hidden"
+	value="<c:out value="${answer}"/>">
+
 <c:forEach var="recipe" items="${recipe}">
 	<h3 align="center">
 		<c:out value="${recipe.titleParse}"></c:out>
-
 	</h3>
 
 	<div align="right">
@@ -49,7 +52,14 @@
 		Recipe Rating: <span class="stars"><span><c:out
 					value="${recipe.totalRating}"></c:out></span></span>
 	</h4>
-	Recipe Level: <c:out value="${recipe.level}"></c:out>
+	<div class="leftDiv">
+	Recipe Level:
+	</div>
+	<div id="high" class="high">
+		<c:out value="${recipe.level}" />
+		<input id="level" name="level" type="hidden"
+			value="<c:out value="${recipe.level}"/>">
+	</div>
 	<br>
 	Calories Per Serving: <c:out value="${recipe.calories}"></c:out>
 	<br>
@@ -84,7 +94,8 @@
 	</c:forEach>
 </table>
 <c:forEach var="recipe" items="${recipe}">
-	<a href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.id}/${recipe.peopleFed}"><button
+	<a
+		href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.id}/${recipe.peopleFed}"><button
 			type="button" class="btn btn-primary btn-sm">
 			<c:out value="Add To Weekly Plan "></c:out>
 		</button></a>
@@ -266,12 +277,23 @@ body {
 						});
 			});
 </script>
-<script>
-	function reduce(numerator, denominator) {
-		var gcd = function gcd(a, b) {
-			return b ? gcd(b, a % b) : a;
-		};
-		gcd = gcd(numerator, denominator);
-		return [ numerator / gcd, denominator / gcd ];
-	}
+
+<script type="text/javascript">
+	var level = document.getElementById('level').value;
+	var answer = document.getElementById('answer').value;
+	if (level == answer) {
+		 document.getElementById("high").style="color:green"
+	}else{
+		document.getElementById("high").style="color:#A00108"
+		}
 </script>
+<style>
+.leftDiv {
+	float: left;
+	
+}
+
+.high {
+	float: left;
+}
+</style>
