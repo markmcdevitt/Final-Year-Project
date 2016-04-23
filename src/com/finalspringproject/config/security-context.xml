@@ -47,7 +47,7 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/findrecipe"
 			access="isAuthenticated()" />
-		<security:intercept-url pattern="/addToWeeklyPlan/*"
+		<security:intercept-url pattern="/addToWeeklyPlan/**"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/weeklyplan"
 			access="isAuthenticated()" />

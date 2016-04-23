@@ -84,12 +84,10 @@
 	</c:forEach>
 </table>
 <c:forEach var="recipe" items="${recipe}">
-	<a
-		href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.id}"><button
+	<a href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.id}/${recipe.peopleFed}"><button
 			type="button" class="btn btn-primary btn-sm">
 			<c:out value="Add To Weekly Plan "></c:out>
 		</button></a>
-
 </c:forEach>
 <br>
 <br>

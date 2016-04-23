@@ -6,6 +6,7 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -48,7 +49,8 @@ public class WeeklyPlanController {
 	private List<String> shoppingListIngredient;
 	private List<String> shoppingListQuantity;
 	private List<ShoppingList> shoppingList;
-
+	private RecipeController recipeController;
+	private IngredientController ingredientController;
 	private Recipe recipe;
 
 	@Autowired
@@ -108,7 +110,6 @@ public class WeeklyPlanController {
 
 		for (int i = 0; i < shoppingList.size(); i++) {
 			if (listOfReipes.get(0).equals(shoppingList.get(i).getIngredient())) {
-				System.out.println("here ffs " + i);
 				shoppingList.remove(i);
 			}
 		}
@@ -153,11 +154,58 @@ public class WeeklyPlanController {
 
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/addToWeeklyPlan/{weeklyPlanRecipe}")
-	public String addToWeeklyPlan(Model model, Principal principal, @PathVariable int weeklyPlanRecipe) {
+	@RequestMapping(method = RequestMethod.GET, value = "/addToWeeklyPlan/{weeklyPlanRecipe}/{serves}")
+	public String addToWeeklyPlan(Model model, Principal principal, @PathVariable int weeklyPlanRecipe,
+			@PathVariable int serves) {
 		recipe = recipeService.getOneRecipe(weeklyPlanRecipe);
 		weeklyPlanController = new WeeklyPlanController();
-		weeklyPlanController.setRecipe(recipe);
+		if (!(Integer.parseInt(recipe.getPeopleFed()) == serves)) {
+			List<Ingredient> ingredientList = recipe.getIngredients();
+			for (Ingredient ingredient : recipe.getIngredients()) {
+				double ingAmount = 0;
+				try {
+					ingAmount = Double.parseDouble(ingredient.getIngredientAmount());// amount
+
+				} catch (Exception e) {
+				}
+
+				if (ingAmount == 1) {
+					Ingredient ing = new Ingredient();
+					ing = ingredientController.wholeNumber(ingAmount, Integer.parseInt(recipe.getPeopleFed()), serves,
+							ingredient);
+
+					ingredient.setIngredientAmount(ing.getIngredientAmount());
+					ingredient.setIngredientName(ing.getIngredientName());
+				} else {
+
+					double oneServing = ingAmount / Integer.parseInt(recipe.getPeopleFed());
+					double newAmount = oneServing * serves;
+
+					Ingredient ing = new Ingredient();
+					ing = recipeController.ingredientAmount(newAmount, ingredient.getIngredientName());
+					ingredient.setIngredientAmount(ing.getIngredientAmount());
+					ingredient.setIngredientName(ing.getIngredientName());
+				}
+
+			}
+			String cal = null;
+			try {
+				double calories = ((Double.parseDouble(recipe.getCalories()) / Integer.parseInt(recipe.getPeopleFed()))
+						* serves);
+				cal = String.valueOf((int) round(calories, 0));
+			} catch (Exception e) {
+				cal = "Unknown";
+			}
+
+			recipe.setIngredients(ingredientList);
+			recipe.setPeopleFed(String.valueOf(serves));
+			recipe.setCalories(cal);
+			weeklyPlanController.setRecipe(recipe);
+
+		} else {
+			weeklyPlanController.setRecipe(recipe);
+		}
+
 		weeklyPlan = new WeeklyPlan(timeStamp, null);
 
 		model.addAttribute("weeklyPlan", weeklyPlan);
@@ -228,10 +276,23 @@ public class WeeklyPlanController {
 				double number = Double.parseDouble(i.getIngredientAmount());
 				int rounded = (int) Math.ceil(number);
 				i.setIngredientAmount(String.valueOf(rounded));
-				
+
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
+		}
+		//List<Ingredient> ingredientList = new ArrayList<Ingredient>();
+		for(Ingredient i:ingredientList){
+			System.out.println("old list "+ i.toString());
+		}
+		System.out.println("old list size "+ingredientList.size());
+
+     	ingredientList = ingredients(ingredientList);//HERE
+     	
+     	System.out.println("new list size "+ingredientList.size());
+
+     	for(Ingredient i:ingredientList){
+			System.out.println("new list "+ i.toString());
 		}
 
 		if (shoppingListIngredient.isEmpty()) {
@@ -374,6 +435,53 @@ public class WeeklyPlanController {
 		return bd.doubleValue();
 	}
 
+	public List<Ingredient> ingredients(List<Ingredient> ingList) {
+
+		ingList = new ArrayList<Ingredient>();
+
+		for (Ingredient i : ingList) {
+			if (i.getIngredientAmount().contains("/")) {
+				System.out.println(i.getIngredientAmount());
+				System.out.println("fraction");
+				List<String> list = Arrays.asList(i.getIngredientAmount().split("/"));
+				String whole = "0";
+				int n = 0;
+				if (list.get(0).contains(" ")) {
+					String str = list.get(0);
+					System.out.println(" has a space " + str);
+					String[] splited = str.split("\\s+");
+					System.out.println("splited:" + splited[0]);
+					whole = splited[0] + " ";
+					System.out.println("should be 1 " + splited[splited.length - 1]);
+					n = Integer.parseInt(splited[splited.length - 1]);
+				} else if (list.get(0).contains("-")) {
+					String str = list.get(0);
+					String[] splited = str.split("\\-");
+					whole = splited[0] + " ";
+					n = Integer.parseInt(splited[splited.length - 1]);
+				} else {
+					n = Integer.parseInt(list.get(0));
+				}
+				System.out.println(list.get(0) + "something " + list.get(1));
+				int d = Integer.parseInt(list.get(1));
+				list = null;
+				double fraction = (double) n / (double) d;
+				System.out.println(fraction + " = " + (double) n + "/" + (double) d);
+				double complete = Double.parseDouble(whole) + fraction;
+				System.out.println(complete + " = " + whole + "+" + fraction);
+
+				String string = (String.valueOf(complete));
+				i.setIngredientName(i.getIngredientName());
+				i.setIngredientAmount(string);
+			}
+
+		}
+		for (Ingredient i : ingList) {
+			System.out.println("new list diff method "+i.toString());
+		}
+		return ingList;
+	}
+
 	public Recipe getRecipe() {
 		return recipe;
 	}
@@ -388,5 +496,15 @@ public class WeeklyPlanController {
 
 	public void setRecipe(WeeklyPlan weeklyPlan) {
 		this.weeklyPlan = weeklyPlan;
+	}
+
+	@Autowired
+	public void setIngredientController(IngredientController ingredientController) {
+		this.ingredientController = ingredientController;
+	}
+
+	@Autowired
+	public void setRecipeController(RecipeController recipeController) {
+		this.recipeController = recipeController;
 	}
 }

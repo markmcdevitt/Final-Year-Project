@@ -57,6 +57,7 @@ public class IngredientController {
 			} catch (Exception e) {
 			}
 
+			System.out.println(ingAmount + " < ----- >"+ingredient.toString());
 			if (ingAmount == 1) {
 				Ingredient ing = new Ingredient();
 				ing = wholeNumber(ingAmount, serves, quantity, ingredient);
@@ -75,12 +76,15 @@ public class IngredientController {
 			}
 
 		}
-		double calories = ((Double.parseDouble(recipe.getCalories()) / serves) * Double.parseDouble(quan));
-		String cal = String.valueOf((int) round(calories, 0));
-		recipe.setIngredients(ingredientList);
-		for (Ingredient ingredient : ingredientList) {
-			System.out.println(ingredient.toString());
+		String cal=null;
+		try {
+			double calories = ((Double.parseDouble(recipe.getCalories()) / serves) * Double.parseDouble(quan));
+			cal = String.valueOf((int) round(calories, 0));
+		} catch (Exception e) {
+			cal="Unknown";
 		}
+		
+		recipe.setIngredients(ingredientList);
 		recipe.setPeopleFed(quan);
 		recipe.setCalories(cal);
 		recipeList.add(recipe);
@@ -99,8 +103,10 @@ public class IngredientController {
 
 	public Ingredient wholeNumber(double ingAmount, int serves, int quantity, Ingredient ingredient) {
 
+		System.err.println("Ingredient "+ingredient.toString());
 		double oneServing = ingAmount / serves;
 		double newAmount = oneServing * quantity;
+		System.out.println(newAmount);
 
 		if (newAmount % 1 == 0) {
 			int tablespoon = 0;
@@ -121,7 +127,7 @@ public class IngredientController {
 				String finishedAmount = tablespoon + " tablespoons and " + newAmount;
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
-
+				System.out.println("here33 "+ newAmount);
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
 			}
 

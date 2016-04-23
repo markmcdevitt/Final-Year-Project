@@ -69,7 +69,7 @@
 									<c:forEach var="recipe" items="${recipeList}">
 										<tr>
 											<td><a
-												href="${pageContext.request.contextPath}/recipe/${recipe.titleParse}"><c:out
+												href="${pageContext.request.contextPath}/recipe/${recipe.id}"><c:out
 														value="${recipe.titleParse}"></c:out></a></td>
 											<c:if test="${not empty recipe.totalRating}">
 												<td><span class="stars"><span><c:out

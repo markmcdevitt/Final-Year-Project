@@ -166,11 +166,11 @@ public class RecipeController {
 			@RequestParam(value = "type") String category,
 			@RequestParam(value = "ingredientName") String ingredientName, BindingResult result, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
-		
-		if(recipe.getCalories().equals(",no")){
+
+		if (recipe.getCalories().equals(",no")) {
 			recipe.setCalories("Unknown");
-		}else{
-			recipe.getCalories().replace(",no","");
+		} else {
+			recipe.getCalories().replace(",no", "");
 		}
 
 		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName, recipe);
@@ -590,11 +590,13 @@ public class RecipeController {
 		if (amount % 3 == 0 && name.contains("teaspoon")) {
 
 			tablespoon = (int) (amount / 3.0);
-			name.replace("teaspoon", "tablespoon");
-			ingredient.setIngredientName(name);
+			String newName = name.replace("teaspoon", "tablespoon");
+			ingredient.setIngredientName(newName);
 			ingredient.setIngredientAmount(String.valueOf(tablespoon));
+			System.out.println(" is a tablespoon now " + amount + " ----> " + tablespoon);
+			System.out.println("name " + newName);
 
-		} else if (name.contains("teaspoon")) {
+		} else if (ingredient.getIngredientName().contains("teaspoon") && amount >= 3) {
 
 			int check = (int) amount;
 			do {
@@ -602,13 +604,11 @@ public class RecipeController {
 				amount -= 3;
 				tablespoon += 1;
 			} while (check >= 3);
-			ingredient.setIngredientName(name);
 
+			ingredient.setIngredientName(name);
 			finishedAmount = tablespoon + " tablespoons and " + amount;
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
-			System.out.println(name + " NO TEASPOON " + amount);
-			System.out.println("HEREEEE " + noDecimalPoint);
 			finishedAmount = String.valueOf(noDecimalPoint);
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		}
@@ -628,7 +628,9 @@ public class RecipeController {
 		if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")) {
 			fraction[1] = "33";
 			denominator = 99;
-		} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")) {
+		} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")
+				|| fraction[1].equals("6666666666666666") || fraction[1].equals("06666666666666666")
+				|| fraction[1].equals("6666666666666665")) {
 			fraction[1] = "66";
 			denominator = 99;
 		}
