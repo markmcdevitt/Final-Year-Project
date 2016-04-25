@@ -234,6 +234,9 @@ public class UserController {
 			}
 			
 			int number2 =(int)number;
+			if(number2<3){
+				number2 = -number2;
+			}
 			ratingScore +=  number2* 2;
 		}
 

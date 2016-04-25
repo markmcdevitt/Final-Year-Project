@@ -13,8 +13,6 @@ import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Store;
 
 @Entity
-//This annotation tells hibernate search that this class has to be indexed
-@Indexed
 public class Ingredient {
 
 	@Id   
@@ -35,10 +33,7 @@ public class Ingredient {
 		this.ingredientAmount = ingredientAmount;
 	}
 
-	 // This annotation tells that this field has to be indexed and also analyzed (break the long sentence and ignore common words), store tells if this field
-    // will be part of Index, by Store.Yes it means it will be part of Index, so that query will be faster, downside is that size of Index increases
-    @Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
-	public String getIngredientName() {
+   public String getIngredientName() {
 		return ingredientName;
 	}
 
