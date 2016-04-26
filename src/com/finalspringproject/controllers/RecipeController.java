@@ -192,7 +192,7 @@ public class RecipeController {
 		if (recipe.getCalories().equals(",no")) {
 			recipe.setCalories("Unknown");
 		} else {
-			recipe.getCalories().replace(",no", "");
+			recipe.setCalories(recipe.getCalories().replace(",no", ""));
 		}
 
 		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName, recipe);

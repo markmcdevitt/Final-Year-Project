@@ -43,7 +43,7 @@
 			<img class="featurette-image img-circle img-responsive pull-left"
 				src="${pageContext.request.contextPath}/static/images/meal planner.jpg">
 			<h2 class="featurette-heading">
-				Plan Your Meals <span class="text-muted">With The Recipe
+				Plan Your Meals <span class="text-muted">With The Meal
 					Planner </span>
 			</h2>
 			<p class="lead">To help orgainise your meals for the week.
@@ -58,12 +58,12 @@
 	<a href="${pageContext.request.contextPath}/viewshoppinglist">
 		<div class="featurette" id="contact">
 			<img class="featurette-image img-circle img-responsive pull-right"
-				src="${pageContext.request.contextPath}/static/images/shopping-list-template-22.jpg">
+				src="${pageContext.request.contextPath}/static/images/sl	.jpg">
 			<h2 class="featurette-heading">
 				Save Money <span class="text-muted">By Using the Shopping
 					List.</span>
 			</h2>
-			<p class="lead">Using your recipe planner will add the
+			<p class="lead">Using your meal planner will add the
 				ingredients of any recipe saved to your shopping list. Using the
 				shopping list will save you time, reduce waste and will help you eat
 				healthier.</p>

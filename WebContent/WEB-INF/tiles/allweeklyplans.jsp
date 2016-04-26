@@ -16,7 +16,7 @@
 			<c:if test="${user.weeklyPlan.size()>0}">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Your Recipe Planner</h3>
+						<h3 class="panel-title">Your Meal Planner</h3>
 					</div>
 					<c:forEach var="weeklyplan" items="${user.weeklyPlan}"
 						varStatus="i">

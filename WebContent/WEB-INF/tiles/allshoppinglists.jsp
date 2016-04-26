@@ -16,8 +16,6 @@
 }
 </style>
 
-
-
 <div class="leftDiv">
 	<div class="row">
 		<div class="col-xs-12 col-md-10">
@@ -144,9 +142,13 @@
 						</li>
 					</ul>
 				</div>
+				<button onclick="myFunction()" class="btn btn-info">Print
+					Shopping List</button>
 			</div>
 		</div>
 	</div>
+
+
 </div>
 
 
@@ -160,7 +162,12 @@
 			$target.slideToggle();
 		});
 	});
+
+	function myFunction() {
+		window.print();
+	}
 </script>
+
 <style>
 .leftDiv {
 	float: left;

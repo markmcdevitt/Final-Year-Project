@@ -1,9 +1,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -95,7 +94,6 @@
 											<td><c:out value="${recipe.calories}"></c:out></td>
 											<td><c:out value="${recipe.peopleFed}"></c:out></td>
 										</tr>
-
 									</c:forEach>
 								</tbody>
 							</table>
@@ -163,44 +161,53 @@
 				</div>
 				<div class="tab-pane" id="ingredients">
 					<hr>
-					<form class="form"
-						action="${pageContext.request.contextPath}/createingredientsowned"
-						method="post">
-						<label for="last_name"><h4>Ingredients You Own</h4></label>
-						<c:forEach var="ingredientsOwned" items="${user.ingredientsOwned}">
+					<div class="leftDiv">
+						<form class="form"
+							action="${pageContext.request.contextPath}/createingredientsowned"
+							method="post">
+							<label for="last_name"><h4>Ingredients You Own</h4></label>
 
-							<div class="form-group">
-								<div class="col-xs-6">
-									<input name="ingredientName" type="text" class="form-control"
-										value="<c:out value="${ingredientsOwned.ingredientOwned}" ></c:out>">
+							<c:forEach var="ingredientsOwned"
+								items="${user.ingredientsOwned}">
+
+								<div class="form-group">
+									<div class="leftDiv">
+										<div class="col-xs-6">
+
+											<input name="ingredientName" type="text" class="form-control"
+												value="<c:out value="${ingredientsOwned.ingredientOwned}" ></c:out>">
+										</div>
+									</div>
+								</div>
+
+								<br>
+							</c:forEach>
+
+							<div class="leftDiv">
+								<div class="form-group">
+									<div class="col-xs-6">
+										<div id="container2"></div>
+										<input type="button" onclick="createTextBox(1)"
+											value="Add Ingredient" class="mybutton btn">
+
+									</div>
 								</div>
 							</div>
-							<br>
-						</c:forEach>
+							<div class="form-group">
 
-						<div class="form-group">
-							<div class="col-xs-6">
-								<div id="container2"></div>
-								<input type="button" onclick="createTextBox(1)"
-									value="Add Ingredient" class="mybutton btn">
+								<div class="col-xs-12">
+									<br>
+									<button class="btn btn-lg btn-success" type="submit">
+										<i class="glyphicon glyphicon-ok-sign"></i> Update List
+									</button>
+									<button class="btn btn-lg" type="reset">
+										<i class="glyphicon glyphicon-repeat"></i> Reset
+									</button>
 
+								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-
-							<div class="col-xs-12">
-								<br>
-								<button class="btn btn-lg btn-success" type="submit">
-									<i class="glyphicon glyphicon-ok-sign"></i> Update List
-								</button>
-								<button class="btn btn-lg" type="reset">
-									<i class="glyphicon glyphicon-repeat"></i> Reset
-								</button>
-
-							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 				<div class="tab-pane" id="favourite">
 					<div class="table-responsive">
@@ -234,13 +241,15 @@
 										<c:if test="${empty favouriteList.recipe.totalRating}">
 											<td>Not Rated Yet</td>
 										</c:if>
-										<td><c:out value="${favouriteList.recipe.descriptionParse}"></c:out></td>
+										<td><c:out
+												value="${favouriteList.recipe.descriptionParse}"></c:out></td>
 										<td><c:out value="${favouriteList.recipe.calories}"></c:out></td>
 										<td><c:out value="${favouriteList.recipe.peopleFed}"></c:out></td>
-										<td><a href="<c:out value="${pageContext.request.contextPath}/deleteFavourite/${favouriteList.recipe.id}"></c:out>" class="btn btn-default"><span class="glyphicon glyphicon-floppy-remove"></span>
-										</a></td>
+										<td><a
+											href="<c:out value="${pageContext.request.contextPath}/deleteFavourite/${favouriteList.recipe.id}"></c:out>"
+											class="btn btn-default"><span
+												class="glyphicon glyphicon-floppy-remove"></span> </a></td>
 									</tr>
-
 								</c:forEach>
 							</tbody>
 						</table>
@@ -285,12 +294,12 @@
 		pager.data("curr", 0);
 
 		if (settings.showPrevNext) {
-			$('_$ta_$tag_________________________«_$ta_$tag').appendTo(pager);
+			$('<li><a href="#" class="prev_link">«</a></li>').appendTo(pager);
 		}
 
 		var curr = 0;
 		while (numPages > curr && (settings.hidePageNumbers == false)) {
-			$('_$ta_$tag_________________________' + (curr + 1) + '_$ta_$tag')
+			$('<li><a href="#" class="page_link">' + (curr + 1) + '</a></li>')
 					.appendTo(pager);
 			curr++;
 		}
@@ -302,7 +311,7 @@
 		}
 
 		if (settings.showPrevNext) {
-			$('_$ta_$tag_________________________»_$ta_$tag').appendTo(pager);
+			$('<li><a href="#" class="next_link">»</a></li>').appendTo(pager);
 		}
 
 		pager.find('.page_link:first').addClass('active');
@@ -375,6 +384,13 @@
 		hidePageNumbers : false,
 		perPage : 5
 	});
+	$('#items2').pageMe({
+		pagerSelector : '#myPager2',
+		childSelector : 'tr',
+		showPrevNext : true,
+		hidePageNumbers : false,
+		perPage : 5
+	});
 </script>
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
@@ -388,50 +404,7 @@
 	};
 	$('.stars').stars();
 </script>
-<script>
-	function onLoad() {
 
-		$("#password").keyup(checkPasswordsMatch);
-		$("#confirmpass").keyup(checkPasswordsMatch);
-
-		$("#details").submit(canSubmit);
-	}
-
-	function canSubmit() {
-		var password = $("#password").val();
-		var confirmpass = $("#confirmpass").val();
-
-		if (password != confirmpass) {
-			alert("Passwords do not match!")
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	function checkPasswordsMatch() {
-		var password = $("#password").val();
-		var confirmpass = $("#confirmpass").val();
-
-		if (confirmpass.length > 0) {
-
-			if (password == confirmpass) {
-				$("#matchpass").text(
-						"<fmt:message key ='Matchedpassword.user.password'/>");
-				$("#matchpass").addClass("valid");
-				$("#matchpass").removeClass("error");
-			} else {
-				$("#matchpass")
-						.text(
-								"<fmt:message key ='Unmatchedpassword.user.password'/>");
-				$("#matchpass").addClass("error");
-				$("#matchpass").removeClass("valid");
-			}
-		}
-	}
-
-	$(document).ready(onLoad);
-</script>
 <script type="text/javascript">
 	function createTextBox(n) {
 
@@ -448,3 +421,9 @@
 		}
 	}
 </script>
+<style>
+.leftDiv {
+	float: left;
+	width: 50%;
+}
+</style>

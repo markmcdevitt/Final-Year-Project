@@ -82,7 +82,6 @@
 											<td><c:out value="${recipe.calories}"></c:out></td>
 											<td><c:out value="${recipe.peopleFed}"></c:out></td>
 										</tr>
-
 									</c:forEach>
 								</tbody>
 							</table>

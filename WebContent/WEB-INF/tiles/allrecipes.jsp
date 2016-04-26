@@ -279,4 +279,3 @@ $('#items').pageMe({
 	perPage : 5
 });
 </script>
-</script>

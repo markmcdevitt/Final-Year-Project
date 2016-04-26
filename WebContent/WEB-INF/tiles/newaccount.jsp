@@ -5,15 +5,15 @@
 
 <div class="container">
 	<div class="row centered-form">
-		<div
+		<div 
 			class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
 
-			<div class="panel panel-default">
+			<div class="panel panel-default" >
 				<div class="panel-heading">
 					<h3 class="panel-title">Register</h3>
 				</div>
 
-				<div class="panel-body">
+				<div class="panel-body" >
 					<form id="details" method="post"
 						action="${pageContext.request.contextPath}/createaccount">
 						<div class="row">
@@ -66,5 +66,18 @@
 		</div>
 	</div>
 </div>
+<style>
+#outer {
+	position: relative;
+}
 
+#inner {
+	margin: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+</style>
 

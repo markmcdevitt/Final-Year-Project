@@ -87,7 +87,7 @@
 	<c:forEach var="recipe" items="${recipe}">
 		<c:forEach var="ingredient" items="${recipe.ingredients}">
 			<tr>
-				<td><c:out value="${ingredient.ingredientAmount}"></c:out></td>
+				<td width="13%"><c:out value="${ingredient.ingredientAmount}"></c:out></td>
 				<td><c:out value="${ingredient.ingredientName}"></c:out></td>
 			</tr>
 		</c:forEach>

@@ -27,16 +27,17 @@
 			textBox2.setAttribute("name", "ingredientQuantity");
 			textBox2.setAttribute("class", "form-control");
 			textBox2.setAttribute("type", "text");
-			textBox2.setAttribute("width", "2");
+			textBox2.setAttribute("align", "left");
+			textBox2.setAttribute("style", "width:100px");
 			textBox2.setAttribute("placeholder", "Quantity");
-			document.getElementById("container2").appendChild(textBox2);
+			document.getElementById("container").appendChild(textBox2);
 
 			var textBox = document.createElement("input");
 
 			textBox.setAttribute("name", "ingredientName");
 			textBox.setAttribute("class", "form-control");
 			textBox.setAttribute("type", "text");
-			textBox.setAttribute("align", "bottom");
+			textBox.setAttribute("align", "right");
 			textBox.setAttribute("placeholder", "Measurement And Name");
 			document.getElementById("container2").appendChild(textBox);
 
@@ -115,7 +116,8 @@
 								<input class="form-control" placeholder="Next Step"
 									name="instructions" type="text" />
 								<div id="container1"></div>
-								<input type="button" class="mybutton btn"
+								<div class="rightDiv" id="container2"></div>
+								<br> <input type="button" class="btn btn-info"
 									onclick="createTextBox(1)" value="Add a Step"><br />
 
 							</div>
@@ -124,16 +126,19 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="message">Ingredients</label>
 							<div class="col-md-9">
+								<div class="leftDiv">
+									<input class="form-control" placeholder="Quantity"
+										name="ingredientQuantity" type="text" style="width: 100px;"></input>
+								</div>
+								<div class="rightDiv">
+									<input class="form-control" name="ingredientName"
+										placeholder="measurement and name" type="text"></input>
+								</div>
 
-								<input class="form-control" placeholder="Quantity"
-									name="ingredientQuantity" type="text" width="2"></input> <input
-									class="form-control" name="ingredientName"
-									placeholder="measurement and name" type="text"></input>
-
-
-								<div id="container2"></div>
-								<input type="button" onclick="createTextBox2(1)"
-									value="Add Ingredient" class="mybutton btn">
+								<div class="leftDiv" id="container"></div>
+								<div class="rightDiv" id="container2"></div>
+								<br> <input type="button" onclick="createTextBox2(1)"
+									value="Add Ingredient" class="btn btn-info">
 							</div>
 						</div>
 
@@ -148,8 +153,17 @@
 		</div>
 	</div>
 </div>
-<script>
-if (document.getElementById("calories").checked) {
-	document.getElementById('caloriesHidden').disabled = true;
+<style>
+.leftDiv {
+	float: left;
 }
+
+.rightDiv {
+	
+}
+</style>
+<script>
+	if (document.getElementById("calories").checked) {
+		document.getElementById('caloriesHidden').disabled = true;
+	}
 </script>
