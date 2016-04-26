@@ -57,7 +57,6 @@ public class IngredientController {
 			} catch (Exception e) {
 			}
 
-			System.out.println(ingAmount + " < ----- >"+ingredient.toString());
 			if (ingAmount == 1) {
 				Ingredient ing = new Ingredient();
 				ing = wholeNumber(ingAmount, serves, quantity, ingredient);
@@ -123,11 +122,15 @@ public class IngredientController {
 					newAmount -= 3;
 					tablespoon += 1;
 				} while (check >= 3);
-
-				String finishedAmount = tablespoon + " tablespoons and " + newAmount;
+				String finishedAmount;
+				if(tablespoon>1){
+					finishedAmount = tablespoon + " tablespoons and " + (int)newAmount;
+				}else{
+					finishedAmount = tablespoon + " tablespoon and " + (int)newAmount;
+				}
+				 
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
-				System.out.println("here33 "+ newAmount);
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
 			}
 

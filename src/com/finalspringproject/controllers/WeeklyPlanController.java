@@ -31,7 +31,6 @@ import com.finalspringproject.entity.WeeklyPlan;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.WeeklyPlanService;
 
-
 @Controller
 public class WeeklyPlanController {
 
@@ -255,7 +254,7 @@ public class WeeklyPlanController {
 
 		for (IngredientsOwned s : ingredientsOwned) {
 			for (Ingredient ing : ingList) {
-				if (ing.getIngredientName().contains(" " + s.getIngredientOwned() + " ")
+				if (ing.getIngredientName().contains(" " + s.getIngredientOwned())
 						|| ing.getIngredientName().contains(" " + s.getIngredientOwned() + "s ")
 						|| ing.getIngredientName().contains(" " + s.getIngredientOwned() + "'s ")) {
 					ingList.remove(ing);
@@ -266,29 +265,7 @@ public class WeeklyPlanController {
 
 		List<Ingredient> ingredientList = new ArrayList<Ingredient>(ingList);
 
-		for (Ingredient i : ingredientList) {
-			try {
-				double number = Double.parseDouble(i.getIngredientAmount());
-				int rounded = (int) Math.ceil(number);
-				i.setIngredientAmount(String.valueOf(rounded));
-
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-		}
-		//List<Ingredient> ingredientList = new ArrayList<Ingredient>();
-		for(Ingredient i:ingredientList){
-			System.out.println("old list "+ i.toString());
-		}
-		System.out.println("old list size "+ingredientList.size());
-
-     	ingredientList = ingredients(ingredientList);//HERE
-     	
-     	System.out.println("new list size "+ingredientList.size());
-
-     	for(Ingredient i:ingredientList){
-			System.out.println("new list "+ i.toString());
-		}
+		ingredientList = ingredients(ingredientList);
 
 		if (shoppingListIngredient.isEmpty()) {
 			for (Ingredient ingredient : ingredientList) {
@@ -377,16 +354,29 @@ public class WeeklyPlanController {
 		String tea = shoppingList2.getIngredient();
 
 		if (tea.indexOf("teaspoon") != -1) {
-
-			String ing = shoppingList2.getIngredient().replace("teaspoon", "gram");
+			String ing = shoppingList2.getIngredient().replace("teaspoon", "grams of");
 			shoppingList.setIngredient(ing);
-			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 5;
+			double total = 0;
+			if (shoppingList2.getQuantity().contains("tablespoon")) {
+				List<String> list = Arrays.asList(shoppingList2.getQuantity().split("tablespoon and"));
+				double tablespoon = 3;
+				double teaspoon = Double.parseDouble(list.get(1));
+				total = tablespoon + teaspoon;
+			} else if (shoppingList2.getQuantity().contains("tablespoons")) {
+				List<String> list = Arrays.asList(shoppingList2.getQuantity().split("tablespoons and"));
+				double tablespoon = Double.parseDouble(list.get(0));
+				double teaspoon = Double.parseDouble(list.get(1));
+				total = (tablespoon * 3) + teaspoon;
+			} else {
+				total = Double.parseDouble(shoppingList2.getQuantity());
+			}
+			double amountIng = total * 5;
 			int rounded = (int) Math.ceil(amountIng);
 			String amount = String.valueOf((int) rounded);
 			shoppingList.setQuantity(amount);
 
 		} else if (tea.indexOf("tablespoon") != -1) {
-			String ing = shoppingList2.getIngredient().replace("tablespoon", "gram");
+			String ing = shoppingList2.getIngredient().replace("tablespoon", "grams of");
 			shoppingList.setIngredient(ing);
 			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
 			int rounded = (int) Math.ceil(amountIng);
@@ -394,7 +384,7 @@ public class WeeklyPlanController {
 			shoppingList.setQuantity(amount);
 
 		} else if (tea.indexOf("cup") != -1) {
-			String ing = shoppingList2.getIngredient().replace("cup", "gram");
+			String ing = shoppingList2.getIngredient().replace("cup", "grams of");
 			shoppingList.setIngredient(ing);
 			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
 			int rounded = (int) Math.ceil(amountIng);
@@ -462,7 +452,7 @@ public class WeeklyPlanController {
 
 		}
 		for (Ingredient i : ingList) {
-			System.out.println("new list diff method "+i.toString());
+			System.out.println("new list diff method " + i.toString());
 		}
 		return ingList;
 	}

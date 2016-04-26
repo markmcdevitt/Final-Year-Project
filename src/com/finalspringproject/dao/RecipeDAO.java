@@ -63,10 +63,9 @@ public class RecipeDAO {
 	}
 
 	public void saveOrUpdate(Recipe recipe) {
-		try {
-			session().saveOrUpdate(recipe);
-		} catch (Exception e) {
-		}
+		
+		session().saveOrUpdate(recipe);
+		
 
 	}
 

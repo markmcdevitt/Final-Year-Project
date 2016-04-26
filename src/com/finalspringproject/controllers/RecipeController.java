@@ -340,6 +340,7 @@ public class RecipeController {
 		List<String> list = Arrays.asList(ingredient.getIngredientName().split(","));
 		List<Recipe> recipeList2 = new ArrayList<Recipe>();
 		ArrayList<Recipe> r = new ArrayList<Recipe>();
+		
 
 		for (String s : list) {
 			String s2 = removeLastChar(s);
@@ -625,7 +626,12 @@ public class RecipeController {
 			} while (check >= 3);
 
 			ingredient.setIngredientName(name);
-			finishedAmount = tablespoon + " tablespoons and " + amount;
+			
+			if(tablespoon>1){
+				finishedAmount = tablespoon + " tablespoons and " + (int)amount;
+			}else{
+				finishedAmount = tablespoon + " tablespoon and " + (int)amount;
+			}
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
 			finishedAmount = String.valueOf(noDecimalPoint);
