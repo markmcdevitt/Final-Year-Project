@@ -10,8 +10,8 @@
 <header class="header-image">
 	<div class="headline">
 		<div class="container">
-			<h2>Cooking</h2>
-			<h3>Made Easy</h3>
+			<h2>Let's Make </h2>
+			<h3>a Meal</h3>
 		</div>
 	</div>
 </header>
@@ -41,7 +41,7 @@
 	<a href="${pageContext.request.contextPath}/viewyourweeklyplan">
 		<div class="featurette" id="services">
 			<img class="featurette-image img-circle img-responsive pull-left"
-				src="${pageContext.request.contextPath}/static/images/pic3.jpg">
+				src="${pageContext.request.contextPath}/static/images/meal planner.jpg">
 			<h2 class="featurette-heading">
 				Plan Your Meals <span class="text-muted">With The Recipe
 					Planner </span>
@@ -58,7 +58,7 @@
 	<a href="${pageContext.request.contextPath}/viewshoppinglist">
 		<div class="featurette" id="contact">
 			<img class="featurette-image img-circle img-responsive pull-right"
-				src="${pageContext.request.contextPath}/static/images/pic2.jpg">
+				src="${pageContext.request.contextPath}/static/images/shopping-list-template-22.jpg">
 			<h2 class="featurette-heading">
 				Save Money <span class="text-muted">By Using the Shopping
 					List.</span>

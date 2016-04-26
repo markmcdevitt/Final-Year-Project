@@ -1,8 +1,11 @@
 package com.finalspringproject.service;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
@@ -114,5 +117,16 @@ public class RecipeService {
 
 	public List<Recipe> getSpecific(String category) {
 		return recipeDao.getSpecific(category);
+	}
+
+	public void saveOrUpdate(List<Recipe> listOfRecipes) {
+		for (Recipe recipe : listOfRecipes) {
+			try {
+				recipeDao.saveOrUpdate(recipe);
+			} catch (Exception  e) {
+				System.out.println("recipe already exist");
+			} 
+		}
+
 	}
 }

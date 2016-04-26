@@ -18,14 +18,25 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="<c:url value='/'/>">Recipe</a>
+			<a class="navbar-brand" href="<c:url value='/'/>">Let's Make a
+				Meal</a>
 		</div>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a
+					href="${pageContext.request.contextPath}/profile"><i
+						class="fa fa-fw fa-thumbs-o-up"></i>Home</a><span class="sr-only">(current)</span></li>
+
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-expanded="false">Categories
+					data-toggle="dropdown" role="button" aria-expanded="false">Recipes
 				</a>
 					<ul class="dropdown-menu" role="menu">
+						<li><a href="${pageContext.request.contextPath}/createrecipe"><i
+								class="fa fa-fw fa-thumbs-o-up">Add Recipe</i><span
+								class="sr-only">(current)</span> </a></li>
+								
+						<li><a href="${pageContext.request.contextPath}/allrecipes"><i
+								class="fa fa-fw fa-thumbs-o-up"></i>All Recipes</a></li>
 						<li><a
 							href="${pageContext.request.contextPath}/getMainDishes"><i
 								class="fa fa-fw fa-tag"></i>Main Dishes</a></li>
@@ -37,6 +48,8 @@
 								class="fa fa-fw fa-thumbs-o-up"></i>Appetisers</a></li>
 						<li><a href="${pageContext.request.contextPath}/getDessert"><i
 								class="fa fa-fw fa-thumbs-o-up"></i>Desserts</a></li>
+
+
 					</ul></li>
 
 
@@ -53,16 +66,10 @@
 						<li><a
 							href="${pageContext.request.contextPath}/foodgenerator"><i
 								class="fa fa-fw fa-thumbs-o-up"></i>Food Generator</a></li>
-						<li><a href="${pageContext.request.contextPath}/allrecipes"><i
-								class="fa fa-fw fa-thumbs-o-up">All Recipes</i></a></li>
-						<li><a href="${pageContext.request.contextPath}/profile"><i
-								class="fa fa-fw fa-thumbs-o-up"></i>Your Profile</a></li>
+
+
 					</ul></li>
 
-				<li class="active"><a
-					href="${pageContext.request.contextPath}/createrecipe">Add
-						Recipe<span class="sr-only">(current)</span>
-				</a></li>
 
 				<sec:authorize access="!isAuthenticated()">
 					<li class="active"><a
@@ -78,10 +85,9 @@
 					</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<c:url value='/admin'/>">See The Users</a></li>
-							
-								<li><a href="<c:url value='/scrape'/>">Scrape
-										Recipes</a></li>
-							</ul></li>
+
+							<li><a href="<c:url value='/scrape'/>">Scrape Recipes</a></li>
+						</ul></li>
 				</sec:authorize>
 				<sec:authorize access="!isAuthenticated()">
 					<ul class="nav navbar-nav navbar-right">

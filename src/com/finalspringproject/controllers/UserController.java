@@ -162,7 +162,7 @@ public class UserController {
 		}
 
 		if (nuts.contains("on")) {
-			nutsAllergy = allergyService.getAllergy("nuts");
+			nutsAllergy = allergyService.getAllergy("nut");
 			allergyList.add(nutsAllergy);
 		}
 
@@ -172,7 +172,7 @@ public class UserController {
 		}
 
 		if (peanuts.contains("on")) {
-			peanutsAllergy = allergyService.getAllergy("peanuts");
+			peanutsAllergy = allergyService.getAllergy("peanut");
 			allergyList.add(peanutsAllergy);
 		}
 

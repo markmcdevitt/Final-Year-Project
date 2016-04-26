@@ -44,6 +44,7 @@ public class ScrapeService {
 	public void createEverything(String link2) throws IOException {
 
 		Document doc = Jsoup.connect(link2).get();
+		List<Recipe> listOfRecipes= new ArrayList<Recipe>();
 		Elements recipe = doc.select("article");
 		for (Element r : recipe) {
 
@@ -190,24 +191,23 @@ public class ScrapeService {
 
 					Recipe recipesFromParsed = new Recipe(titleParse, level, descriptionParse, imageURLParse, peopleFed,
 							calories, category, instructionList, ingList, ratingParse);
-					recipes.add(recipesFromParsed);
+				
 					List<Recipe> recipes = new ArrayList<Recipe>();
 					recipes.add(recipesFromParsed);
 
-					User user = new User(chefs, chefs + "@hotmail.com", "letmein2", true, "ROLE_USER", null, null, null,
-							null, recipes, null, null);
+					
 
-					System.out.println(user.toString());
+					System.out.println(recipesFromParsed.toString());
 					
 					try {
-						
-						recipeService.saveOrUpdate(recipesFromParsed);
+						listOfRecipes.add(recipesFromParsed);
 					} catch (DuplicateKeyException e) {
 
 					}
 				}
 			}
 		}
+		recipeService.saveOrUpdate(listOfRecipes);
 	}
 
 	public int randInt(int min, int max) {

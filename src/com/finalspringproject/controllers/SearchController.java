@@ -56,17 +56,15 @@ public class SearchController {
 		recipeList = recipeService.find(search);
 		User user = userService.getUser(principal.getName());
 
-		
-
 		if (!exclude.contains("on") && allergyList.isEmpty()) {
 			if (!user.getUsersAllergys().isEmpty()) {
 				for (Allergy allergy : user.getUsersAllergys()) {
-					
+
 					for (Recipe recipe : recipeList) {
 						boolean containsAllergy = false;
 						System.out.println(recipe.toString());
 						for (Ingredient ing : recipe.getIngredients()) {
-							System.out.println("EGG?? ---> "+ing.toString());
+							System.out.println("EGG?? ---> " + ing.toString());
 							if (allergy.getAllergy().equals("shellfish")) {
 								if (ing.getIngredientName().contains("shrimp")
 										|| ing.getIngredientName().contains("lobster")
@@ -79,7 +77,28 @@ public class SearchController {
 									containsAllergy = true;
 								}
 							} else if (allergy.getAllergy().equals("milk")) {
-								if (ing.getIngredientName().contains(" milk ")) {
+								if (ing.getIngredientName().contains(" milk")) {
+									allergicRecipes.add(recipe);
+									containsAllergy = true;
+								}
+							} else if (allergy.getAllergy().equals("nut")) {
+								if (ing.getIngredientName().contains("almond")
+										|| ing.getIngredientName().contains("caco")
+										|| ing.getIngredientName().contains("coconut")
+										|| ing.getIngredientName().contains("cashews")
+										|| ing.getIngredientName().contains("hazzelnut")
+										|| ing.getIngredientName().contains("macadamia nut")
+										|| ing.getIngredientName().contains("pecan")
+										|| ing.getIngredientName().contains("pili")
+										|| ing.getIngredientName().contains("pine")
+										|| ing.getIngredientName().contains("pistachio")
+										|| ing.getIngredientName().contains("sunflower seed")
+										|| ing.getIngredientName().contains("walnut")
+										|| ing.getIngredientName().contains("pine")
+										|| ing.getIngredientName().contains("pistachio")
+										|| ing.getIngredientName().contains("sunflower seed")
+										|| ing.getIngredientName().contains("walnut")
+										|| ing.getIngredientName().contains(allergy.getAllergy())) {
 									allergicRecipes.add(recipe);
 									containsAllergy = true;
 								}
@@ -138,7 +157,7 @@ public class SearchController {
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
-						}  else if (ing.getIngredientName().contains(allergy.getAllergy())) {
+						} else if (ing.getIngredientName().contains(allergy.getAllergy())) {
 							allergicRecipes.add(recipe);
 							containsAllergy = true;
 						}
@@ -179,7 +198,7 @@ public class SearchController {
 			allergyList.add(milkAllergy);
 		}
 		if (nuts.contains("on")) {
-			Allergy nutsAllergy = allergyService.getAllergy("nuts");
+			Allergy nutsAllergy = allergyService.getAllergy("nut");
 			allergyList.add(nutsAllergy);
 		}
 		if (fish.contains("on")) {
@@ -187,7 +206,7 @@ public class SearchController {
 			allergyList.add(fishAllergy);
 		}
 		if (peanuts.contains("on")) {
-			Allergy peanutsAllergy = allergyService.getAllergy("peanuts");
+			Allergy peanutsAllergy = allergyService.getAllergy("peanut");
 			allergyList.add(peanutsAllergy);
 		}
 		if (shellfish.contains("on")) {

@@ -75,17 +75,10 @@ public class IngredientController {
 			}
 
 		}
-		String cal=null;
-		try {
-			double calories = ((Double.parseDouble(recipe.getCalories()) / serves) * Double.parseDouble(quan));
-			cal = String.valueOf((int) round(calories, 0));
-		} catch (Exception e) {
-			cal="Unknown";
-		}
 		
+	
 		recipe.setIngredients(ingredientList);
 		recipe.setPeopleFed(quan);
-		recipe.setCalories(cal);
 		recipeList.add(recipe);
 		model.addAttribute("recipe", recipeList);
 		return "recipe";
@@ -102,13 +95,12 @@ public class IngredientController {
 
 	public Ingredient wholeNumber(double ingAmount, int serves, int quantity, Ingredient ingredient) {
 
-		System.err.println("Ingredient "+ingredient.toString());
 		double oneServing = ingAmount / serves;
 		double newAmount = oneServing * quantity;
-		System.out.println(newAmount);
 
 		if (newAmount % 1 == 0) {
 			int tablespoon = 0;
+			
 			if (newAmount % 3 == 0 && ingredient.getIngredientName().contains("teaspoon")) {
 				tablespoon = (int) (newAmount / 3.0);
 				String name = ingredient.getIngredientName().replace("teaspoon", "tablespoon");
@@ -135,6 +127,15 @@ public class IngredientController {
 			}
 
 		} else {
+			double teaspoon=0;
+			if (newAmount < 1 && ingredient.getIngredientName().contains("tablespoon")){
+				teaspoon =  newAmount *3;
+				String name = ingredient.getIngredientName().replace("tablespoon", "teaspoon");
+				ingredient.setIngredientName(name);
+				ingredient.setIngredientAmount(String.valueOf(teaspoon));
+				newAmount = teaspoon;
+
+			}
 			ingredient = recipeController.ingredientAmount(newAmount, ingredient.getIngredientName());
 		}
 

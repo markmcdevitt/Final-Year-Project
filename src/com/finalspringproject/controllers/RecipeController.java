@@ -156,12 +156,12 @@ public class RecipeController {
 		System.out.println(userLevel + "check " + recipeLevel);
 
 		String answer;
-		if (userLevel>=recipeLevel) {
+		if (userLevel >= recipeLevel) {
 			answer = recipe.get(0).getLevel();
 		} else {
 			answer = "unknown";
 		}
-			
+
 		model.addAttribute("answer", answer);
 		model.addAttribute("recipe", recipe);
 		return "recipe";
@@ -340,7 +340,6 @@ public class RecipeController {
 		List<String> list = Arrays.asList(ingredient.getIngredientName().split(","));
 		List<Recipe> recipeList2 = new ArrayList<Recipe>();
 		ArrayList<Recipe> r = new ArrayList<Recipe>();
-		
 
 		for (String s : list) {
 			String s2 = removeLastChar(s);
@@ -613,9 +612,7 @@ public class RecipeController {
 			String newName = name.replace("teaspoon", "tablespoon");
 			ingredient.setIngredientName(newName);
 			ingredient.setIngredientAmount(String.valueOf(tablespoon));
-			System.out.println(" is a tablespoon now " + amount + " ----> " + tablespoon);
-			System.out.println("name " + newName);
-
+			
 		} else if (ingredient.getIngredientName().contains("teaspoon") && amount >= 3) {
 
 			int check = (int) amount;
@@ -626,11 +623,11 @@ public class RecipeController {
 			} while (check >= 3);
 
 			ingredient.setIngredientName(name);
-			
-			if(tablespoon>1){
-				finishedAmount = tablespoon + " tablespoons and " + (int)amount;
-			}else{
-				finishedAmount = tablespoon + " tablespoon and " + (int)amount;
+
+			if (tablespoon > 1) {
+				finishedAmount = tablespoon + " tablespoons and " + (int) amount;
+			} else {
+				finishedAmount = tablespoon + " tablespoon and " + (int) amount;
 			}
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
@@ -659,8 +656,9 @@ public class RecipeController {
 			fraction[1] = "66";
 			denominator = 99;
 		}
-
+		System.out.println("create nume "+fraction[0] + "" + fraction[1]);
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
+		System.out.println("nume = "+numerator);
 		for (int i2 = 2; i2 <= 33; i2++) {
 			if (numerator % i2 == 0 && denominator % i2 == 0) {
 				numerator = numerator / i2;
@@ -668,10 +666,11 @@ public class RecipeController {
 				i2 = 2;
 			}
 		}
+
 		if (numerator > denominator && !(denominator == 1)) {
 			int whole = (int) Math.floor(numerator / denominator);
 			int newNum2 = numerator - (whole * denominator);
-			if (name.contains("teaspoon") && whole >= 3) {
+			if (name.contains("teaspoon") && whole >= 3) {///HERE
 				int tablespoon = 0;
 				if (whole % 3 == 0) {
 					tablespoon = whole / 3;
@@ -697,7 +696,6 @@ public class RecipeController {
 				ingredient.setIngredientName(name);
 			}
 		} else if (numerator > denominator && (denominator == 1) || numerator > denominator && (denominator == 0)) {
-			System.out.println("numerator " + numerator);
 			finishedAmount = String.valueOf(numerator);
 			ingredient.setIngredientAmount(finishedAmount);
 			ingredient.setIngredientName(name);
