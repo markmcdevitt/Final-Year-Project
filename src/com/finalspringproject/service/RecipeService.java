@@ -62,18 +62,11 @@ public class RecipeService {
 		return true;
 	}
 
-	public Recipe getRecipe(String username) {
+	public Recipe getRecipe(int id) {
 
-		if (username == null) {
-			return null;
-		}
+		return recipeDao.getRecipe(id);
 
-		List<Recipe> recipes = recipeDao.getRecipe(username);
-
-		if (recipes.size() == 0) {
-			return null;
-		}
-		return recipes.get(0);
+		 
 	}
 
 	public void saveOrUpdate(User user) {
