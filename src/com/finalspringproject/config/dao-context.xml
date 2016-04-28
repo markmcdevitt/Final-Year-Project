@@ -15,10 +15,10 @@
 		<jee:jndi-lookup jndi-name="jdbc/spring" id="datasource"
 			expected-type="javax.sql.DataSource">
 		</jee:jndi-lookup>
-		
+
 
 		<bean id="transactionManager"
-		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 			<property name="dataSource" ref="datasource"></property>
 		</bean>
 		<tx:annotation-driven />
@@ -37,8 +37,10 @@
 					</prop>
 					<prop key="javax.persistence.validation.group.pre-remove">com.finalspringproject.dao.PersistenceValidationGroup
 					</prop>
+					<prop key="hibernate.hbm2ddl.auto">update</prop>
 				</props>
 			</property>
+
 			<property name="packagesToScan">
 				<list>
 					<value>com.finalspringproject.dao</value>

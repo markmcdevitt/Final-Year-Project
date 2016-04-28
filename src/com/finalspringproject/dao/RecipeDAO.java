@@ -57,7 +57,8 @@ public class RecipeDAO {
 		crit.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return crit.list();
 	}
-
+	
+	
 	public void saveOrUpdate(User user) {
 		session().saveOrUpdate(user);
 	}
@@ -125,5 +126,9 @@ public class RecipeDAO {
 		criteria.add(Restrictions.like("cat.category", category, MatchMode.EXACT));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return criteria.list();
+	}
+
+	public void create(Recipe recipe) {
+		session().save(recipe);
 	}
 }

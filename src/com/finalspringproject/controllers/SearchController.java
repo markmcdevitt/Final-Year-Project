@@ -2,7 +2,9 @@ package com.finalspringproject.controllers;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +56,10 @@ public class SearchController {
 
 		List<Recipe> recipeList = new ArrayList<Recipe>();
 		recipeList = recipeService.find(search);
+		Set<Recipe> depdupeRecipes = new LinkedHashSet<>(recipeList);
+		recipeList.clear();
+		recipeList.addAll(depdupeRecipes);
+
 		User user = userService.getUser(principal.getName());
 
 		if (!exclude.contains("on") && allergyList.isEmpty()) {
@@ -120,9 +126,27 @@ public class SearchController {
 							nonAllergicRecipes.add(recipe);
 						}
 					}
+					Set<Recipe> depdupeRecipes2 = new LinkedHashSet<>(allergicRecipes);
+					allergicRecipes.clear();
+					allergicRecipes.addAll(depdupeRecipes2);
+					
+					Set<Recipe> depdupeRecipes3 = new LinkedHashSet<>(nonAllergicRecipes);
+					nonAllergicRecipes.clear();
+					nonAllergicRecipes.addAll(depdupeRecipes3);
+					
+					for (Recipe a : allergicRecipes) {
+						for (Recipe r : nonAllergicRecipes) {
+							if (r.getId() == a.getId()) {
+								System.out.println("REMOVING " + r.toString());
+								nonAllergicRecipes.remove(r);
+								break;
+							}
 
+						}
+					}
 					model.addAttribute("recipe", nonAllergicRecipes);
 				}
+
 			} else {
 				model.addAttribute("recipe", recipeList);
 
@@ -168,9 +192,30 @@ public class SearchController {
 					}
 				}
 
+				Set<Recipe> depdupeRecipes2 = new LinkedHashSet<>(allergicRecipes);
+				allergicRecipes.clear();
+				allergicRecipes.addAll(depdupeRecipes2);
+				
+				Set<Recipe> depdupeRecipes3 = new LinkedHashSet<>(nonAllergicRecipes);
+				nonAllergicRecipes.clear();
+				nonAllergicRecipes.addAll(depdupeRecipes3);
+				
+				for (Recipe a : allergicRecipes) {
+					for (Recipe r : nonAllergicRecipes) {
+						if (r.getId() == a.getId()) {
+							System.out.println("REMOVING " + r.toString());
+							nonAllergicRecipes.remove(r);
+							break;
+						}
+
+					}
+				}
+
 				model.addAttribute("recipe", nonAllergicRecipes);
 			}
+
 		} else {
+
 			model.addAttribute("recipe", recipeList);
 		}
 

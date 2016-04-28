@@ -11,6 +11,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
@@ -22,6 +24,12 @@ import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Store;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
+import com.finalspringproject.dao.FormValidationGroup;
+import com.finalspringproject.dao.PersistenceValidationGroup;
 
 @Entity
 @Table(name = "recipe")
@@ -30,10 +38,14 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	@Size(min = 5, max = 100)
 	private String titleParse;
+	@Size(min = 5, max = 200)
 	private String descriptionParse;
+	@NotBlank
 	private String imageURLParse;
 	private String totalRating;
+	@NumberFormat(style = Style.NUMBER)
 	private String peopleFed;
 	private String calories;
 	private String level;

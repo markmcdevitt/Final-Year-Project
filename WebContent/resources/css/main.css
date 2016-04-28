@@ -29,9 +29,9 @@ textarea {
 }
 
 .error {
-	font-size: small;
+	font-size: 80%;
 	color: red;
-	margin-left: 10px;
+	width: 100px;
 }
 
 .valid {

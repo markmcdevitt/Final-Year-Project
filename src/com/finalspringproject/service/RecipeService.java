@@ -122,4 +122,9 @@ public class RecipeService {
 		}
 
 	}
+
+	public void create(Recipe recipe) {
+		recipeDao.create(recipe);
+		
+	}
 }

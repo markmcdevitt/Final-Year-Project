@@ -20,7 +20,7 @@
 						<div class="row">
 							<div class="col-xs-8 col-sm-8 col-md-8">
 								<div class="form-group">
-									<input id="dateformat" type="date" class="form-control"
+									<input id="dateformat" type="date" class="form-control" 
 										name="date"></input><br />
 								</div>
 							</div>
@@ -41,3 +41,20 @@
 		</div>
 	</div>
 </div>
+<script>
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+	var yyyy = today.getFullYear();
+
+	if (dd < 10) {
+		dd = '0' + dd
+	}
+
+	if (mm < 10) {
+		mm = '0' + mm
+	}
+
+	today =  dd+ '-' + mm + '-' + yyyy;
+	document.getElementById('dateformat').setAttribute("min", "today");
+</script>

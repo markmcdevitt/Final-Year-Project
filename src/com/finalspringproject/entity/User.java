@@ -28,13 +28,11 @@ import com.finalspringproject.dao.PersistenceValidationGroup;
 public class User {
 
 	@Id
-	@NotBlank(groups = { FormValidationGroup.class, PersistenceValidationGroup.class })
-	@Size(min = 5, max = 20, groups = { FormValidationGroup.class, PersistenceValidationGroup.class })
+	@Size(min = 5, max = 20, groups = {FormValidationGroup.class, PersistenceValidationGroup.class})
 	private String username;
 
 	@NotBlank(groups = { FormValidationGroup.class, PersistenceValidationGroup.class })
-	@Email(message = "This is an invalid email address", groups = { FormValidationGroup.class,
-			PersistenceValidationGroup.class })
+	@Email(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String email;
 
 	@NotBlank(groups = { FormValidationGroup.class, PersistenceValidationGroup.class })

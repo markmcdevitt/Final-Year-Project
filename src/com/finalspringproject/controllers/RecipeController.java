@@ -22,6 +22,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.taglibs.standard.functions.Functions;
 import org.hibernate.sql.ordering.antlr.OrderingSpecification.Ordering;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -183,16 +184,19 @@ public class RecipeController {
 	}
 
 	@RequestMapping(value = "/docreate", method = RequestMethod.POST)
-	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,
+	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,BindingResult result,
 			@RequestParam(value = "ingredientQuantity") String ingredientAmount,
 			@RequestParam(value = "type") String category,
-			@RequestParam(value = "ingredientName") String ingredientName, BindingResult result, Principal principal,
+			@RequestParam(value = "ingredientName") String ingredientName,  Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
 
 		if (recipe.getCalories().equals(",no")) {
 			recipe.setCalories("Unknown");
+			System.out.println("calories: "+recipe.getCalories());
 		} else {
-			recipe.setCalories(recipe.getCalories().replace(",no", ""));
+			String calories = recipe.getCalories().replace(",no", "");
+			System.out.println("calories: "+calories);
+			recipe.setCalories(calories);
 		}
 
 		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName, recipe);
@@ -206,6 +210,7 @@ public class RecipeController {
 			User user = usersService.getUser(principal.getName());
 			Category categoryObj = new Category(category);
 			List<Recipe> list = user.getRecipes();
+			
 
 			int score = recipe.getInstructions().size() + ingList.size() + Integer.parseInt(recipe.getPeopleFed());
 
@@ -214,10 +219,21 @@ public class RecipeController {
 			recipe.setLevel(level);
 			recipe.setIngredients(ingList);
 			recipe.setCategory(categoryObj);
+			
 			list.add(recipe);
 			user.setRecipes(list);
 
-			recipeService.saveOrUpdate(user);
+			
+			
+			
+			try {
+				Recipe recipe2= recipeService.getCurrentRecipe(recipe.getTitleParse());
+				recipeService.saveOrUpdate(user);
+			} catch (Exception e) {
+				result.rejectValue("titleParse", "DuplicateName.recipe.titleparse");
+				return "createrecipe";
+			}
+		
 
 			List<Recipe> recipeList = getOneRecipe(recipe.getId());
 			model.addAttribute("recipe", recipeList);

@@ -102,7 +102,6 @@ public class IngredientController {
 			int tablespoon = 0;
 			
 			if (newAmount % 3 == 0 && ingredient.getIngredientName().contains("teaspoon")) {
-				System.out.println("here1");
 				tablespoon = (int) (newAmount / 3.0);
 				String name = ingredient.getIngredientName().replace("teaspoon", "tablespoon");
 				ingredient.setIngredientName(name);
@@ -110,7 +109,6 @@ public class IngredientController {
 
 			} else if (ingredient.getIngredientName().contains("teaspoon")&& newAmount>=3) {
 				int check = (int) newAmount;
-				System.out.println("here2");
 				do {
 					check -= 3;
 					newAmount -= 3;
@@ -121,8 +119,7 @@ public class IngredientController {
 					finishedAmount = tablespoon + " tablespoons and " + (int)newAmount;
 				}else{
 					finishedAmount = tablespoon + " tablespoon and " + (int)newAmount;
-				}
-				 
+				}		 
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
@@ -136,7 +133,6 @@ public class IngredientController {
 				ingredient.setIngredientName(name);
 				ingredient.setIngredientAmount(String.valueOf(teaspoon));
 				newAmount = teaspoon;
-
 			}
 			ingredient = recipeController.ingredientAmount(newAmount, ingredient.getIngredientName());
 		}

@@ -28,8 +28,9 @@
 			textBox2.setAttribute("class", "form-control");
 			textBox2.setAttribute("type", "text");
 			textBox2.setAttribute("align", "left");
-			textBox2.setAttribute("style", "width:100px");
+			textBox2.setAttribute("style", "width:80px");
 			textBox2.setAttribute("placeholder", "Quantity");
+			textBox2.setAttribute("onkeypress", "validate(event)");
 			document.getElementById("container").appendChild(textBox2);
 
 			var textBox = document.createElement("input");
@@ -38,7 +39,8 @@
 			textBox.setAttribute("class", "form-control");
 			textBox.setAttribute("type", "text");
 			textBox.setAttribute("align", "right");
-			textBox.setAttribute("placeholder", "Measurement And Name");
+			textBox2.setAttribute("style", "width:170px");
+			textBox.setAttribute("placeholder", "Measurement & Name");
 			document.getElementById("container2").appendChild(textBox);
 
 		}
@@ -49,8 +51,9 @@
 	<div class="row">
 		<div class="col-md-6 col-md-offset-3">
 			<div class="well well-sm">
-				<form class="form-horizontal"
-					action="${pageContext.request.contextPath}/docreate" method="post">
+				<sf:form class="form-horizontal" onsubmit="return validateForm()"
+					name="myForm" action="${pageContext.request.contextPath}/docreate"
+					method="post" commandName="recipe">
 
 					<fieldset>
 						<legend class="text-center">Create Recipe</legend>
@@ -58,16 +61,19 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Title</label>
 							<div class="col-md-9">
-								<input class="form-control" placeholder="Title"
-									name="titleParse" type="text"></input><br />
+								<sf:input class="form-control" placeholder="Title"
+									path="titleParse" name="titleParse" type="text"></sf:input>
+								<sf:errors path="titleParse" cssClass="error"></sf:errors>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Description</label>
 							<div class="col-md-9">
-								<textarea class="form-control" placeholder="Description"
-									name="descriptionParse" rows="5" cols="5"></textarea>
+								<sf:textarea class="form-control" placeholder="Description"
+									path="descriptionParse" name="descriptionParse" rows="5"
+									cols="5"></sf:textarea>
+								<sf:errors path="descriptionParse" cssClass="error"></sf:errors>
 								<br />
 							</div>
 						</div>
@@ -97,7 +103,7 @@
 							<label class="col-md-3 control-label">Serves</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="4 People"
-									name="peopleFed" type="text" />
+									name="peopleFed" type="text" onkeypress='validate(event)' />
 							</div>
 						</div>
 
@@ -105,8 +111,9 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Image</label>
 							<div class="col-md-9">
-								<input class="form-control" placeholder="Picture"
-									name="imageURLParse" type="text" />
+								<sf:input class="form-control" placeholder="Picture"
+									path="imageURLParse" name="imageURLParse" type="text" />
+								<sf:errors path="imageURLParse" cssClass="error"></sf:errors>
 							</div>
 						</div>
 
@@ -114,12 +121,12 @@
 							<label class="col-md-3 control-label">Instructions</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="Next Step"
-									name="instructions" type="text" />
+									name="instructions" type="text"
+									data-fv-notempty-message="An instruction is required" />
 								<div id="container1"></div>
-								
+
 								<br> <input type="button" class="btn btn-info"
 									onclick="createTextBox(1)" value="Add a Step"><br />
-
 							</div>
 						</div>
 
@@ -128,16 +135,17 @@
 							<div class="col-md-9">
 								<div class="leftDiv">
 									<input class="form-control" placeholder="Quantity"
-										name="ingredientQuantity" type="text" style="width: 100px;"></input>
+										name="ingredientQuantity" type="text" style="width: 80px;"
+										onkeypress='validate(event)'></input>
 								</div>
 								<div class="rightDiv">
 									<input class="form-control" name="ingredientName"
-										placeholder="measurement and name" type="text"></input>
+										placeholder="Measurement & Name" type="text" style="width: 170px;"></input>
 								</div>
 
-								<div class="leftDiv" id="container"></div>
+								<div class="leftDiv" id="container" ></div>
 								<div class="rightDiv" id="container2"></div>
-								<br> <input type="button" onclick="createTextBox2(1)"
+								<br><input type="button" onclick="createTextBox2(1)"
 									value="Add Ingredient" class="btn btn-info">
 							</div>
 						</div>
@@ -148,7 +156,7 @@
 							</div>
 						</div>
 					</fieldset>
-				</form>
+				</sf:form>
 			</div>
 		</div>
 	</div>
@@ -156,13 +164,55 @@
 <style>
 .leftDiv {
 	float: left;
+	width:20px;
 }
 
 .rightDiv {
-	
+	margin-left: 25%;
 }
 </style>
 <script>
+	function validateForm() {
+		var x = document.forms["myForm"]["titleParse"].value;
+		var y = document.forms["myForm"]["descriptionParse"].value;
+		var s = document.forms["myForm"]["peopleFed"].value;
+		var p = document.forms["myForm"]["imageURLParse"].value;
+		var i = document.forms["myForm"]["instructions"].value;
+		var n = document.forms["myForm"]["ingredientName"].value;
+		var q = document.forms["myForm"]["ingredientQuantity"].value;
+
+		if (x == null || x == "") {
+			alert("Title must be filled out");
+			return false;
+		}
+		if (y == null || y == "") {
+			alert("Description must be filled out");
+			return false;
+		}
+		if (s == null || s == "") {
+			alert("Serves must be filled out");
+			return false;
+		}
+		if (p == null || p == "") {
+			alert("Image must be filled out");
+			return false;
+		}
+
+	}
+</script>
+<script>
+	function validate(evt) {
+		var theEvent = evt || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		key = String.fromCharCode(key);
+		var regex = /[0-9]|\./;
+		if (!regex.test(key)) {
+			theEvent.returnValue = false;
+			if (theEvent.preventDefault)
+				theEvent.preventDefault();
+		}
+	}
+
 	if (document.getElementById("calories").checked) {
 		document.getElementById('caloriesHidden').disabled = true;
 	}

@@ -6,7 +6,7 @@
 <div class="container">
 	<div class="row centered-form">
 		<div 
-			class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
+			class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4" >
 
 			<div class="panel panel-default" >
 				<div class="panel-heading">
@@ -14,21 +14,21 @@
 				</div>
 
 				<div class="panel-body" >
-					<form id="details" method="post"
-						action="${pageContext.request.contextPath}/createaccount">
+					<sf:form id="details" method="post"
+						action="${pageContext.request.contextPath}/createaccount" commandName="user">
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6">
 								<div class="form-group">
-									<input name="username" class="form-control input-sm"
-										placeholder="Name" type="text">
+									<sf:input name="username" class="form-control input-sm" path="username"
+										placeholder="Name" type="text"/><sf:errors path="username" cssClass="error"></sf:errors>
 								</div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-xs-6 col-sm-6 col-md-6">
 								<div class="form-group">
-									<input class="form-control input-sm" name="email" type="text"
-										placeholder="Email">
+									<sf:input class="form-control input-sm" path ="email" name="email" type="text"
+										placeholder="Email" /><sf:errors path="email" cssClass="error"></sf:errors>
 								</div>
 							</div>
 						</div>
@@ -60,7 +60,7 @@
 							</div>
 						</div>
 
-					</form>
+					</sf:form>
 				</div>
 			</div>
 		</div>
