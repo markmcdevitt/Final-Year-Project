@@ -631,7 +631,7 @@ public class RecipeController {
 			}
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
-			finishedAmount = String.valueOf(noDecimalPoint);
+			finishedAmount = String.valueOf((int)noDecimalPoint);
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		}
 		return ingredient;
@@ -656,9 +656,7 @@ public class RecipeController {
 			fraction[1] = "66";
 			denominator = 99;
 		}
-		System.out.println("create nume "+fraction[0] + "" + fraction[1]);
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
-		System.out.println("nume = "+numerator);
 		for (int i2 = 2; i2 <= 33; i2++) {
 			if (numerator % i2 == 0 && denominator % i2 == 0) {
 				numerator = numerator / i2;

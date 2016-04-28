@@ -116,7 +116,7 @@
 								<input class="form-control" placeholder="Next Step"
 									name="instructions" type="text" />
 								<div id="container1"></div>
-								<div class="rightDiv" id="container2"></div>
+								
 								<br> <input type="button" class="btn btn-info"
 									onclick="createTextBox(1)" value="Add a Step"><br />
 

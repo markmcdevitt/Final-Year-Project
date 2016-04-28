@@ -59,7 +59,7 @@
 					<ul class="dropdown-menu" role="menu">
 						<li><a
 							href="${pageContext.request.contextPath}/viewyourweeklyplan"><i
-								class="fa fa-fw fa-tag"></i> Weekly Plan</a></li>
+								class="fa fa-fw fa-tag"></i> Meal Planner</a></li>
 						<li><a
 							href="${pageContext.request.contextPath}/viewshoppinglist"><i
 								class="fa fa-fw fa-thumbs-o-up"></i>Shopping List</a></li>

@@ -97,7 +97,7 @@
 	<a
 		href="${pageContext.request.contextPath}/addToWeeklyPlan/${recipe.id}/${recipe.peopleFed}"><button
 			type="button" class="btn btn-primary btn-sm">
-			<c:out value="Add To Weekly Plan "></c:out>
+			<c:out value="Add To Meal Planner "></c:out>
 		</button></a>
 </c:forEach>
 <br>

@@ -20,16 +20,18 @@
 						<div class="row">
 							<div class="col-xs-8 col-sm-8 col-md-8">
 								<div class="form-group">
-									<input type="text" class="form-control" name="link"></input><br />
+									<input placeholder ="Enter the link to scrape"type="text" class="form-control" name="link"></input><br />
 								</div>
 							</div>
 						</div>
-						<div class="col-md-12 text-right">
-							<button type="submit" class="btn btn-primary btn-lg">Scrape
+					
+							<button type="submit" class="btn btn-primary">Scrape
 								Link</button>
-						</div>
+						
 					</sf:form>
+					
 					<a href="${pageContext.request.contextPath}/scrapeRecipesDefault">
+					<br>
 						<button type="button" class="btn btn-primary">
 							<c:out value="Default Scrape"></c:out>
 						</button>

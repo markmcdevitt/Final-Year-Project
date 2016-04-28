@@ -48,9 +48,13 @@ import com.finalspringproject.service.UsersService;
 			Ingredient ingredient = recipeController.noFraction(amount, name);
 			Ingredient correctIngredient = new Ingredient("tablespoon of salt","1");
 			
-			System.out.println(ingredient.toString());
-			System.out.println(correctIngredient.toString());
+			assertEquals(correctIngredient.getIngredientAmount(), ingredient.getIngredientAmount());
+			assertEquals(correctIngredient.getIngredientName(), ingredient.getIngredientName());
+		}
+		
+		@Test
+		public void testNoFractionManyTablespoon() {
 			
-			assertEquals(correctIngredient, ingredient);
+		
 		}
 }
