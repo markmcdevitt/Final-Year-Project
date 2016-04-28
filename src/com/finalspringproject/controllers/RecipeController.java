@@ -321,8 +321,7 @@ public class RecipeController {
 				String finishedAmount = tablespoon + " tablespoons and " + newAmount;
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
-				System.out.println(ingredient.getIngredientName() + " else " + newAmount);
-
+				
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
 			}
 
@@ -652,9 +651,12 @@ public class RecipeController {
 			denominator = 99;
 		} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")
 				|| fraction[1].equals("6666666666666666") || fraction[1].equals("06666666666666666")
-				|| fraction[1].equals("6666666666666665")) {
+				|| fraction[1].equals("6666666666666665") || fraction[1].contains("6666666666666666")){
 			fraction[1] = "66";
 			denominator = 99;
+		}else if (fraction[1].contains("1666")) {
+			fraction[1] = "1";
+			denominator = 6;
 		}
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
 		for (int i2 = 2; i2 <= 33; i2++) {
@@ -672,7 +674,7 @@ public class RecipeController {
 				int tablespoon = 0;
 				if (whole % 3 == 0) {
 					tablespoon = whole / 3;
-					finishedAmount = tablespoon + " tablespoons " + newNum2 + "/" + denominator;
+					finishedAmount = tablespoon + " tablespoons and " + newNum2 + "/" + denominator;
 					ingredient.setIngredientAmount(finishedAmount);
 					ingredient.setIngredientName(name);
 				} else {
@@ -682,7 +684,7 @@ public class RecipeController {
 						whole -= 3;
 						tablespoon += 1;
 					} while (check >= 3);
-					finishedAmount = tablespoon + " tablespoons " + whole + "-" + newNum2 + "/" + denominator;
+					finishedAmount = tablespoon + " tablespoons and " + whole + "-" + newNum2 + "/" + denominator;
 					ingredient.setIngredientAmount(finishedAmount);
 					ingredient.setIngredientName(name);
 				}

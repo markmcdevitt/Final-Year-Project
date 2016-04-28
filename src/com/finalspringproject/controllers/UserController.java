@@ -245,7 +245,7 @@ public class UserController {
 		return level;
 	}
 
-	private String calculateTitle(int userLevel) {
+	public String calculateTitle(int userLevel) {
 		String level;
 
 		if (userLevel > 50) {

@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.finalspringproject.controllers.UserController;
 import com.finalspringproject.entity.Allergy;
 import com.finalspringproject.entity.Category;
 import com.finalspringproject.entity.Favorite;
@@ -40,7 +41,7 @@ public class UserTests {
 	@Autowired
 	private RecipeService recipeService;
 	private String timeStamp = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
-
+	private UserController userController= new UserController();
 
 
 	@Test
@@ -187,6 +188,14 @@ public class UserTests {
 
 		User seventhRetrievedUser = usersService.getUser(user.getUsername());
 		assertEquals(allergyList.size(), seventhRetrievedUser.getUsersAllergys().size());
+	}
+	
+	@Test
+	public void userLevel() {
+		int score =35;
+		String level = userController.calculateTitle(score);
+		
+		assertEquals("Prep Chef", level);
 	}
 	
 	
