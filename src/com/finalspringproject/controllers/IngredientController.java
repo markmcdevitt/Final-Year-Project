@@ -2,6 +2,7 @@ package com.finalspringproject.controllers;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.User;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
 
@@ -40,7 +42,7 @@ public class IngredientController {
 	}
 
 	@RequestMapping("/adjustRecipe/{id}")
-	public String adjustRecipe(Model model, @PathVariable int id, @RequestParam(value = "quantity") String quan) {
+	public String adjustRecipe(Model model, @PathVariable int id, @RequestParam(value = "quantity") String quan, Principal principal) {
 
 		Recipe recipe = recipeService.getOneRecipe(id);
 		List<Recipe> recipeList = new ArrayList<Recipe>();
@@ -80,6 +82,29 @@ public class IngredientController {
 		recipe.setIngredients(ingredientList);
 		recipe.setPeopleFed(quan);
 		recipeList.add(recipe);
+		User user;
+		
+		String level = recipeList.get(0).getLevel();
+		try {
+			 user = usersService.getUser(principal.getName());
+		} catch (Exception e) {
+			 user = new User();
+		}
+		
+
+		int recipeLevel = levelCheck(level);
+		int userLevel = levelCheck(user.getUserLevel());
+
+		System.out.println(userLevel + "check " + recipeLevel);
+
+		String answer;
+		if (userLevel >= recipeLevel) {
+			answer = recipeList.get(0).getLevel();
+		} else {
+			answer = "unknown";
+		}
+
+		model.addAttribute("answer", answer);
 		model.addAttribute("recipe", recipeList);
 		return "recipe";
 	}
@@ -138,6 +163,30 @@ public class IngredientController {
 		}
 
 		return ingredient;
+	}
+	
+	public int levelCheck(String level) {
+
+		int check;
+
+		if (level.equals("Master Chef")) {
+			check = 8;
+		} else if (level.equals("Executive Chef")) {
+			check = 7;
+		} else if (level.equals("Sous Chef")) {
+			check = 5;
+		} else if (level.equals("Prep Chef")) {
+			check = 5;
+		} else if (level.equals("Wise Chef")) {
+			check = 4;
+		} else if (level.equals("Gifted Chef")) {
+			check = 3;
+		} else if (level.equals("Amatuer Cook")) {
+			check = 2;
+		} else {
+			check = 1;
+		}
+		return check;
 	}
 
 }

@@ -3,16 +3,18 @@ package com.finalspringproject.controllers;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -142,6 +144,18 @@ public class WeeklyPlanController {
 		List<User> userList = new ArrayList<User>();
 		String username = principal.getName();
 		User user = weeklyPlanService.getUserWeeklyPlan(username);
+		List<WeeklyPlan> wkPlan  = user.getWeeklyPlan();
+		String date = String.valueOf(timeStamp);
+
+	    Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
+	        DateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+	      
+			@Override
+			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
+				 return arg1.getDate().compareTo(arg0.getDate());
+			}
+	    });
+	    user.setWeeklyPlan(wkPlan);
 		userList.add(user);
 		model.addAttribute("userList", userList);
 		return "allweeklyplans";

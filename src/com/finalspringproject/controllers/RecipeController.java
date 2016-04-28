@@ -222,10 +222,7 @@ public class RecipeController {
 			
 			list.add(recipe);
 			user.setRecipes(list);
-
-			
-			
-			
+	
 			try {
 				Recipe recipe2= recipeService.getCurrentRecipe(recipe.getTitleParse());
 				recipeService.saveOrUpdate(user);
@@ -234,7 +231,6 @@ public class RecipeController {
 				return "createrecipe";
 			}
 		
-
 			List<Recipe> recipeList = getOneRecipe(recipe.getId());
 			model.addAttribute("recipe", recipeList);
 			return "recipe";

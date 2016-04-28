@@ -41,6 +41,9 @@ public class ReviewController {
 
 		List<Review> reviewList = currentRecipe.getReview();
 		reviewList.add(review);
+		
+	
+		
 		int userRating = 0;
 		for (Review r : reviewList) {
 			userRating += Integer.parseInt(r.getRating());
@@ -56,7 +59,6 @@ public class ReviewController {
 		recipeService.saveOrUpdate(currentRecipe);
 		recipe.clear();
 		recipe.add(currentRecipe);
-		System.out.println(recipe.toString());
 		
 		RecipeController recipeController = new RecipeController();
 		for(Ingredient r:recipe.get(0).getIngredients()){
@@ -68,6 +70,22 @@ public class ReviewController {
 			
 		}
 		
+		String level = recipe.get(0).getLevel();
+
+		int recipeLevel = levelCheck(level);
+		int userLevel = levelCheck(user.getUserLevel());
+
+		System.out.println(userLevel + "check " + recipeLevel);
+
+		String answer;
+		if (userLevel >= recipeLevel) {
+			answer = recipe.get(0).getLevel();
+		} else {
+			answer = "unknown";
+		}
+
+		model.addAttribute("answer", answer);
+		
 
 		model.addAttribute("recipe", recipe);
 		
@@ -77,5 +95,29 @@ public class ReviewController {
 	@Autowired
 	public void setRecipeService(RecipeService recipeService) {
 		this.recipeService = recipeService;
+	}
+	
+	public int levelCheck(String level) {
+
+		int check;
+
+		if (level.equals("Master Chef")) {
+			check = 8;
+		} else if (level.equals("Executive Chef")) {
+			check = 7;
+		} else if (level.equals("Sous Chef")) {
+			check = 5;
+		} else if (level.equals("Prep Chef")) {
+			check = 5;
+		} else if (level.equals("Wise Chef")) {
+			check = 4;
+		} else if (level.equals("Gifted Chef")) {
+			check = 3;
+		} else if (level.equals("Amatuer Cook")) {
+			check = 2;
+		} else {
+			check = 1;
+		}
+		return check;
 	}
 }

@@ -81,7 +81,7 @@
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-expanded="false">Admin
-							<span class="caret"></span>
+							
 					</a>
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="<c:url value='/admin'/>">See The Users</a></li>

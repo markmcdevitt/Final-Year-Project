@@ -60,7 +60,7 @@
 			<div class="tab-content">
 				<div class="tab-pane active" id="home">
 					<div class="table-responsive">
-						<c:if test="${ empty recipeList}">
+						<c:if test="${empty recipeList}">
 							<br>
 							<p>You have not created a recipe yet.</p>
 							<a href="${pageContext.request.contextPath}/createrecipe"><p>click
@@ -212,13 +212,14 @@
 				<div class="tab-pane" id="favourite">
 					<div class="table-responsive">
 						<table class="table table-hover">
-
-							<c:if test="${empty recipeList}">
+							<c:if test="${empty user.usersFavorites}">
 								<br>
 								<p>You dont have any favourites.</p>
 								<a href="${pageContext.request.contextPath}/createrecipe">Click
 									here to find a recipe that you like</a>
 							</c:if>
+							
+						<c:if test="${not empty user.usersFavorites}">
 							<thead>
 								<tr>
 									<td><b>Recipe Name</b></td>
@@ -252,6 +253,7 @@
 									</tr>
 								</c:forEach>
 							</tbody>
+							</c:if>
 						</table>
 						<hr>
 						<div class="row">

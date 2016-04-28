@@ -141,7 +141,6 @@ public class SearchController {
 								nonAllergicRecipes.remove(r);
 								break;
 							}
-
 						}
 					}
 					model.addAttribute("recipe", nonAllergicRecipes);

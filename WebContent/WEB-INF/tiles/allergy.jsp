@@ -1,6 +1,6 @@
 <form action="${pageContext.request.contextPath}/yourallergy"
 	method="get">
-		<table class="table table-hover table-bordered"  style="width:30%">
+		<table class="table table-bordered table-striped"  style="width:30%">
 			<thead>
 				<tr>
 					<th>Allergy</th>
@@ -58,7 +58,7 @@
 				</tr>
 			</tbody>
 		</table>
-	<input type="submit" value="Submit">
+	<input type="submit" class="btn btn-primary btn-lg" value="Submit">
 </form>
 <script>
 	if (document.getElementById("nuts").checked) {
