@@ -140,11 +140,9 @@ public class IngredientController {
 					tablespoon += 1;
 				} while (check >= 3);
 				String finishedAmount;
-				if(tablespoon>1){
-					finishedAmount = tablespoon + " tablespoons and " + (int)newAmount;
-				}else{
+				
 					finishedAmount = tablespoon + " tablespoon and " + (int)newAmount;
-				}		 
+				 
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));

@@ -145,7 +145,7 @@ public class WeeklyPlanController {
 		String username = principal.getName();
 		User user = weeklyPlanService.getUserWeeklyPlan(username);
 		List<WeeklyPlan> wkPlan  = user.getWeeklyPlan();
-		String date = String.valueOf(timeStamp);
+
 
 	    Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
 	        DateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
@@ -196,18 +196,10 @@ public class WeeklyPlanController {
 				}
 
 			}
-			String cal = null;
-			try {
-				double calories = ((Double.parseDouble(recipe.getCalories()) / Integer.parseInt(recipe.getPeopleFed()))
-						* serves);
-				cal = String.valueOf((int) round(calories, 0));
-			} catch (Exception e) {
-				cal = "Unknown";
-			}
+		
 
 			recipe.setIngredients(ingredientList);
 			recipe.setPeopleFed(String.valueOf(serves));
-			recipe.setCalories(cal);
 			weeklyPlanController.setRecipe(recipe);
 
 		} else {
@@ -351,9 +343,24 @@ public class WeeklyPlanController {
 		if (newDate) {
 			plan.add(weeklyPlan);
 		}
+		user.setWeeklyPlan(plan);
+		
+		List<WeeklyPlan> wkPlan  = user.getWeeklyPlan();
+
+
+	    Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
+	      
+			@Override
+			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
+				 return arg1.getDate().compareTo(arg0.getDate());
+			}
+	    });
+	    user.setWeeklyPlan(wkPlan);
+	    
+	    
 
 		user.setUsername(username);
-		user.setWeeklyPlan(plan);
+		
 		user.setShoppingList(completeList);
 		recipeService.saveOrUpdate(user);
 		List<User> userList = new ArrayList<User>();
@@ -372,6 +379,7 @@ public class WeeklyPlanController {
 			shoppingList.setIngredient(ing);
 			double total = 0;
 			if (shoppingList2.getQuantity().contains("tablespoon")) {
+				System.out.println(shoppingList2.getQuantity() );
 				List<String> list = Arrays.asList(shoppingList2.getQuantity().split("tablespoon and"));
 				double tablespoon = 3;
 				double teaspoon = Double.parseDouble(list.get(1));
@@ -405,8 +413,11 @@ public class WeeklyPlanController {
 			String amount = String.valueOf((int) rounded);
 			shoppingList.setQuantity(amount);
 		} else {
+			
 			shoppingList.setIngredient(shoppingList2.getIngredient());
-			shoppingList.setQuantity(shoppingList2.getQuantity());
+			double amount =Double.parseDouble(shoppingList2.getQuantity());
+			int rounded = (int) Math.ceil(amount);
+			shoppingList.setQuantity(String.valueOf((rounded)));
 		}
 
 		return shoppingList;

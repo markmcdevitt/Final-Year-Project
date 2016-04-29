@@ -97,13 +97,14 @@
 									<div class="row">
 										<div class="col-xs-12 col-md-5">
 											<form class="form-horizontal"
+												onsubmit="return validateForm()" name="myForm"
 												action="${pageContext.request.contextPath}/addToShoppingList"
 												method="post">
 												<div class="form-group" align="right">
 													<label class="col-md-3 control-label">Ingredients</label>
 													<div class="col-md-9">
 														<input class="form-control" placeholder="Quantity"
-															name="ingredientQuantity" type="text" width="2"></input>
+															name="ingredientQuantity" onkeypress='validate(event)'type="text" width="2"></input>
 														<input class="form-control" name="ingredientName"
 															placeholder="Measurement and Name" type="text"></input>
 														<button type="submit" class="mybutton btn ">Add
@@ -165,6 +166,31 @@
 
 	function myFunction() {
 		window.print();
+	}
+	function validateForm() {
+		var x = document.forms["myForm"]["ingredientQuantity"].value;
+		var y = document.forms["myForm"]["ingredientName"].value;
+
+		if (x == null || x == "") {
+			alert("Must add ingredient amount");
+			return false;
+		}
+		if (y == null || y == "") {
+			alert("Must add ingredient measurement and name");
+			return false;
+		}
+	}
+
+	function validate(evt) {
+		var theEvent = evt || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		key = String.fromCharCode(key);
+		var regex = /[0-9]|\./;
+		if (!regex.test(key)) {
+			theEvent.returnValue = false;
+			if (theEvent.preventDefault)
+				theEvent.preventDefault();
+		}
 	}
 </script>
 

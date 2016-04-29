@@ -620,9 +620,10 @@ public class RecipeController {
 		if (amount % 3 == 0 && name.contains("teaspoon")) {
 
 			tablespoon = (int) (amount / 3.0);
-			String newName = name.replace("teaspoon", "tablespoon");
+			String newName = name.replace("teaspoon", "tablespoon");	
 			ingredient.setIngredientName(newName);
 			ingredient.setIngredientAmount(String.valueOf(tablespoon));
+			
 			
 		} else if (ingredient.getIngredientName().contains("teaspoon") && amount >= 3) {
 
@@ -635,11 +636,9 @@ public class RecipeController {
 
 			ingredient.setIngredientName(name);
 
-			if (tablespoon > 1) {
-				finishedAmount = tablespoon + " tablespoons and " + (int) amount;
-			} else {
+	
 				finishedAmount = tablespoon + " tablespoon and " + (int) amount;
-			}
+	
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
 			finishedAmount = String.valueOf((int)noDecimalPoint);
