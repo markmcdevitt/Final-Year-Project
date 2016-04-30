@@ -14,6 +14,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 </head>
 
+<input id="review" name="review" type="hidden"
+	value="<c:out value="${review}"/>">
+<input id="fav" name="fav" type="hidden"
+	value="<c:out value="${fav}"/>">	
 
 <input id="answer" name="answer" type="hidden"
 	value="<c:out value="${answer}"/>">
@@ -24,8 +28,8 @@
 	</h3>
 
 	<div align="right">
-		<a href="${pageContext.request.contextPath}/favourite/${recipe.id}"
-			class="btn btn-default"><span class="glyphicon glyphicon-star"></span>
+		<a href="${pageContext.request.contextPath}/favourite/${recipe.id}" id="myLink"
+			class="btn btn-default"><span id="favb" class="glyphicon glyphicon-star"></span>
 		</a>
 	</div>
 
@@ -135,7 +139,7 @@
 		<div class="form-group">
 			<label for="comment">Your Review:</label>
 			<textarea name="message" class="form-control" rows="5" id="comment"></textarea>
-			<button type="button" class="btn btn-info btn-lg" data-toggle="modal"
+			<button id="myBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal"
 				data-target="#myModal">Submit Review</button>
 
 		</div>
@@ -286,6 +290,19 @@ body {
 	}else{
 		document.getElementById("high").style="color:#A00108"
 		}
+</script>
+<script type="text/javascript">
+	var review = document.getElementById('review').value;
+	if (review == "true") {
+		document.getElementById("myBtn").disabled = true;
+	}
+</script>
+<script type="text/javascript">
+	var fav = document.getElementById('fav').value;
+	if (fav == "true") {
+		 document.getElementById("favb").style="color:gold"
+			 $("#myLink").removeAttribute("href");
+	}
 </script>
 <style>
 .leftDiv {

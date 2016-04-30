@@ -103,9 +103,9 @@
 												<div class="form-group" align="right">
 													<label class="col-md-3 control-label">Ingredients</label>
 													<div class="col-md-9">
-														<input class="form-control" placeholder="Quantity"
+														<input required="required" class="form-control" placeholder="Quantity"
 															name="ingredientQuantity" onkeypress='validate(event)'type="text" width="2"></input>
-														<input class="form-control" name="ingredientName"
+														<input required="required" class="form-control" name="ingredientName"
 															placeholder="Measurement and Name" type="text"></input>
 														<button type="submit" class="mybutton btn ">Add
 															To Your Shopping List</button>

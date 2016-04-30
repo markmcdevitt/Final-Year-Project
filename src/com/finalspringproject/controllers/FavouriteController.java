@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.finalspringproject.entity.Favorite;
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.Review;
 import com.finalspringproject.entity.User;
 import com.finalspringproject.service.AllergyService;
 import com.finalspringproject.service.RecipeService;
@@ -72,6 +73,33 @@ public class FavouriteController {
 			r.setIngredientAmount(recipeController.ingredientAmount(Double.parseDouble(r.getIngredientAmount())));
 		}
 		
+		String ableToReview = "false";
+		try {
+			List<Recipe> recipeList2 = user.getRecipes();
+			for (Recipe r : recipeList2) {
+				System.out.println("here 3");
+				if (recipeList.get(0).getTitleParse().equals(r.getTitleParse())) {
+					System.out.println("here " + r.toString());
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("recipe catch");
+		}
+		try {
+			List<Review> reviewList = recipeList.get(0).getReview();
+			for (Review review : reviewList) {
+				System.out.println("here 4");
+				if (review.getUser().getUsername().equals(user.getUsername())) {
+					System.out.println("here " + review.getUser().toString());
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("review catch");
+		}
+
+		model.addAttribute("review", ableToReview);
 
 		model.addAttribute("recipe", recipeList);
 		

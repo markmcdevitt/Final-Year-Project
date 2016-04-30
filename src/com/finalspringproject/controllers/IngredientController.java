@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.Review;
 import com.finalspringproject.entity.User;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
@@ -42,7 +43,8 @@ public class IngredientController {
 	}
 
 	@RequestMapping("/adjustRecipe/{id}")
-	public String adjustRecipe(Model model, @PathVariable int id, @RequestParam(value = "quantity") String quan, Principal principal) {
+	public String adjustRecipe(Model model, @PathVariable int id, @RequestParam(value = "quantity") String quan,
+			Principal principal) {
 
 		Recipe recipe = recipeService.getOneRecipe(id);
 		List<Recipe> recipeList = new ArrayList<Recipe>();
@@ -62,7 +64,7 @@ public class IngredientController {
 			if (ingAmount == 1) {
 				Ingredient ing = new Ingredient();
 				ing = wholeNumber(ingAmount, serves, quantity, ingredient);
-				
+
 				ingredient.setIngredientAmount(ing.getIngredientAmount());
 				ingredient.setIngredientName(ing.getIngredientName());
 			} else {
@@ -77,25 +79,21 @@ public class IngredientController {
 			}
 
 		}
-		
-	
+
 		recipe.setIngredients(ingredientList);
 		recipe.setPeopleFed(quan);
 		recipeList.add(recipe);
 		User user;
-		
+
 		String level = recipeList.get(0).getLevel();
 		try {
-			 user = usersService.getUser(principal.getName());
+			user = usersService.getUser(principal.getName());
 		} catch (Exception e) {
-			 user = new User();
+			user = new User();
 		}
-		
 
 		int recipeLevel = levelCheck(level);
 		int userLevel = levelCheck(user.getUserLevel());
-
-		System.out.println(userLevel + "check " + recipeLevel);
 
 		String answer;
 		if (userLevel >= recipeLevel) {
@@ -103,6 +101,29 @@ public class IngredientController {
 		} else {
 			answer = "unknown";
 		}
+		String ableToReview = "false";
+		try {
+			List<Recipe> recipeList2 = user.getRecipes();
+			for (Recipe r : recipeList2) {
+				if (recipeList.get(0).getTitleParse().equals(r.getTitleParse())) {
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("recipe catch");
+		}
+		try {
+			List<Review> reviewList = recipeList.get(0).getReview();
+			for (Review review : reviewList) {
+				if (review.getUser().getUsername().equals(user.getUsername())) {
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("review catch");
+		}
+
+		model.addAttribute("review", ableToReview);
 
 		model.addAttribute("answer", answer);
 		model.addAttribute("recipe", recipeList);
@@ -125,14 +146,14 @@ public class IngredientController {
 
 		if (newAmount % 1 == 0) {
 			int tablespoon = 0;
-			
+
 			if (newAmount % 3 == 0 && ingredient.getIngredientName().contains("teaspoon")) {
 				tablespoon = (int) (newAmount / 3.0);
 				String name = ingredient.getIngredientName().replace("teaspoon", "tablespoon");
 				ingredient.setIngredientName(name);
 				ingredient.setIngredientAmount(String.valueOf(tablespoon));
 
-			} else if (ingredient.getIngredientName().contains("teaspoon")&& newAmount>=3) {
+			} else if (ingredient.getIngredientName().contains("teaspoon") && newAmount >= 3) {
 				int check = (int) newAmount;
 				do {
 					check -= 3;
@@ -140,18 +161,18 @@ public class IngredientController {
 					tablespoon += 1;
 				} while (check >= 3);
 				String finishedAmount;
-				
-					finishedAmount = tablespoon + " tablespoon and " + (int)newAmount;
-				 
+
+				finishedAmount = tablespoon + " tablespoon and " + (int) newAmount;
+
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
 			}
 
 		} else {
-			double teaspoon=0;
-			if (newAmount < 1 && ingredient.getIngredientName().contains("tablespoon")){
-				teaspoon =  newAmount *3;
+			double teaspoon = 0;
+			if (newAmount < 1 && ingredient.getIngredientName().contains("tablespoon")) {
+				teaspoon = newAmount * 3;
 				String name = ingredient.getIngredientName().replace("tablespoon", "teaspoon");
 				ingredient.setIngredientName(name);
 				ingredient.setIngredientAmount(String.valueOf(teaspoon));
@@ -162,7 +183,7 @@ public class IngredientController {
 
 		return ingredient;
 	}
-	
+
 	public int levelCheck(String level) {
 
 		int check;

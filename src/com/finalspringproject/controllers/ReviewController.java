@@ -28,6 +28,11 @@ public class ReviewController {
 		this.usersService = usersService;
 	}
 
+	@Autowired
+	public void setRecipeService(RecipeService recipeService) {
+		this.recipeService = recipeService;
+	}
+
 	@RequestMapping("/createreview/{titleParse}")
 	public String createreview(Model model, @RequestParam(value = "message") String message,
 			@RequestParam(value = "rating-input-1") String rating, @PathVariable String titleParse,
@@ -84,18 +89,14 @@ public class ReviewController {
 			answer = "unknown";
 		}
 
+		String ableToReview ="true";
+		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
-		
-
 		model.addAttribute("recipe", recipe);
 		
 		return "recipe";
 	}
 
-	@Autowired
-	public void setRecipeService(RecipeService recipeService) {
-		this.recipeService = recipeService;
-	}
 	
 	public int levelCheck(String level) {
 

@@ -20,8 +20,8 @@
 						<div class="row">
 							<div class="col-xs-8 col-sm-8 col-md-8">
 								<div class="form-group">
-									<input id="dateformat" type="date" class="form-control" 
-										name="date"></input><br />
+									<input id="dateformat" type="date" class="form-control"
+										name="date" required="required"></input><br />
 								</div>
 							</div>
 						</div>
@@ -33,7 +33,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 text-right">
-							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							 <input type="submit" id="submit" value="Submit" class="btn btn-primary btn-lg" >
 						</div>
 					</sf:form>
 				</div>
@@ -55,6 +55,7 @@
 		mm = '0' + mm
 	}
 
-	today =  dd+ '-' + mm + '-' + yyyy;
+	today = dd + '-' + mm + '-' + yyyy;
 	document.getElementById('dateformat').setAttribute("min", "today");
+
 </script>

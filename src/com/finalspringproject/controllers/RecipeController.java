@@ -34,9 +34,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finalspringproject.dao.FormValidationGroup;
 import com.finalspringproject.entity.Category;
+import com.finalspringproject.entity.Favorite;
 import com.finalspringproject.entity.Ingredient;
 import com.finalspringproject.entity.Instructions;
 import com.finalspringproject.entity.Recipe;
+import com.finalspringproject.entity.Review;
 import com.finalspringproject.entity.User;
 import com.finalspringproject.service.RecipeService;
 import com.finalspringproject.service.UsersService;
@@ -154,48 +156,69 @@ public class RecipeController {
 		int recipeLevel = levelCheck(level);
 		int userLevel = levelCheck(user.getUserLevel());
 
-		System.out.println(userLevel + "check " + recipeLevel);
-
 		String answer;
 		if (userLevel >= recipeLevel) {
 			answer = recipe.get(0).getLevel();
 		} else {
 			answer = "unknown";
 		}
+		String ableToReview = "false";
+		String fav = "false";
+		try {
+			List<Recipe> recipeList = user.getRecipes();
+			for (Recipe r : recipeList) {
+				if (recipe.get(0).getTitleParse().equals(r.getTitleParse())) {
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("recipe catch");
+		}
+		try {
+			List<Review> reviewList = recipe.get(0).getReview();
+			for (Review review : reviewList) {
+				if (review.getUser().getUsername().equals(user.getUsername())) {
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("review catch");
+		}
+		
+		try {
+			List<Favorite> favorites = user.getUsersFavorites();
+			for (Favorite favorite : favorites) {
+				if (favorite.getRecipe().getTitleParse().equals(recipe.get(0).getTitleParse())) {
+					fav = "true";
+				}
+			}
+		} catch (Exception e) {
+		
+		}
 
+		model.addAttribute("fav", fav);
+		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
 		model.addAttribute("recipe", recipe);
 		return "recipe";
 	}
 
 	@RequestMapping("/createrecipe")
-	public String createRecipe(Model model, Principal principal) {
-		Recipe recipe = null;
-		if (principal != null) {
-			String username = principal.getName();
-			recipe = null;
-		}
-
-		if (recipe == null) {
-			recipe = new Recipe();
-		}
-		model.addAttribute("recipe", recipe);
+	public String createRecipe() {
 		return "createrecipe";
 	}
 
 	@RequestMapping(value = "/docreate", method = RequestMethod.POST)
-	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,BindingResult result,
-			@RequestParam(value = "ingredientQuantity") String ingredientAmount,
+	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,
+			BindingResult result, @RequestParam(value = "ingredientQuantity") String ingredientAmount,
 			@RequestParam(value = "type") String category,
-			@RequestParam(value = "ingredientName") String ingredientName,  Principal principal,
+			@RequestParam(value = "ingredientName") String ingredientName, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
 
 		if (recipe.getCalories().equals(",no")) {
 			recipe.setCalories("Unknown");
-			System.out.println("calories: "+recipe.getCalories());
 		} else {
 			String calories = recipe.getCalories().replace(",no", "");
-			System.out.println("calories: "+calories);
 			recipe.setCalories(calories);
 		}
 
@@ -210,7 +233,6 @@ public class RecipeController {
 			User user = usersService.getUser(principal.getName());
 			Category categoryObj = new Category(category);
 			List<Recipe> list = user.getRecipes();
-			
 
 			int score = recipe.getInstructions().size() + ingList.size() + Integer.parseInt(recipe.getPeopleFed());
 
@@ -219,18 +241,18 @@ public class RecipeController {
 			recipe.setLevel(level);
 			recipe.setIngredients(ingList);
 			recipe.setCategory(categoryObj);
-			
+
 			list.add(recipe);
 			user.setRecipes(list);
-	
+
 			try {
-				Recipe recipe2= recipeService.getCurrentRecipe(recipe.getTitleParse());
+				Recipe recipe2 = recipeService.getCurrentRecipe(recipe.getTitleParse());
 				recipeService.saveOrUpdate(user);
 			} catch (Exception e) {
 				result.rejectValue("titleParse", "DuplicateName.recipe.titleparse");
 				return "createrecipe";
 			}
-		
+
 			List<Recipe> recipeList = getOneRecipe(recipe.getId());
 			model.addAttribute("recipe", recipeList);
 			return "recipe";
@@ -265,8 +287,6 @@ public class RecipeController {
 		}
 		for (Ingredient i : ingList) {
 			if (i.getIngredientAmount().contains("/")) {
-				System.out.println(i.getIngredientAmount());
-				System.out.println("fraction");
 				List<String> list = Arrays.asList(i.getIngredientAmount().split("/"));
 				String whole = "0";
 				int n = 0;
@@ -283,23 +303,16 @@ public class RecipeController {
 				} else {
 					n = Integer.parseInt(list.get(0));
 				}
-				System.out.println(list.get(0) + "something " + list.get(1));
 				int d = Integer.parseInt(list.get(1));
 				list = null;
 				double fraction = (double) n / (double) d;
-				System.out.println(fraction + " = " + (double) n + "/" + (double) d);
 				double complete = Double.parseDouble(whole) + fraction;
-				System.out.println(complete + " = " + whole + "+" + fraction);
 
 				String string = (String.valueOf(complete));
-				System.out.println("string   " + string);
 				i.setIngredientName(i.getIngredientName());
 				i.setIngredientAmount(string);
 			}
 
-		}
-		for (Ingredient i : ingList) {
-			System.out.println(i.toString());
 		}
 		return ingList;
 	}
@@ -310,8 +323,6 @@ public class RecipeController {
 		double newAmount = oneServing * quantity;
 
 		if (newAmount % 1 == 0) {
-			System.out.println(ingredient.getIngredientName() + " is a one " + ingredient.getIngredientAmount());
-
 			int tablespoon = 0;
 
 			if (newAmount % 3 == 0 && ingredient.getIngredientName().contains("teaspoon")) {
@@ -333,7 +344,7 @@ public class RecipeController {
 				String finishedAmount = tablespoon + " tablespoons and " + newAmount;
 				ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 			} else {
-				
+
 				ingredient.setIngredientAmount(String.valueOf((int) newAmount));
 			}
 
@@ -620,11 +631,10 @@ public class RecipeController {
 		if (amount % 3 == 0 && name.contains("teaspoon")) {
 
 			tablespoon = (int) (amount / 3.0);
-			String newName = name.replace("teaspoon", "tablespoon");	
+			String newName = name.replace("teaspoon", "tablespoon");
 			ingredient.setIngredientName(newName);
 			ingredient.setIngredientAmount(String.valueOf(tablespoon));
-			
-			
+
 		} else if (ingredient.getIngredientName().contains("teaspoon") && amount >= 3) {
 
 			int check = (int) amount;
@@ -636,12 +646,11 @@ public class RecipeController {
 
 			ingredient.setIngredientName(name);
 
-	
-				finishedAmount = tablespoon + " tablespoon and " + (int) amount;
-	
+			finishedAmount = tablespoon + " tablespoon and " + (int) amount;
+
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		} else {
-			finishedAmount = String.valueOf((int)noDecimalPoint);
+			finishedAmount = String.valueOf((int) noDecimalPoint);
 			ingredient.setIngredientAmount(String.valueOf(finishedAmount));
 		}
 		return ingredient;
@@ -662,13 +671,17 @@ public class RecipeController {
 			denominator = 99;
 		} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")
 				|| fraction[1].equals("6666666666666666") || fraction[1].equals("06666666666666666")
-				|| fraction[1].equals("6666666666666665") || fraction[1].contains("6666666666666666")){
+				|| fraction[1].equals("6666666666666665") || fraction[1].contains("6666666666666666")) {
 			fraction[1] = "66";
 			denominator = 99;
-		}else if (fraction[1].contains("1666")) {
+		} else if (fraction[1].contains("1666")) {
 			fraction[1] = "1";
 			denominator = 6;
+		}else if(fraction[1].contains("8333333333333333")){
+			fraction[1] = "5";
+			denominator = 6;
 		}
+		
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
 		for (int i2 = 2; i2 <= 33; i2++) {
 			if (numerator % i2 == 0 && denominator % i2 == 0) {
@@ -681,7 +694,7 @@ public class RecipeController {
 		if (numerator > denominator && !(denominator == 1)) {
 			int whole = (int) Math.floor(numerator / denominator);
 			int newNum2 = numerator - (whole * denominator);
-			if (name.contains("teaspoon") && whole >= 3) {///HERE
+			if (name.contains("teaspoon") && whole >= 3) {/// HERE
 				int tablespoon = 0;
 				if (whole % 3 == 0) {
 					tablespoon = whole / 3;

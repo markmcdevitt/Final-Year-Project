@@ -86,11 +86,13 @@ public class ShoppingListController {
 				double quantity = Double.parseDouble(sl.getQuantity())+Double.parseDouble(ingredientAmount);
 				String quan = String.valueOf((int) round(quantity, 0));
 				sl.setQuantity(quan);
-				System.out.println(quan);
 				sameIng=true;
 			}
 		}
 		if(!sameIng){
+		double quantity = Double.parseDouble(shoppingList.getQuantity());	
+		String quan = String.valueOf((int) round(quantity, 0));	
+		shoppingList.setQuantity(quan);
 		user.getShoppingList().add(shoppingList);
 		}
 		recipeService.saveOrUpdate(user);
