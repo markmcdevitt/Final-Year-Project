@@ -237,7 +237,7 @@ public class SearchController {
 
 		List<User> chefList = new ArrayList<User>();
 
-		String level=null;
+		String level="Newbie";
 		chefList = userService.findChef(search);
 		if(!chefList.get(0).getRecipes().isEmpty()){
 			level = userController.calculateUserLevel(chefList.get(0));
