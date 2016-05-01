@@ -25,7 +25,7 @@ public class IngredientController {
 
 	private RecipeService recipeService;
 	private UsersService usersService;
-	private RecipeController recipeController;
+	private RecipeController recipeController = new RecipeController();
 
 	@Autowired
 	public void setRecipeController(RecipeController recipeController) {
@@ -101,30 +101,14 @@ public class IngredientController {
 		} else {
 			answer = "unknown";
 		}
-		String ableToReview = "false";
-		try {
-			List<Recipe> recipeList2 = user.getRecipes();
-			for (Recipe r : recipeList2) {
-				if (recipeList.get(0).getTitleParse().equals(r.getTitleParse())) {
-					ableToReview = "true";
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("recipe catch");
-		}
-		try {
-			List<Review> reviewList = recipeList.get(0).getReview();
-			for (Review review : reviewList) {
-				if (review.getUser().getUsername().equals(user.getUsername())) {
-					ableToReview = "true";
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("review catch");
-		}
-
+		String ableToReview="false";
+		String fav = "false";
+		
+		ableToReview = recipeController.ableToReview(ableToReview, user, recipeList);
+		fav=recipeController.FavoriteCheck(user,fav,recipeList);
+		
+		model.addAttribute("fav", fav);
 		model.addAttribute("review", ableToReview);
-
 		model.addAttribute("answer", answer);
 		model.addAttribute("recipe", recipeList);
 		return "recipe";

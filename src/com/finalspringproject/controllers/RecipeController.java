@@ -167,7 +167,6 @@ public class RecipeController {
 		String fav = "false";
 		fav=FavoriteCheck(user,fav,recipe);
 		
-		System.out.println("fav "+fav);
 		model.addAttribute("fav", fav);
 		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
