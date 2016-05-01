@@ -90,11 +90,9 @@ public class FavouriteController {
 			fav="false";
 		}
 		
-		System.out.println("fav "+fav);
 		model.addAttribute("fav", fav);
 		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
-
 		model.addAttribute("recipe", recipeList);
 		
 		return "recipe";

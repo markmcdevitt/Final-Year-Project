@@ -81,6 +81,10 @@ public class UserController {
 		}
 		User oldDetails = usersService.getUser(user.getUsername());
 
+		user.setUserLevel(oldDetails.getUserLevel());
+		user.setIngredientsOwned(oldDetails.getIngredientsOwned());
+		user.setUsersAllergys(oldDetails.getUsersAllergys());
+		user.setUsersFavorites(oldDetails.getUsersFavorites());
 		user.setRecipes(oldDetails.getRecipes());
 		user.setShoppingList(oldDetails.getShoppingList());
 		user.setWeeklyPlan(oldDetails.getWeeklyPlan());

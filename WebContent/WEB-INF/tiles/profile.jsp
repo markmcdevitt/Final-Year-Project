@@ -110,7 +110,7 @@
 
 				<div class="tab-pane" id="settings">
 					<hr>
-					<form class="form"
+					<form id ="details" class="form"
 						action="${pageContext.request.contextPath}/editDetails"
 						method="post">
 						<div class="form-group">
@@ -124,8 +124,8 @@
 						<div class="form-group">
 
 							<div class="col-xs-6">
-								<label for="last_name"><h4>Email</h4></label> <input type="text"
-									class="form-control" name="email" id="email"
+								<label for="last_name"><h4>Email</h4></label> <input type="email"
+									class="form-control" name="email" id="email" style='width:250px'
 									value="<c:out value="${user.email}"></c:out>">
 							</div>
 						</div>
@@ -135,15 +135,15 @@
 							<div class="col-xs-6">
 								<label for="phone"><h4>Password</h4></label> <input
 									type="password" class="form-control" name="password"
-									id="password" placeholder="New Password">
+									id="password" placeholder="New Password" required="required">
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-xs-6">
 								<label for="mobile"><h4>Confirm Password</h4></label> <input
 									type="password" class="form-control" name="confirmpass"
-									id="confirmpass" placeholder="Confirm Password">
-								<div id=matchpass></div>
+									id="confirmpass" placeholder="Confirm Password" required="required">
+								<div id=matchpass>here</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -218,41 +218,41 @@
 								<a href="${pageContext.request.contextPath}/allrecipes">Click
 									here to find a recipe that you like</a>
 							</c:if>
-							
-						<c:if test="${not empty user.usersFavorites}">
-							<thead>
-								<tr>
-									<td><b>Recipe Name</b></td>
-									<td><b>Description</b></td>
-									<td><b>Rating</b></td>
-									<td><b>Calories</b></td>
-									<td><b>Serves</b></td>
-								</tr>
-							</thead>
-							<tbody id="items">
-								<c:forEach var="favouriteList" items="${user.usersFavorites}">
+
+							<c:if test="${not empty user.usersFavorites}">
+								<thead>
 									<tr>
-										<td><a
-											href="${pageContext.request.contextPath}/recipe/${favouriteList.recipe.id}"><c:out
-													value="${favouriteList.recipe.titleParse}"></c:out></a></td>
-										<c:if test="${not empty favouriteList.recipe.totalRating}">
-											<td><span class="stars"><span><c:out
-															value="${favouriteList.recipe.totalRating}"></c:out></span></span></td>
-										</c:if>
-										<c:if test="${empty favouriteList.recipe.totalRating}">
-											<td>Not Rated Yet</td>
-										</c:if>
-										<td><c:out
-												value="${favouriteList.recipe.descriptionParse}"></c:out></td>
-										<td><c:out value="${favouriteList.recipe.calories}"></c:out></td>
-										<td><c:out value="${favouriteList.recipe.peopleFed}"></c:out></td>
-										<td><a
-											href="<c:out value="${pageContext.request.contextPath}/deleteFavourite/${favouriteList.recipe.id}"></c:out>"
-											class="btn btn-default"><span
-												class="glyphicon glyphicon-floppy-remove"></span> </a></td>
+										<td><b>Recipe Name</b></td>
+										<td><b>Description</b></td>
+										<td><b>Rating</b></td>
+										<td><b>Calories</b></td>
+										<td><b>Serves</b></td>
 									</tr>
-								</c:forEach>
-							</tbody>
+								</thead>
+								<tbody id="items">
+									<c:forEach var="favouriteList" items="${user.usersFavorites}">
+										<tr>
+											<td><a
+												href="${pageContext.request.contextPath}/recipe/${favouriteList.recipe.id}"><c:out
+														value="${favouriteList.recipe.titleParse}"></c:out></a></td>
+											<c:if test="${not empty favouriteList.recipe.totalRating}">
+												<td><span class="stars"><span><c:out
+																value="${favouriteList.recipe.totalRating}"></c:out></span></span></td>
+											</c:if>
+											<c:if test="${empty favouriteList.recipe.totalRating}">
+												<td>Not Rated Yet</td>
+											</c:if>
+											<td><c:out
+													value="${favouriteList.recipe.descriptionParse}"></c:out></td>
+											<td><c:out value="${favouriteList.recipe.calories}"></c:out></td>
+											<td><c:out value="${favouriteList.recipe.peopleFed}"></c:out></td>
+											<td><a
+												href="<c:out value="${pageContext.request.contextPath}/deleteFavourite/${favouriteList.recipe.id}"></c:out>"
+												class="btn btn-default"><span
+													class="glyphicon glyphicon-floppy-remove"></span> </a></td>
+										</tr>
+									</c:forEach>
+								</tbody>
 							</c:if>
 						</table>
 						<hr>
@@ -422,6 +422,49 @@
 
 		}
 	}
+</script>
+<script type="text/javascript">
+	function onLoad() {
+
+		$("#password").keyup(checkPasswordsMatch);
+		$("#confirmpass").keyup(checkPasswordsMatch);
+
+		$("#details").submit(canSubmit);
+	}
+
+	function canSubmit() {
+		var password = $("#password").val();
+		var confirmpass = $("#confirmpass").val();
+
+		if (password != confirmpass) {
+			alert("Passwords do not match!")
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	function checkPasswordsMatch() {
+		var password = $("#password").val();
+		var confirmpass = $("#confirmpass").val();
+
+		if (confirmpass.length > 0) {
+
+			if (password == confirmpass) {
+				$("#matchpass").text(
+						"Passwords match");
+				$("#matchpass").addClass("valid");
+				$("#matchpass").removeClass("error");
+			} else {
+				$("#matchpass")
+						.text("Passwords dont match");
+				$("#matchpass").addClass("error");
+				$("#matchpass").removeClass("valid");
+			}
+		}
+	}
+
+	$(document).ready(onLoad);
 </script>
 <style>
 .leftDiv {
