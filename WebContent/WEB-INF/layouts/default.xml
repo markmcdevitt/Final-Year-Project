@@ -135,9 +135,9 @@
 		<put-attribute name="content" value="/WEB-INF/tiles/scraperecipes.jsp"></put-attribute>
 	</definition>
 
-	<definition name="allshoppinglists" extends="recipes.base">
-		<put-attribute name="title" value="All The Shopping Lists"></put-attribute>
+	<definition name="createRecipeDuplicate" extends="recipes.base">
+		<put-attribute name="title" value="Create Recipe"></put-attribute>
 		<put-attribute name="content"
-			value="/WEB-INF/tiles/allshoppinglists.jsp"></put-attribute>
+			value="/WEB-INF/tiles/createRecipeDuplicate.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>

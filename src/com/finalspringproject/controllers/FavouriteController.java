@@ -25,12 +25,13 @@ public class FavouriteController {
 	private UsersService usersService;
 	private RecipeService recipeService;
 	private AllergyService allergyService;
+	private RecipeController recipeController = new RecipeController();
 
 	@Autowired
 	public void setAllergyService(AllergyService allergyService) {
 		this.allergyService = allergyService;
 	}
-
+ 
 	@Autowired
 	public void setRecipeService(RecipeService recipeService) {
 		this.recipeService = recipeService;
@@ -54,8 +55,6 @@ public class FavouriteController {
 		int recipeLevel = levelCheck(level);
 		int userLevel = levelCheck(user.getUserLevel());
 
-		System.out.println(userLevel + "check " + recipeLevel);
-
 		String answer;
 		if (userLevel >= recipeLevel) {
 			answer = recipeList.get(0).getLevel();
@@ -65,41 +64,36 @@ public class FavouriteController {
 
 		model.addAttribute("answer", answer);
 		
-		user.getUsersFavorites().add(favorite);
-		usersService.updateUser(user);
-		
 		RecipeController recipeController = new RecipeController();
 		for(Ingredient r:recipeList.get(0).getIngredients()){
 			r.setIngredientAmount(recipeController.ingredientAmount(Double.parseDouble(r.getIngredientAmount())));
 		}
 		
-		String ableToReview = "false";
-		try {
-			List<Recipe> recipeList2 = user.getRecipes();
-			for (Recipe r : recipeList2) {
-				System.out.println("here 3");
-				if (recipeList.get(0).getTitleParse().equals(r.getTitleParse())) {
-					System.out.println("here " + r.toString());
-					ableToReview = "true";
+		String ableToReview="false";
+		ableToReview = recipeController.ableToReview(ableToReview, user, recipeList);
+		String fav = "false";
+		fav = recipeController.FavoriteCheck(user,fav,recipeList);
+		
+		if(!fav.equals("true")){
+			user.getUsersFavorites().add(favorite);
+			usersService.updateUser(user);
+			fav="true";
+			
+		}else{
+			List<Favorite>favoriteList = user.getUsersFavorites();
+			for(int i = 0;i<favoriteList.size();i++){
+				if(favoriteList.get(i).getRecipe().getId()==id){
+					favoriteList.remove(i);
 				}
 			}
-		} catch (Exception e) {
-			System.out.println("recipe catch");
+			usersService.updateUser(user);
+			fav="false";
 		}
-		try {
-			List<Review> reviewList = recipeList.get(0).getReview();
-			for (Review review : reviewList) {
-				System.out.println("here 4");
-				if (review.getUser().getUsername().equals(user.getUsername())) {
-					System.out.println("here " + review.getUser().toString());
-					ableToReview = "true";
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("review catch");
-		}
-
+		
+		System.out.println("fav "+fav);
+		model.addAttribute("fav", fav);
 		model.addAttribute("review", ableToReview);
+		model.addAttribute("answer", answer);
 
 		model.addAttribute("recipe", recipeList);
 		
@@ -112,14 +106,12 @@ public class FavouriteController {
 		User user = usersService.getUser(principal.getName());
 		Recipe recipe = recipeService.getOneRecipe(id);
 
-		System.out.println(user.getUsersFavorites().size());
 		List<Favorite>favoriteList = user.getUsersFavorites();
 		for(int i = 0;i<favoriteList.size();i++){
 			if(favoriteList.get(i).getRecipe().getId()==id){
 				favoriteList.remove(i);
 			}
 		}
-		System.out.println(user.getUsersFavorites().size());
 		usersService.updateUser(user);
 		List<Recipe> recipeList = new ArrayList<>();
 		recipeList.add(recipe);

@@ -64,7 +64,7 @@
 							<label class="col-md-3 control-label">Title</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="Title"
-									path="titleParse" name="titleParse" type="text">
+									path="titleParse" name="titleParse" type="text"><p style="color:red"><small>This title is alrady in use, please pick another</small></p>
 							</div>
 						</div>
 

@@ -23,6 +23,8 @@ public class ReviewController {
 	private RecipeService recipeService;
 	private UsersService usersService;
 
+	private RecipeController recipeController = new RecipeController();
+
 	@Autowired
 	public void setUsersService(UsersService usersService) {
 		this.usersService = usersService;
@@ -37,7 +39,7 @@ public class ReviewController {
 	public String createreview(Model model, @RequestParam(value = "message") String message,
 			@RequestParam(value = "rating-input-1") String rating, @PathVariable String titleParse,
 			Principal principal) {
-		
+
 		List<Recipe> recipe = recipeService.getCurrent(titleParse);
 		User user = usersService.getUser(principal.getName());
 
@@ -46,9 +48,7 @@ public class ReviewController {
 
 		List<Review> reviewList = currentRecipe.getReview();
 		reviewList.add(review);
-		
-	
-		
+
 		int userRating = 0;
 		for (Review r : reviewList) {
 			userRating += Integer.parseInt(r.getRating());
@@ -64,17 +64,17 @@ public class ReviewController {
 		recipeService.saveOrUpdate(currentRecipe);
 		recipe.clear();
 		recipe.add(currentRecipe);
-		
+
 		RecipeController recipeController = new RecipeController();
-		for(Ingredient r:recipe.get(0).getIngredients()){
+		for (Ingredient r : recipe.get(0).getIngredients()) {
 			try {
 				r.setIngredientAmount(recipeController.ingredientAmount(Double.parseDouble(r.getIngredientAmount())));
 			} catch (Exception e) {
 				// TODO: handle exception
 			}
-			
+
 		}
-		
+
 		String level = recipe.get(0).getLevel();
 
 		int recipeLevel = levelCheck(level);
@@ -89,15 +89,18 @@ public class ReviewController {
 			answer = "unknown";
 		}
 
-		String ableToReview ="true";
+		String fav = "false";
+		fav = recipeController.FavoriteCheck(user, fav, recipe);
+
+		model.addAttribute("fav", fav);
+		String ableToReview = "true";
 		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
 		model.addAttribute("recipe", recipe);
-		
+
 		return "recipe";
 	}
 
-	
 	public int levelCheck(String level) {
 
 		int check;

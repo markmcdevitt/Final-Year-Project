@@ -38,7 +38,7 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Size(min = 5, max = 100)
+	@Size(min = 5, max = 100,groups = {FormValidationGroup.class, PersistenceValidationGroup.class})
 	private String titleParse;
 	@Size(min = 5, max = 200)
 	private String descriptionParse;

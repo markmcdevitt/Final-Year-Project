@@ -215,7 +215,7 @@
 							<c:if test="${empty user.usersFavorites}">
 								<br>
 								<p>You dont have any favourites.</p>
-								<a href="${pageContext.request.contextPath}/createrecipe">Click
+								<a href="${pageContext.request.contextPath}/allrecipes">Click
 									here to find a recipe that you like</a>
 							</c:if>
 							

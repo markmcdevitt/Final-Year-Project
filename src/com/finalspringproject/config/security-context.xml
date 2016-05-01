@@ -97,6 +97,8 @@
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/deleteFavourite/*"
 			access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteFavourite2/*"
+			access="isAuthenticated()" />	
 		<security:intercept-url pattern="/addToShoppingList"
 			access="isAuthenticated()" />
 

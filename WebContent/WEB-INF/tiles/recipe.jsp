@@ -16,8 +16,7 @@
 
 <input id="review" name="review" type="hidden"
 	value="<c:out value="${review}"/>">
-<input id="fav" name="fav" type="hidden"
-	value="<c:out value="${fav}"/>">	
+<input id="fav" name="fav" type="hidden" value="<c:out value="${fav}"/>">
 
 <input id="answer" name="answer" type="hidden"
 	value="<c:out value="${answer}"/>">
@@ -28,9 +27,9 @@
 	</h3>
 
 	<div align="right">
-		<a href="${pageContext.request.contextPath}/favourite/${recipe.id}" id="myLink"
-			class="btn btn-default"><span id="favb" class="glyphicon glyphicon-star"></span>
-		</a>
+		<a href="${pageContext.request.contextPath}/favourite/${recipe.id}"
+			id="myLink" class="btn btn-default"><span id="favb"
+			class="glyphicon glyphicon-star"></span> </a>
 	</div>
 
 	<center>
@@ -56,9 +55,7 @@
 		Recipe Rating: <span class="stars"><span><c:out
 					value="${recipe.totalRating}"></c:out></span></span>
 	</h4>
-	<div class="leftDiv">
-	Recipe Level:
-	</div>
+	<div class="leftDiv">Recipe Level:</div>
 	<div id="high" class="high">
 		<c:out value="${recipe.level}" />
 		<input id="level" name="level" type="hidden"
@@ -139,8 +136,8 @@
 		<div class="form-group">
 			<label for="comment">Your Review:</label>
 			<textarea name="message" class="form-control" rows="5" id="comment"></textarea>
-			<button id="myBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal"
-				data-target="#myModal">Submit Review</button>
+			<button id="myBtn" type="button" class="btn btn-info btn-lg"
+				data-toggle="modal" data-target="#myModal">Submit Review</button>
 
 		</div>
 
@@ -286,10 +283,10 @@ body {
 	var level = document.getElementById('level').value;
 	var answer = document.getElementById('answer').value;
 	if (level == answer) {
-		 document.getElementById("high").style="color:green"
-	}else{
-		document.getElementById("high").style="color:#A00108"
-		}
+		document.getElementById("high").style = "color:green"
+	} else {
+		document.getElementById("high").style = "color:#A00108"
+	}
 </script>
 <script type="text/javascript">
 	var review = document.getElementById('review').value;
@@ -300,14 +297,13 @@ body {
 <script type="text/javascript">
 	var fav = document.getElementById('fav').value;
 	if (fav == "true") {
-		 document.getElementById("favb").style="color:gold"
-			 $("#myLink").removeAttribute("href");
+		document.getElementById("favb").style = "color:gold"
+		
 	}
 </script>
 <style>
 .leftDiv {
 	float: left;
-	
 }
 
 .high {

@@ -163,39 +163,11 @@ public class RecipeController {
 			answer = "unknown";
 		}
 		String ableToReview = "false";
+		ableToReview=ableToReview(ableToReview,user,recipe);
 		String fav = "false";
-		try {
-			List<Recipe> recipeList = user.getRecipes();
-			for (Recipe r : recipeList) {
-				if (recipe.get(0).getTitleParse().equals(r.getTitleParse())) {
-					ableToReview = "true";
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("recipe catch");
-		}
-		try {
-			List<Review> reviewList = recipe.get(0).getReview();
-			for (Review review : reviewList) {
-				if (review.getUser().getUsername().equals(user.getUsername())) {
-					ableToReview = "true";
-				}
-			}
-		} catch (Exception e) {
-			System.out.println("review catch");
-		}
+		fav=FavoriteCheck(user,fav,recipe);
 		
-		try {
-			List<Favorite> favorites = user.getUsersFavorites();
-			for (Favorite favorite : favorites) {
-				if (favorite.getRecipe().getTitleParse().equals(recipe.get(0).getTitleParse())) {
-					fav = "true";
-				}
-			}
-		} catch (Exception e) {
-		
-		}
-
+		System.out.println("fav "+fav);
 		model.addAttribute("fav", fav);
 		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
@@ -209,7 +181,7 @@ public class RecipeController {
 	}
 
 	@RequestMapping(value = "/docreate", method = RequestMethod.POST)
-	public String doCreate(Model model, @Validated(value = FormValidationGroup.class) Recipe recipe,
+	public String doCreate(Model model,  Recipe recipe,
 			BindingResult result, @RequestParam(value = "ingredientQuantity") String ingredientAmount,
 			@RequestParam(value = "type") String category,
 			@RequestParam(value = "ingredientName") String ingredientName, Principal principal,
@@ -250,7 +222,7 @@ public class RecipeController {
 				recipeService.saveOrUpdate(user);
 			} catch (Exception e) {
 				result.rejectValue("titleParse", "DuplicateName.recipe.titleparse");
-				return "createrecipe";
+				return "createRecipeDuplicate";
 			}
 
 			List<Recipe> recipeList = getOneRecipe(recipe.getId());
@@ -754,5 +726,43 @@ public class RecipeController {
 			check = 1;
 		}
 		return check;
+	}
+	
+	public String ableToReview(String ableToReview, User user, List<Recipe> recipe){
+		try {
+			List<Recipe> recipeList = user.getRecipes();
+			for (Recipe r : recipeList) {
+				if (recipe.get(0).getTitleParse().equals(r.getTitleParse())) {
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("recipe catch");
+		}
+		try {
+			List<Review> reviewList = recipe.get(0).getReview();
+			for (Review review : reviewList) {
+				if (review.getUser().getUsername().equals(user.getUsername())) {
+					ableToReview = "true";
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("review catch");
+		}
+		return ableToReview;
+	}
+	
+	public String FavoriteCheck(User user, String fav, List<Recipe> recipe){
+		try {
+			List<Favorite> favorites = user.getUsersFavorites();
+			for (Favorite favorite : favorites) {
+				if (favorite.getRecipe().getTitleParse().equals(recipe.get(0).getTitleParse())) {
+					fav = "true";
+				}
+			}
+		} catch (Exception e) {
+		
+		}
+		return fav;
 	}
 }
