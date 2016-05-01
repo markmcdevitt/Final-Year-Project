@@ -347,12 +347,6 @@ public class RecipeController {
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipe(" " + s + ",");
 			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipe(" " + s + "s,");
-			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipe(" " + s + "s ");
-			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipe(" " + s + "'s ");
-			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipe(s + "es ");
 			r.addAll(recipeList2);
 
@@ -362,8 +356,7 @@ public class RecipeController {
 			r.addAll(recipeList2);
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + ",");
 			r.addAll(recipeList2);
-			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + "es");
-			r.addAll(recipeList2);
+
 
 		}
 		ArrayList<Integer> anotherList = new ArrayList<Integer>();
@@ -402,6 +395,7 @@ public class RecipeController {
 		List<String> matches = new ArrayList<String>();
 
 		for (Map.Entry<Recipe, Integer> e : entries) {
+			
 			waitingList.add(e.getKey());
 			matches.add(String.valueOf(e.getValue()));
 		}
@@ -412,6 +406,7 @@ public class RecipeController {
 		List<Recipe> shortenedRecipeList = new ArrayList<>();
 		try {
 			for (int i = 0; i <= 29; i++) {
+				System.out.println(recipeList.get(i).getTitleParse());
 				shortenedRecipeList.add(recipeList.get(i));
 			}
 			model.addAttribute("recipe", shortenedRecipeList);

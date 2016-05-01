@@ -105,8 +105,14 @@ public class AdminController {
 	
 	@RequestMapping("/scrapeRecipes")
 	public String scrapeRecipes(Model model,@RequestParam(value = "link") String link) throws IOException{
-		scrapeService.createEverything(link);
-		return "scraperecipes";
+		
+		try {
+			scrapeService.createEverything(link);
+			return "scraperecipesCorrect";
+		} catch (Exception e) {
+			return "scraperecipesError";
+		}
+		
 	}
 	
 	@RequestMapping("/scrapeRecipesDefault")

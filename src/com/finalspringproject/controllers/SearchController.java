@@ -239,11 +239,14 @@ public class SearchController {
 
 		String level="Newbie";
 		chefList = userService.findChef(search);
-		if(!chefList.get(0).getRecipes().isEmpty()){
-			level = userController.calculateUserLevel(chefList.get(0));
-			chefList.get(0).setUserLevel(level);
-			recipeService.saveOrUpdate(chefList.get(0));
+		if(!chefList.isEmpty()){
+			if(!chefList.get(0).getRecipes().isEmpty()){
+				level = userController.calculateUserLevel(chefList.get(0));
+				chefList.get(0).setUserLevel(level);
+				recipeService.saveOrUpdate(chefList.get(0));
+			}
 		}
+		
 
 		model.addAttribute("allergicrecipe", allergicRecipes);
 		model.addAttribute("search", search);
