@@ -337,16 +337,21 @@ public class WeeklyPlanController {
 		String tea = shoppingList2.getIngredient();
 
 		if (tea.indexOf("teaspoon") != -1) {
-			String ing = shoppingList2.getIngredient().replace("teaspoon", "grams of");
-			shoppingList.setIngredient(ing);
+			try {
+				String ing = shoppingList2.getIngredient().replace("teaspoons", "grams of");
+				shoppingList.setIngredient(ing);
+			} catch (Exception e) {
+				String ing = shoppingList2.getIngredient().replace("teaspoon", "grams of");
+				shoppingList.setIngredient(ing);
+			}
+			
 			double total = 0;
 			if (shoppingList2.getQuantity().contains("tablespoon")) {
-				System.out.println(shoppingList2.getQuantity() );
 				List<String> list = Arrays.asList(shoppingList2.getQuantity().split("tablespoon and"));
 				double tablespoon = 3;
 				double teaspoon = Double.parseDouble(list.get(1));
 				total = tablespoon + teaspoon;
-			} else if (shoppingList2.getQuantity().contains("tablespoons")) {
+			} else if (shoppingList2.getQuantity().contains("tablespoon")) {
 				List<String> list = Arrays.asList(shoppingList2.getQuantity().split("tablespoons and"));
 				double tablespoon = Double.parseDouble(list.get(0));
 				double teaspoon = Double.parseDouble(list.get(1));
@@ -360,22 +365,41 @@ public class WeeklyPlanController {
 			shoppingList.setQuantity(amount);
 
 		} else if (tea.indexOf("tablespoon") != -1) {
-			String ing = shoppingList2.getIngredient().replace("tablespoon", "grams of");
-			shoppingList.setIngredient(ing);
-			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
-			int rounded = (int) Math.ceil(amountIng);
-			String amount = String.valueOf(rounded);
-			shoppingList.setQuantity(amount);
+			try {
+				String ing = shoppingList2.getIngredient().replace("tablespoons", "grams of");
+				shoppingList.setIngredient(ing);
+				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
+				int rounded = (int) Math.ceil(amountIng);
+				String amount = String.valueOf(rounded);
+				shoppingList.setQuantity(amount);
+			} catch (Exception e) {
+				String ing = shoppingList2.getIngredient().replace("tablespoon", "grams of");
+				shoppingList.setIngredient(ing);
+				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
+				int rounded = (int) Math.ceil(amountIng);
+				String amount = String.valueOf(rounded);
+				shoppingList.setQuantity(amount);
+			}
+			
 
 		} else if (tea.indexOf("cup") != -1) {
-			String ing = shoppingList2.getIngredient().replace("cup", "grams of");
-			shoppingList.setIngredient(ing);
-			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
-			int rounded = (int) Math.ceil(amountIng);
-			String amount = String.valueOf((int) rounded);
-			shoppingList.setQuantity(amount);
-		} else {
+			try {
+				String ing = shoppingList2.getIngredient().replace("cups", "grams of");
+				shoppingList.setIngredient(ing);
+				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
+				int rounded = (int) Math.ceil(amountIng);
+				String amount = String.valueOf((int) rounded);
+				shoppingList.setQuantity(amount);
+			} catch (Exception e) {
+				String ing = shoppingList2.getIngredient().replace("cup", "grams of");
+				shoppingList.setIngredient(ing);
+				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
+				int rounded = (int) Math.ceil(amountIng);
+				String amount = String.valueOf((int) rounded);
+				shoppingList.setQuantity(amount);
+			}
 			
+		} else {
 			shoppingList.setIngredient(shoppingList2.getIngredient());
 			double amount =Double.parseDouble(shoppingList2.getQuantity());
 			int rounded = (int) Math.ceil(amount);

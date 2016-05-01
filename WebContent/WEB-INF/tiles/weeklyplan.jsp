@@ -55,7 +55,7 @@
 		mm = '0' + mm
 	}
 
-	today = dd + '-' + mm + '-' + yyyy;
-	document.getElementById('dateformat').setAttribute("min", "today");
+	today = yyyy + '-' + mm + '-' + dd;
+	document.getElementById('dateformat').min = today;
 
 </script>
