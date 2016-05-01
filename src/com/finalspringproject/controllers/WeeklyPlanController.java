@@ -92,53 +92,6 @@ public class WeeklyPlanController {
 		return "allweeklyplans";
 	}
 
-	@RequestMapping(value = "/deleteUsersDay/{weeklyPlanId}")
-	public String deleteUsersDay(Model model, @PathVariable int weeklyPlanId, Principal principal) {
-
-		List<User> userList = new ArrayList<User>();
-		boolean delete = false;
-
-		String username = principal.getName();// gets the users name
-		User user = weeklyPlanService.getUserWeeklyPlan(username);
-		List<ShoppingList> shoppingList = user.getShoppingList();
-		WeeklyPlan w = weeklyPlanService.getPlan(weeklyPlanId);
-		List<Recipe> listOfReipes = w.getRecipe();
-
-		for (int i = 0; i < shoppingList.size(); i++) {
-			if (listOfReipes.get(0).equals(shoppingList.get(i).getIngredient())) {
-				shoppingList.remove(i);
-			}
-		}
-
-		user.setShoppingList(shoppingList);
-		listOfReipes.clear();
-		w.setRecipe(listOfReipes);
-
-		weeklyPlanService.updateWeeklyPlan(w);
-		plan = user.getWeeklyPlan();
-
-		for (WeeklyPlan weeklyPlan : plan) {
-			if (weeklyPlan.getId() == weeklyPlanId) {
-				plan.remove(weeklyPlan);
-				user.setUsername(username);
-				user.setWeeklyPlan(plan);
-				recipeService.saveOrUpdate(user);
-				weeklyPlanService.deletePlan(weeklyPlanId);
-				delete = true;
-				break;
-			}
-		}
-
-		if (delete) {
-			userList.add(user);
-			model.addAttribute("userList", userList);
-			return "allweeklyplans";
-		} else {
-			System.out.println("There has been an error");
-			return "home";
-		}
-	}
-
 	@RequestMapping(value = "/viewyourweeklyplan")
 	public String usersPlan(Model model, Principal principal) {
 		List<User> userList = new ArrayList<User>();
@@ -148,11 +101,15 @@ public class WeeklyPlanController {
 
 
 	    Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
-	        DateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+	        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 	      
 			@Override
 			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
-				 return arg1.getDate().compareTo(arg0.getDate());
+				 try {
+					return dateFormat.parse(arg0.getDate()).compareTo(dateFormat.parse(arg1.getDate()));
+				} catch (ParseException e) {
+	                throw new IllegalArgumentException(e);
+				}
 			}
 	    });
 	    user.setWeeklyPlan(wkPlan);
@@ -348,13 +305,18 @@ public class WeeklyPlanController {
 		List<WeeklyPlan> wkPlan  = user.getWeeklyPlan();
 
 
-	    Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
-	      
-			@Override
-			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
-				 return arg1.getDate().compareTo(arg0.getDate());
-			}
-	    });
+		 Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
+		        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		      
+				@Override
+				public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
+					 try {
+						return dateFormat.parse(arg0.getDate()).compareTo(dateFormat.parse(arg1.getDate()));
+					} catch (ParseException e) {
+		                throw new IllegalArgumentException(e);
+					}
+				}
+		    });
 	    user.setWeeklyPlan(wkPlan);
 	    
 	    

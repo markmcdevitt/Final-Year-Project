@@ -74,15 +74,15 @@ public class ShoppingListController {
 			@RequestParam(value = "ingredientQuantity") String ingredientAmount,
 			@RequestParam(value = "ingredientName") String ingredientName) {
 
+		
+		String ingredientNameTrimmed = ingredientName.trim();
 		List<User> userList = new ArrayList<User>();
 		User user = shoppingListService.getUserShoppingList(principal.getName());
-		ShoppingList shoppingList = new ShoppingList(ingredientAmount, ingredientName);
-		System.out.println("??"+ingredientName);
-		boolean sameIng = false;
+		ShoppingList shoppingList = new ShoppingList(ingredientAmount, ingredientNameTrimmed);
 		
+		boolean sameIng = false;
 		for(ShoppingList sl:user.getShoppingList()){
-			System.out.println(sl.getIngredient()+" / "+ingredientName);
-			if(sl.getIngredient().equals(ingredientName)){
+			if(sl.getIngredient().equals(ingredientNameTrimmed)){
 				double quantity = Double.parseDouble(sl.getQuantity())+Double.parseDouble(ingredientAmount);
 				String quan = String.valueOf((int) round(quantity, 0));
 				sl.setQuantity(quan);
@@ -96,8 +96,8 @@ public class ShoppingListController {
 		user.getShoppingList().add(shoppingList);
 		}
 		recipeService.saveOrUpdate(user);
-
 		userList.add(user);
+		
 		model.addAttribute("userList", userList);
 
 		return "allshoppinglists";
