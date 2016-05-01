@@ -14,8 +14,7 @@
 	<div class="row">
 		<div class="col-sm-10">
 			<h1>
-				<c:out value="${user.username}"></c:out>
-				s Profile
+				<c:out value="${user.username}"></c:out>s Profile
 			</h1>
 		</div>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">

@@ -54,9 +54,9 @@ public class LoginController {
 		user.setAuthority("ROLE_USER");// same as below
 		user.setEnabled(true);// not set in the form
 		user.setUserLevel("Newbie");
+		System.out.println("HERE--> "+ user.toString());
 
 		if (usersService.exists(user.getUsername())) {
-			System.out.println("user exists");
 			result.rejectValue("username", "DuplicateName.user.username");
 			return "newaccount";
 		}

@@ -31,7 +31,6 @@
 			textBox2.setAttribute("align", "left");
 			textBox2.setAttribute("style", "width:80px");
 			textBox2.setAttribute("placeholder", "Quantity");
-			textBox2.setAttribute("onkeypress", "validate(event)");
 			textBox2.setAttribute("required", "required");
 			document.getElementById("container").appendChild(textBox2);
 
@@ -134,8 +133,8 @@
 							<div class="col-md-9">
 								<div class="leftDiv">
 									<input class="form-control" placeholder="Quantity"
-										name="ingredientQuantity" type="text" style="width: 80px;"
-										onkeypress='validate(event)' required="required"></input>
+										name="ingredientQuantity"  type="number" style="width: 80px;"
+										 required="required"></input>
 								</div>
 								<div class="rightDiv">
 									<input class="form-control" name="ingredientName"

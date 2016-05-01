@@ -26,6 +26,7 @@ public class SearchController {
 	private RecipeService recipeService;
 	private UsersService userService;
 	private AllergyService allergyService;
+	private UserController userController = new UserController();
 
 	@Autowired
 	public void setRecipeService(RecipeService recipeService) {
@@ -68,9 +69,7 @@ public class SearchController {
 
 					for (Recipe recipe : recipeList) {
 						boolean containsAllergy = false;
-						System.out.println(recipe.toString());
 						for (Ingredient ing : recipe.getIngredients()) {
-							System.out.println("EGG?? ---> " + ing.toString());
 							if (allergy.getAllergy().equals("shellfish")) {
 								if (ing.getIngredientName().contains("shrimp")
 										|| ing.getIngredientName().contains("lobster")
@@ -129,11 +128,11 @@ public class SearchController {
 					Set<Recipe> depdupeRecipes2 = new LinkedHashSet<>(allergicRecipes);
 					allergicRecipes.clear();
 					allergicRecipes.addAll(depdupeRecipes2);
-					
+
 					Set<Recipe> depdupeRecipes3 = new LinkedHashSet<>(nonAllergicRecipes);
 					nonAllergicRecipes.clear();
 					nonAllergicRecipes.addAll(depdupeRecipes3);
-					
+
 					for (Recipe a : allergicRecipes) {
 						for (Recipe r : nonAllergicRecipes) {
 							if (r.getId() == a.getId()) {
@@ -171,7 +170,27 @@ public class SearchController {
 								allergicRecipes.add(recipe);
 								containsAllergy = true;
 							}
-						} else if (allergy.getAllergy().equals("fish")) {
+						} else if (allergy.getAllergy().equals("nut")) {
+							if (ing.getIngredientName().contains("almond") || ing.getIngredientName().contains("caco")
+									|| ing.getIngredientName().contains("coconut")
+									|| ing.getIngredientName().contains("cashews")
+									|| ing.getIngredientName().contains("hazzelnut")
+									|| ing.getIngredientName().contains("macadamia nut")
+									|| ing.getIngredientName().contains("pecan")
+									|| ing.getIngredientName().contains("pili")
+									|| ing.getIngredientName().contains("pine")
+									|| ing.getIngredientName().contains("pistachio")
+									|| ing.getIngredientName().contains("sunflower seed")
+									|| ing.getIngredientName().contains("walnut")
+									|| ing.getIngredientName().contains("pine")
+									|| ing.getIngredientName().contains("pistachio")
+									|| ing.getIngredientName().contains("sunflower seed")
+									|| ing.getIngredientName().contains("walnut")
+									|| ing.getIngredientName().contains(allergy.getAllergy())) {
+								allergicRecipes.add(recipe);
+								containsAllergy = true;
+							}
+						}else if (allergy.getAllergy().equals("fish")) {
 							if (ing.getIngredientName().contains("Halibut")
 									|| ing.getIngredientName().contains("salmon")
 									|| ing.getIngredientName().contains("cod")
@@ -194,22 +213,20 @@ public class SearchController {
 				Set<Recipe> depdupeRecipes2 = new LinkedHashSet<>(allergicRecipes);
 				allergicRecipes.clear();
 				allergicRecipes.addAll(depdupeRecipes2);
-				
+
 				Set<Recipe> depdupeRecipes3 = new LinkedHashSet<>(nonAllergicRecipes);
 				nonAllergicRecipes.clear();
 				nonAllergicRecipes.addAll(depdupeRecipes3);
-				
+
 				for (Recipe a : allergicRecipes) {
 					for (Recipe r : nonAllergicRecipes) {
 						if (r.getId() == a.getId()) {
-							System.out.println("REMOVING " + r.toString());
 							nonAllergicRecipes.remove(r);
 							break;
 						}
 
 					}
 				}
-
 				model.addAttribute("recipe", nonAllergicRecipes);
 			}
 
@@ -220,7 +237,13 @@ public class SearchController {
 
 		List<User> chefList = new ArrayList<User>();
 
+		String level=null;
 		chefList = userService.findChef(search);
+		if(!chefList.get(0).getRecipes().isEmpty()){
+			level = userController.calculateUserLevel(chefList.get(0));
+			chefList.get(0).setUserLevel(level);
+			recipeService.saveOrUpdate(chefList.get(0));
+		}
 
 		model.addAttribute("allergicrecipe", allergicRecipes);
 		model.addAttribute("search", search);

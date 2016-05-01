@@ -53,7 +53,7 @@ public class UserController {
 		User user = usersService.getUser(principal.getName());
 		List<Recipe> recipeList = user.getRecipes();
 		
-		String level=null;
+		String level="Newbie";
 		if(!user.getRecipes().isEmpty()){
 		level = calculateUserLevel(user);
 		}
@@ -108,7 +108,6 @@ public class UserController {
 		user.setAuthority("ROLE_USER");
 		user.setEnabled(true);
 		user.setUserLevel("Newbie");
-		System.out.println("HERE  -->"+user.getUserLevel());
 
 		try {
 			usersService.create(user);
@@ -223,7 +222,7 @@ public class UserController {
 
 	}
 
-	private String calculateUserLevel(User user) {
+	public String calculateUserLevel(User user) {
 		int userLevel = 0;
 		int recipesNo = user.getRecipes().size();
 		List<Recipe> ratingCalc = user.getRecipes();

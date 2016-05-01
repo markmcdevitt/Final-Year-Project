@@ -225,6 +225,9 @@ public class RecipeController {
 			}
 
 			List<Recipe> recipeList = getOneRecipe(recipe.getId());
+			String ableToReview = "true";
+
+			model.addAttribute("review", ableToReview);
 			model.addAttribute("recipe", recipeList);
 			return "recipe";
 		} else {
@@ -238,9 +241,6 @@ public class RecipeController {
 
 		List<Ingredient> ingList = new ArrayList<Ingredient>();
 		List<String> amountList = Arrays.asList(ingredientAmount.split(","));
-		for (String s : amountList) {
-			System.out.println(s);
-		}
 		List<String> nameList = Arrays.asList(ingredientName.split(","));
 
 		try {
@@ -259,6 +259,9 @@ public class RecipeController {
 		for (Ingredient i : ingList) {
 			if (i.getIngredientAmount().contains("/")) {
 				List<String> list = Arrays.asList(i.getIngredientAmount().split("/"));
+				for(String l:list){
+					l.trim();
+				}
 				String whole = "0";
 				int n = 0;
 				if (list.get(0).contains(" ")) {
@@ -276,6 +279,7 @@ public class RecipeController {
 				}
 				int d = Integer.parseInt(list.get(1));
 				list = null;
+				
 				double fraction = (double) n / (double) d;
 				double complete = Double.parseDouble(whole) + fraction;
 
