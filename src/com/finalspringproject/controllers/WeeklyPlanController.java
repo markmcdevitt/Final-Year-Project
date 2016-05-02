@@ -97,22 +97,21 @@ public class WeeklyPlanController {
 		List<User> userList = new ArrayList<User>();
 		String username = principal.getName();
 		User user = weeklyPlanService.getUserWeeklyPlan(username);
-		List<WeeklyPlan> wkPlan  = user.getWeeklyPlan();
+		List<WeeklyPlan> wkPlan = user.getWeeklyPlan();
 
+		Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-	    Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
-	        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-	      
 			@Override
 			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
-				 try {
+				try {
 					return dateFormat.parse(arg0.getDate()).compareTo(dateFormat.parse(arg1.getDate()));
 				} catch (ParseException e) {
-	                throw new IllegalArgumentException(e);
+					throw new IllegalArgumentException(e);
 				}
 			}
-	    });
-	    user.setWeeklyPlan(wkPlan);
+		});
+		user.setWeeklyPlan(wkPlan);
 		userList.add(user);
 		model.addAttribute("userList", userList);
 		return "allweeklyplans";
@@ -153,7 +152,6 @@ public class WeeklyPlanController {
 				}
 
 			}
-		
 
 			recipe.setIngredients(ingredientList);
 			recipe.setPeopleFed(String.valueOf(serves));
@@ -301,28 +299,25 @@ public class WeeklyPlanController {
 			plan.add(weeklyPlan);
 		}
 		user.setWeeklyPlan(plan);
-		
-		List<WeeklyPlan> wkPlan  = user.getWeeklyPlan();
 
+		List<WeeklyPlan> wkPlan = user.getWeeklyPlan();
 
-		 Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
-		        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		      
-				@Override
-				public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
-					 try {
-						return dateFormat.parse(arg0.getDate()).compareTo(dateFormat.parse(arg1.getDate()));
-					} catch (ParseException e) {
-		                throw new IllegalArgumentException(e);
-					}
+		Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+			@Override
+			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
+				try {
+					return dateFormat.parse(arg0.getDate()).compareTo(dateFormat.parse(arg1.getDate()));
+				} catch (ParseException e) {
+					throw new IllegalArgumentException(e);
 				}
-		    });
-	    user.setWeeklyPlan(wkPlan);
-	    
-	    
+			}
+		});
+		user.setWeeklyPlan(wkPlan);
 
 		user.setUsername(username);
-		
+
 		user.setShoppingList(completeList);
 		recipeService.saveOrUpdate(user);
 		List<User> userList = new ArrayList<User>();
@@ -337,14 +332,11 @@ public class WeeklyPlanController {
 		String tea = shoppingList2.getIngredient();
 
 		if (tea.indexOf("teaspoon") != -1) {
-			try {
-				String ing = shoppingList2.getIngredient().replace("teaspoons", "grams of");
-				shoppingList.setIngredient(ing);
-			} catch (Exception e) {
-				String ing = shoppingList2.getIngredient().replace("teaspoon", "grams of");
-				shoppingList.setIngredient(ing);
-			}
-			
+
+			String arr[] = shoppingList2.getIngredient().split(" ", 2);
+			String ing = "grams of " + arr[1];
+			shoppingList.setIngredient(ing);
+
 			double total = 0;
 			if (shoppingList2.getQuantity().contains("tablespoon")) {
 				List<String> list = Arrays.asList(shoppingList2.getQuantity().split("tablespoon and"));
@@ -365,43 +357,28 @@ public class WeeklyPlanController {
 			shoppingList.setQuantity(amount);
 
 		} else if (tea.indexOf("tablespoon") != -1) {
-			try {
-				String ing = shoppingList2.getIngredient().replace("tablespoons", "grams of");
-				shoppingList.setIngredient(ing);
-				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
-				int rounded = (int) Math.ceil(amountIng);
-				String amount = String.valueOf(rounded);
-				shoppingList.setQuantity(amount);
-			} catch (Exception e) {
-				String ing = shoppingList2.getIngredient().replace("tablespoon", "grams of");
-				shoppingList.setIngredient(ing);
-				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
-				int rounded = (int) Math.ceil(amountIng);
-				String amount = String.valueOf(rounded);
-				shoppingList.setQuantity(amount);
-			}
-			
+
+			String arr[] = shoppingList2.getIngredient().split(" ", 2);
+			String ing = "grams of " + arr[1];
+
+			shoppingList.setIngredient(ing);
+			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
+			int rounded = (int) Math.ceil(amountIng);
+			String amount = String.valueOf(rounded);
+			shoppingList.setQuantity(amount);
 
 		} else if (tea.indexOf("cup") != -1) {
-			try {
-				String ing = shoppingList2.getIngredient().replace("cups", "grams of");
-				shoppingList.setIngredient(ing);
-				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
-				int rounded = (int) Math.ceil(amountIng);
-				String amount = String.valueOf((int) rounded);
-				shoppingList.setQuantity(amount);
-			} catch (Exception e) {
-				String ing = shoppingList2.getIngredient().replace("cup", "grams of");
-				shoppingList.setIngredient(ing);
-				double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
-				int rounded = (int) Math.ceil(amountIng);
-				String amount = String.valueOf((int) rounded);
-				shoppingList.setQuantity(amount);
-			}
-			
+			String arr[] = shoppingList2.getIngredient().split(" ", 2);
+			String ing = "grams of " + arr[1];
+			shoppingList.setIngredient(ing);
+			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
+			int rounded = (int) Math.ceil(amountIng);
+			String amount = String.valueOf((int) rounded);
+			shoppingList.setQuantity(amount);
+
 		} else {
 			shoppingList.setIngredient(shoppingList2.getIngredient());
-			double amount =Double.parseDouble(shoppingList2.getQuantity());
+			double amount = Double.parseDouble(shoppingList2.getQuantity());
 			int rounded = (int) Math.ceil(amount);
 			shoppingList.setQuantity(String.valueOf((rounded)));
 		}

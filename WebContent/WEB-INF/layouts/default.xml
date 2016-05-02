@@ -134,20 +134,29 @@
 		<put-attribute name="title" value="Scrape Recipes"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/tiles/scraperecipes.jsp"></put-attribute>
 	</definition>
-	
+
 	<definition name="scraperecipesError" extends="recipes.base">
 		<put-attribute name="title" value="Scrape Recipes"></put-attribute>
-		<put-attribute name="content" value="/WEB-INF/tiles/scraperecipesError.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tiles/scraperecipesError.jsp"></put-attribute>
 	</definition>
-	
+
 	<definition name="scraperecipesCorrect" extends="recipes.base">
 		<put-attribute name="title" value="Scrape Recipes"></put-attribute>
-		<put-attribute name="content" value="/WEB-INF/tiles/scraperecipesCorrect.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tiles/scraperecipesCorrect.jsp"></put-attribute>
 	</definition>
 
 	<definition name="allshoppinglists" extends="recipes.base">
 		<put-attribute name="title" value="Shopping List"></put-attribute>
-		<put-attribute name="content" value="/WEB-INF/tiles/allshoppinglists.jsp"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tiles/allshoppinglists.jsp"></put-attribute>
+	</definition>
+
+	<definition name="createreciperegex" extends="recipes.base">
+		<put-attribute name="title" value="Create Recipe"></put-attribute>
+		<put-attribute name="content"
+			value="/WEB-INF/tiles/createreciperegex.jsp"></put-attribute>
 	</definition>
 
 	<definition name="createRecipeDuplicate" extends="recipes.base">

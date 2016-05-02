@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.taglibs.standard.functions.Functions;
+import org.apache.velocity.runtime.parser.node.MathUtils;
 import org.hibernate.sql.ordering.antlr.OrderingSpecification.Ordering;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -163,10 +164,10 @@ public class RecipeController {
 			answer = "unknown";
 		}
 		String ableToReview = "false";
-		ableToReview=ableToReview(ableToReview,user,recipe);
+		ableToReview = ableToReview(ableToReview, user, recipe);
 		String fav = "false";
-		fav=FavoriteCheck(user,fav,recipe);
-		
+		fav = FavoriteCheck(user, fav, recipe);
+
 		model.addAttribute("fav", fav);
 		model.addAttribute("review", ableToReview);
 		model.addAttribute("answer", answer);
@@ -180,8 +181,8 @@ public class RecipeController {
 	}
 
 	@RequestMapping(value = "/docreate", method = RequestMethod.POST)
-	public String doCreate(Model model,  Recipe recipe,
-			BindingResult result, @RequestParam(value = "ingredientQuantity") String ingredientAmount,
+	public String doCreate(Model model, Recipe recipe, BindingResult result,
+			@RequestParam(value = "ingredientQuantity") String ingredientAmount,
 			@RequestParam(value = "type") String category,
 			@RequestParam(value = "ingredientName") String ingredientName, Principal principal,
 			@RequestParam(value = "delete", required = false) String delete) {
@@ -191,6 +192,16 @@ public class RecipeController {
 		} else {
 			String calories = recipe.getCalories().replace(",no", "");
 			recipe.setCalories(calories);
+		}
+		List<String> amountList = Arrays.asList(ingredientAmount.split(","));
+
+		for (String i : amountList) {
+			String regex = "\\d{1,5}([.]\\d{1,3}|(\\s\\d{1,5})?[/]\\d{1,3})?";
+			System.out.println("being checked: " + i);
+			if (!i.matches(regex)) {
+				System.out.println("failed: " + i);
+				return "createreciperegex";
+			}
 		}
 
 		List<Ingredient> ingList = ingredients(ingredientAmount, ingredientName, recipe);
@@ -259,7 +270,7 @@ public class RecipeController {
 		for (Ingredient i : ingList) {
 			if (i.getIngredientAmount().contains("/")) {
 				List<String> list = Arrays.asList(i.getIngredientAmount().split("/"));
-				for(String l:list){
+				for (String l : list) {
 					l.trim();
 				}
 				String whole = "0";
@@ -279,7 +290,7 @@ public class RecipeController {
 				}
 				int d = Integer.parseInt(list.get(1));
 				list = null;
-				
+
 				double fraction = (double) n / (double) d;
 				double complete = Double.parseDouble(whole) + fraction;
 
@@ -357,7 +368,6 @@ public class RecipeController {
 			recipeList2 = recipeService.getGeneratedRecipeSingleWord(s + ",");
 			r.addAll(recipeList2);
 
-
 		}
 		ArrayList<Integer> anotherList = new ArrayList<Integer>();
 
@@ -395,7 +405,7 @@ public class RecipeController {
 		List<String> matches = new ArrayList<String>();
 
 		for (Map.Entry<Recipe, Integer> e : entries) {
-			
+
 			waitingList.add(e.getKey());
 			matches.add(String.valueOf(e.getValue()));
 		}
@@ -639,19 +649,26 @@ public class RecipeController {
 		if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")) {
 			fraction[1] = "33";
 			denominator = 99;
+		} else if (fraction[1].contains("1666") || fraction[1].contains("166666")) {
+			fraction[1] = "1";
+			denominator = 6;
 		} else if (fraction[1].equals("666666666666667") || fraction[1].equals("666666666666666")
 				|| fraction[1].equals("6666666666666666") || fraction[1].equals("06666666666666666")
 				|| fraction[1].equals("6666666666666665") || fraction[1].contains("6666666666666666")) {
 			fraction[1] = "66";
 			denominator = 99;
-		} else if (fraction[1].contains("1666")) {
+		} else if (fraction[1].contains("0833333")) {
 			fraction[1] = "1";
-			denominator = 6;
-		}else if(fraction[1].contains("8333333333333333")){
+			denominator = 12;
+		} else if (fraction[1].contains("8333333333333333")) {
 			fraction[1] = "5";
 			denominator = 6;
+		} else if (fraction[1].contains("8999999999999999")) {
+			fraction[1] = "9";
+			denominator = 10;
 		}
 		
+
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
 		for (int i2 = 2; i2 <= 33; i2++) {
 			if (numerator % i2 == 0 && denominator % i2 == 0) {
@@ -725,8 +742,8 @@ public class RecipeController {
 		}
 		return check;
 	}
-	
-	public String ableToReview(String ableToReview, User user, List<Recipe> recipe){
+
+	public String ableToReview(String ableToReview, User user, List<Recipe> recipe) {
 		try {
 			List<Recipe> recipeList = user.getRecipes();
 			for (Recipe r : recipeList) {
@@ -749,8 +766,8 @@ public class RecipeController {
 		}
 		return ableToReview;
 	}
-	
-	public String FavoriteCheck(User user, String fav, List<Recipe> recipe){
+
+	public String FavoriteCheck(User user, String fav, List<Recipe> recipe) {
 		try {
 			List<Favorite> favorites = user.getUsersFavorites();
 			for (Favorite favorite : favorites) {
@@ -759,7 +776,7 @@ public class RecipeController {
 				}
 			}
 		} catch (Exception e) {
-		
+
 		}
 		return fav;
 	}

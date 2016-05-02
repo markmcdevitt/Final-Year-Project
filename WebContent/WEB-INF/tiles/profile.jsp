@@ -143,7 +143,7 @@
 								<label for="mobile"><h4>Confirm Password</h4></label> <input
 									type="password" class="form-control" name="confirmpass"
 									id="confirmpass" placeholder="Confirm Password" required="required">
-								<div id=matchpass>here</div>
+								<div id=matchpass></div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -166,7 +166,7 @@
 							action="${pageContext.request.contextPath}/createingredientsowned"
 							method="post">
 							<label for="last_name"><h4>Ingredients You Own</h4></label>
-
+<br>
 							<c:forEach var="ingredientsOwned"
 								items="${user.ingredientsOwned}">
 
