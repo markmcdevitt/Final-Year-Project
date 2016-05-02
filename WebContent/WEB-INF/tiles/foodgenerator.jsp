@@ -15,6 +15,7 @@
 			textBox.setAttribute("type", "text");
 			textBox.setAttribute("align", "bottom");
 			textBox.setAttribute("placeholder", "Name");
+			textBox.setAttribute("required", "required");
 			document.getElementById("container2").appendChild(textBox);
 
 		}
@@ -33,9 +34,9 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Ingredient</label>
 							<div class="col-md-9">
-							<input class="form-control" name="ingredientName" placeholder="Name" type="text"></input>
+							<input class="form-control" name="ingredientName" placeholder="Name" type="text" required="required"></input>
 							<div id="container2"></div>
-							<input type="button" onclick="createTextBox(1)" value="Add Ingredient" class="mybutton btn">
+							<input type="button" onclick="createTextBox(1)" value="Add Ingredient" class="mybutton btn" />
 							<div class="form-group">
 								<div class="col-md-12 text-right">
 									<button type="submit" class="btn btn-primary btn-lg">Submit</button>

@@ -67,80 +67,6 @@ public class RecipeController {
 		this.recipeService = recipeService;
 	}
 
-	@RequestMapping("/getMainDishes")
-	public String getMainDishes(Model model) {
-		List<Recipe> categoryRecipe = recipeService.getSpecific("Main Dish");
-
-		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
-			@Override
-			public int compare(final Recipe object1, final Recipe object2) {
-				return object1.getTitleParse().compareTo(object2.getTitleParse());
-			}
-		});
-		model.addAttribute("recipe", categoryRecipe);
-		return "allrecipes";
-
-	}
-
-	@RequestMapping("/getVegetarian")
-	public String getVegetarian(Model model) {
-		List<Recipe> categoryRecipe = recipeService.getSpecific("Vegetarian");
-
-		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
-			@Override
-			public int compare(final Recipe object1, final Recipe object2) {
-				return object1.getTitleParse().compareTo(object2.getTitleParse());
-			}
-		});
-		model.addAttribute("recipe", categoryRecipe);
-		return "allrecipes";
-
-	}
-
-	@RequestMapping("/getAppetisers")
-	public String getAppetisers(Model model) {
-		List<Recipe> categoryRecipe = recipeService.getSpecific("Appetizers");
-
-		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
-			@Override
-			public int compare(final Recipe object1, final Recipe object2) {
-				return object1.getTitleParse().compareTo(object2.getTitleParse());
-			}
-		});
-		model.addAttribute("recipe", categoryRecipe);
-		return "allrecipes";
-
-	}
-
-	@RequestMapping("/getDessert")
-	public String getDessert(Model model) {
-		List<Recipe> categoryRecipe = recipeService.getSpecific("Dessert");
-
-		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
-			@Override
-			public int compare(final Recipe object1, final Recipe object2) {
-				return object1.getTitleParse().compareTo(object2.getTitleParse());
-			}
-		});
-		model.addAttribute("recipe", categoryRecipe);
-		return "allrecipes";
-
-	}
-
-	@RequestMapping("/allrecipes")
-	public String showRecipe(Model model) {
-		List<Recipe> recipes = recipeService.getCurrent();
-
-		Collections.sort(recipes, new Comparator<Recipe>() {
-			@Override
-			public int compare(final Recipe object1, final Recipe object2) {
-				return object1.getTitleParse().compareTo(object2.getTitleParse());
-			}
-		});
-		model.addAttribute("recipe", recipes);
-		return "allrecipes";
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/recipe/{id}")
 	public String showSpecificRecipe(@PathVariable int id, Model model, Principal principal) {
 
@@ -197,9 +123,7 @@ public class RecipeController {
 
 		for (String i : amountList) {
 			String regex = "\\d{1,5}([.]\\d{1,3}|(\\s\\d{1,5})?[/]\\d{1,3})?";
-			System.out.println("being checked: " + i);
 			if (!i.matches(regex)) {
-				System.out.println("failed: " + i);
 				return "createreciperegex";
 			}
 		}
@@ -370,6 +294,15 @@ public class RecipeController {
 
 		}
 		ArrayList<Integer> anotherList = new ArrayList<Integer>();
+		ArrayList<Recipe> anotherList2 = new ArrayList<Recipe>();
+		
+		for(Recipe recipe:r){
+			if((recipe.getIngredients().size()>4)){
+				anotherList2.add(recipe);
+			}
+		}
+		r.clear();
+		r = new ArrayList<Recipe>(anotherList2);
 
 		for (Recipe idList : r) {
 			int id = idList.getId();
@@ -667,7 +600,6 @@ public class RecipeController {
 			fraction[1] = "9";
 			denominator = 10;
 		}
-		
 
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
 		for (int i2 = 2; i2 <= 33; i2++) {
@@ -779,5 +711,79 @@ public class RecipeController {
 
 		}
 		return fav;
+	}
+
+	@RequestMapping("/getMainDishes")
+	public String getMainDishes(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Main Dish");
+
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+
+	}
+
+	@RequestMapping("/getVegetarian")
+	public String getVegetarian(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Vegetarian");
+
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+
+	}
+
+	@RequestMapping("/getAppetisers")
+	public String getAppetisers(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Appetizers");
+
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+
+	}
+
+	@RequestMapping("/getDessert")
+	public String getDessert(Model model) {
+		List<Recipe> categoryRecipe = recipeService.getSpecific("Dessert");
+
+		Collections.sort(categoryRecipe, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", categoryRecipe);
+		return "allrecipes";
+
+	}
+
+	@RequestMapping("/allrecipes")
+	public String showRecipe(Model model) {
+		List<Recipe> recipes = recipeService.getCurrent();
+
+		Collections.sort(recipes, new Comparator<Recipe>() {
+			@Override
+			public int compare(final Recipe object1, final Recipe object2) {
+				return object1.getTitleParse().compareTo(object2.getTitleParse());
+			}
+		});
+		model.addAttribute("recipe", recipes);
+		return "allrecipes";
 	}
 }

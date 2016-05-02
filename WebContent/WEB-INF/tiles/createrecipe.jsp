@@ -16,7 +16,6 @@
 			textBox.setAttribute("align", "bottom");
 			textBox.setAttribute("placeholder", "Next Step");
 			textBox.setAttribute("required", "required");
-
 			document.getElementById("container1").appendChild(textBox);
 		}
 	}
@@ -70,7 +69,7 @@
 							<label class="col-md-3 control-label">Description</label>
 							<div class="col-md-9">
 								<textarea class="form-control" placeholder="Description" style="width:63%"
-									 name="descriptionParse" rows="5"
+									 name="descriptionParse" rows="5" required="required"
 									cols="5"></textarea>
 								
 							</div>
@@ -92,7 +91,7 @@
 							<label class="col-md-3 control-label">Calories</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="400" name="calories"
-									type="text" /> <input id="caloriesHidden" name="calories"
+									type="number" /> <input id="caloriesHidden" name="calories"
 									type="hidden" value="no">
 							</div>
 						</div>
@@ -101,7 +100,7 @@
 							<label class="col-md-3 control-label">Serves</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="4 People"
-									name="peopleFed" type="text" onkeypress='validate(event)' />
+									name="peopleFed" type="text" onkeypress='validate(event)'required="required" />
 							</div>
 						</div>
 

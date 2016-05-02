@@ -16,7 +16,6 @@
 			textBox.setAttribute("align", "bottom");
 			textBox.setAttribute("placeholder", "Next Step");
 			textBox.setAttribute("required", "required");
-
 			document.getElementById("container1").appendChild(textBox);
 		}
 	}
@@ -54,7 +53,7 @@
 			<div class="well well-sm">
 				<sf:form class="form-horizontal" onsubmit="return validateForm()"
 					name="myForm" action="${pageContext.request.contextPath}/docreate"
-					method="post" >
+					method="post">
 
 					<fieldset>
 						<legend class="text-center">Create Recipe</legend>
@@ -63,29 +62,28 @@
 							<label class="col-md-3 control-label">Title</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="Title"
-									path="titleParse" name="titleParse" type="text">
+									 name="titleParse" type="text">
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label class="col-md-3 control-label">Description</label>
 							<div class="col-md-9">
 								<textarea class="form-control" placeholder="Description"
-									path="descriptionParse" name="descriptionParse" rows="5"
-									cols="5"></textarea>
-								<br />
+									style="width: 63%" name="descriptionParse" rows="5"
+									required="required" cols="5"></textarea>
+
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-md-3 control-label">Category</label>
 							<div class="col-md-7">
-								<select name="type" class="form-control">
+								<select style="width: 83%;" name="type" class="form-control">
 									<option value="Appetisers">Appetisers</option>
 									<option value="Main Dish">Main Dish</option>
 									<option value="Vegetarian">Vegetarian</option>
 									<option value="Dessert">Dessert</option>
-								</select> <br />
+								</select>
 							</div>
 						</div>
 
@@ -93,7 +91,7 @@
 							<label class="col-md-3 control-label">Calories</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="400" name="calories"
-									type="text" /> <input id="caloriesHidden" name="calories"
+									type="number" style="width: 63%"/> <input id="caloriesHidden" name="calories"
 									type="hidden" value="no">
 							</div>
 						</div>
@@ -102,7 +100,8 @@
 							<label class="col-md-3 control-label">Serves</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="4 People"
-									name="peopleFed" type="text" onkeypress='validate(event)' />
+									name="peopleFed" type="text" onkeypress='validate(event)'
+									required="required" />
 							</div>
 						</div>
 
@@ -120,7 +119,8 @@
 							<div class="col-md-9">
 								<input class="form-control" placeholder="Next Step"
 									name="instructions" type="text"
-									data-fv-notempty-message="An instruction is required" required="required"/>
+									data-fv-notempty-message="An instruction is required"
+									required="required" />
 								<div id="container1"></div>
 
 								<br> <input type="button" class="btn btn-info"
@@ -131,21 +131,23 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="message">Ingredients</label>
 							<div class="col-md-9">
-							<p style="color:red"><small>Please make sure you only enter numbers, decimals and fractions e.g. 1 or 1.2 or 1 1/2</small></p>
-								
+							<p style="color:red"><small>Please make sure you only enter numbers, decimals and fractions<br>
+							 e.g. 1 or 0.2 or 1 1/2</small></p>
 								<div class="leftDiv">
 									<input class="form-control" placeholder="Quantity"
 										name="ingredientQuantity" type="text" style="width: 80px;"
-									required="required"></input>
+										required="required"></input>
 								</div>
 								<div class="rightDiv">
 									<input class="form-control" name="ingredientName"
-										placeholder="Measurement & Name" type="text" style="width: 170px;" required="required"></input>
+										placeholder="Measurement & Name" type="text"
+										style="width: 170px;" required="required"></input>
 								</div>
 
-								<div class="leftDiv" id="container" ></div>
+								<div class="leftDiv" id="container"></div>
 								<div class="rightDiv" id="container2"></div>
-								<br><input type="button" onclick="createTextBox2(1)"
+								<br>
+								<input type="button" onclick="createTextBox2(1)"
 									value="Add Ingredient" class="btn btn-info">
 							</div>
 						</div>
@@ -164,11 +166,11 @@
 <style>
 .leftDiv {
 	float: left;
-	width:20px;
+	width: 20px;
 }
 
 .rightDiv {
-	margin-left: 25%;
+	margin-left: 20%;
 }
 </style>
 <script>
@@ -201,7 +203,17 @@
 	}
 </script>
 <script>
-
+	function validate(evt) {
+		var theEvent = evt || window.event;
+		var key = theEvent.keyCode || theEvent.which;
+		key = String.fromCharCode(key);
+		var regex = /[0-9]|\./;
+		if (!regex.test(key)) {
+			theEvent.returnValue = false;
+			if (theEvent.preventDefault)
+				theEvent.preventDefault();
+		}
+	}
 
 	if (document.getElementById("calories").checked) {
 		document.getElementById('caloriesHidden').disabled = true;
