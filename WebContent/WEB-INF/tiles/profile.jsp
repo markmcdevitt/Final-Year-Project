@@ -27,7 +27,10 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Email</strong></span>
 					<c:out value="${user.email}"></c:out></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Level</strong></span>
-					<c:out value="${user.userLevel}"></c:out></li>
+					<a data-toggle="popover" style="color: black; text-decoration: none;" data-trigger="hover" title="List of Levels" data-html="true"
+					data-content="<li>Master Chef</li><li>Executive Chef</li><li>Sous Chef</li><li>Prep Chef</li><li>Wise Chef</li><li>Gifted Chef</li><li>Amatuer Cook</li><li>Newbie</li>"> <c:out
+							value="${user.userLevel}"></c:out>
+				</a></li>
 				<c:if test="${empty user.usersAllergys}">
 					<li class="list-group-item text-left"><a
 						href="${pageContext.request.contextPath}/editAllergy"><small><font
@@ -110,7 +113,7 @@
 
 				<div class="tab-pane" id="settings">
 					<hr>
-					<form id ="details" class="form"
+					<form id="details" class="form"
 						action="${pageContext.request.contextPath}/editDetails"
 						method="post">
 						<div class="form-group">
@@ -124,8 +127,9 @@
 						<div class="form-group">
 
 							<div class="col-xs-6">
-								<label for="last_name"><h4>Email</h4></label> <input type="email"
-									class="form-control" name="email" id="email" style='width:250px'
+								<label for="last_name"><h4>Email</h4></label> <input
+									type="email" class="form-control" name="email" id="email"
+									style='width: 250px'
 									value="<c:out value="${user.email}"></c:out>">
 							</div>
 						</div>
@@ -142,7 +146,8 @@
 							<div class="col-xs-6">
 								<label for="mobile"><h4>Confirm Password</h4></label> <input
 									type="password" class="form-control" name="confirmpass"
-									id="confirmpass" placeholder="Confirm Password" required="required">
+									id="confirmpass" placeholder="Confirm Password"
+									required="required">
 								<div id=matchpass></div>
 							</div>
 						</div>
@@ -165,8 +170,7 @@
 						<form class="form"
 							action="${pageContext.request.contextPath}/createingredientsowned"
 							method="post">
-							<label for="last_name"><h4>Ingredients You Own</h4></label>
-<br>
+							<label for="last_name"><h4>Ingredients You Own</h4></label> <br>
 							<c:forEach var="ingredientsOwned"
 								items="${user.ingredientsOwned}">
 
@@ -451,13 +455,11 @@
 		if (confirmpass.length > 0) {
 
 			if (password == confirmpass) {
-				$("#matchpass").text(
-						"Passwords match");
+				$("#matchpass").text("Passwords match");
 				$("#matchpass").addClass("valid");
 				$("#matchpass").removeClass("error");
 			} else {
-				$("#matchpass")
-						.text("Passwords dont match");
+				$("#matchpass").text("Passwords dont match");
 				$("#matchpass").addClass("error");
 				$("#matchpass").removeClass("valid");
 			}
@@ -465,10 +467,30 @@
 	}
 
 	$(document).ready(onLoad);
+
+	$(document).ready(function() {
+		$('[data-toggle="popover"]').popover({
+		    container: 'body'
+		});
+	});
 </script>
 <style>
 .leftDiv {
 	float: left;
 	width: 50%;
+}
+
+li {
+	color: black; /* bullet color */
+}
+
+.astext {
+	background: none;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+.popover{
+    max-width: 100%; /* Max Width of the popover (depending on the container!) */
 }
 </style>

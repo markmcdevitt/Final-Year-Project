@@ -61,16 +61,16 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Title</label>
 							<div class="col-md-9">
-								<input class="form-control" placeholder="Title"
-									 name="titleParse" type="text">
+								<input class="form-control" placeholder="Title" maxlength="200"
+									required="required" name="titleParse" type="text">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-md-3 control-label">Description</label>
 							<div class="col-md-9">
 								<textarea class="form-control" placeholder="Description"
-									style="width: 63%" name="descriptionParse" rows="5"
-									required="required" cols="5"></textarea>
+									maxlength="200" style="width: 63%" name="descriptionParse"
+									rows="5" required="required" cols="5"></textarea>
 
 							</div>
 						</div>
@@ -91,8 +91,8 @@
 							<label class="col-md-3 control-label">Calories</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="400" name="calories"
-									type="number" style="width: 63%"/> <input id="caloriesHidden" name="calories"
-									type="hidden" value="no">
+									type="number" style="width: 63%" /> <input id="caloriesHidden"
+									name="calories" type="hidden" value="no">
 							</div>
 						</div>
 
@@ -131,8 +131,11 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label" for="message">Ingredients</label>
 							<div class="col-md-9">
-							<p style="color:red"><small>Please make sure you only enter numbers, decimals and fractions<br>
-							 e.g. 1 or 0.2 or 1 1/2</small></p>
+								<p style="color: red">
+									<small>Please make sure you only enter numbers,
+										decimals and fractions<br> e.g. 1 or 0.2 or 1 1/2
+									</small>
+								</p>
 								<div class="leftDiv">
 									<input class="form-control" placeholder="Quantity"
 										name="ingredientQuantity" type="text" style="width: 80px;"
@@ -146,8 +149,7 @@
 
 								<div class="leftDiv" id="container"></div>
 								<div class="rightDiv" id="container2"></div>
-								<br>
-								<input type="button" onclick="createTextBox2(1)"
+								<br> <input type="button" onclick="createTextBox2(1)"
 									value="Add Ingredient" class="btn btn-info">
 							</div>
 						</div>

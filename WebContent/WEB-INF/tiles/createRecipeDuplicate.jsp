@@ -61,8 +61,8 @@
 						<div class="form-group">
 							<label class="col-md-3 control-label">Title</label>
 							<div class="col-md-9">
-								<input class="form-control" placeholder="Title"
-									path="titleParse" name="titleParse" type="text">
+								<input class="form-control" placeholder="Title" required="required"
+									maxlength="200"name="titleParse" type="text">
 								<p style="color: red">
 									<small>This title is alrady in use, please pick another</small>
 								</p>
@@ -73,7 +73,7 @@
 							<div class="col-md-9">
 								<textarea class="form-control" placeholder="Description"
 									style="width: 63%" name="descriptionParse" rows="5"
-									required="required" cols="5"></textarea>
+									required="required" cols="5" maxlength="200"></textarea>
 
 							</div>
 						</div>

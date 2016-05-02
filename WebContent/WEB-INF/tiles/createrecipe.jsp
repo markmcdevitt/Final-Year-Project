@@ -62,7 +62,7 @@
 							<label class="col-md-3 control-label">Title</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="Title"
-									path="titleParse" name="titleParse" type="text">
+									name="titleParse" type="text"  maxlength="200" required="required">
 							</div>
 						</div>
 						<div class="form-group">
@@ -70,7 +70,7 @@
 							<div class="col-md-9">
 								<textarea class="form-control" placeholder="Description" style="width:63%"
 									 name="descriptionParse" rows="5" required="required"
-									cols="5"></textarea>
+									cols="5" maxlength="200"></textarea>
 								
 							</div>
 						</div>
@@ -91,7 +91,7 @@
 							<label class="col-md-3 control-label">Calories</label>
 							<div class="col-md-9">
 								<input class="form-control" placeholder="400" name="calories"
-									type="number" /> <input id="caloriesHidden" name="calories"
+									type="number" style="width: 63%;"/> <input id="caloriesHidden" name="calories"
 									type="hidden" value="no">
 							</div>
 						</div>

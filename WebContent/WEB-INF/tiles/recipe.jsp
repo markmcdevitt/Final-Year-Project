@@ -57,15 +57,17 @@
 	</h4>
 	<div class="leftDiv">Recipe Level:</div>
 	<div id="high" class="high">
-		<c:out value="${recipe.level}" />
-		<input id="level" name="level" type="hidden"
+		<button data-toggle="popover" class="astext" data-html="true"
+			data-content="<li>Green: Recipe is within your ability</li><br />
+			 <li>Red: You might struggle</li>">
+			<c:out value="${recipe.level}" />
+		</button> <input id="level" name="level" type="hidden"
 			value="<c:out value="${recipe.level}"/>">
 	</div>
 	<br>
 	Calories Per Serving: <c:out value="${recipe.calories}"></c:out>
 	<br>
 	Serves: <c:out value="${recipe.peopleFed}"></c:out>
-
 </c:forEach>
 <table class="table table-bordered table-striped">
 	<tr>
@@ -298,8 +300,11 @@ body {
 	var fav = document.getElementById('fav').value;
 	if (fav == "true") {
 		document.getElementById("favb").style = "color:gold"
-		
+
 	}
+	$(document).ready(function() {
+		$('[data-toggle="popover"]').popover();
+	});
 </script>
 <style>
 .leftDiv {
@@ -308,5 +313,15 @@ body {
 
 .high {
 	float: left;
+}
+
+li {
+  color: black; /* bullet color */
+}
+.astext {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
 }
 </style>
