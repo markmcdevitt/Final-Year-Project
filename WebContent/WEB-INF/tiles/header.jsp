@@ -25,7 +25,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="active"><a
 					href="${pageContext.request.contextPath}/profile"><i
-						class="fa fa-fw fa-thumbs-o-up"></i>Home</a><span class="sr-only">(current)</span></li>
+						class="fa fa-fw fa-thumbs-o-up"></i>Profile</a><span class="sr-only">(current)</span></li>
 
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-expanded="false">Recipes

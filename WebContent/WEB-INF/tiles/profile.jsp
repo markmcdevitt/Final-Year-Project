@@ -27,14 +27,16 @@
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Email</strong></span>
 					<c:out value="${user.email}"></c:out></li>
 				<li class="list-group-item text-right"><span class="pull-left"><strong>Level</strong></span>
-					<a data-toggle="popover" style="color: black; text-decoration: none;" data-trigger="hover" title="List of Levels" data-html="true"
-					data-content="<li>Master Chef</li><li>Executive Chef</li><li>Sous Chef</li><li>Prep Chef</li><li>Wise Chef</li><li>Gifted Chef</li><li>Amatuer Cook</li><li>Newbie</li>"> <c:out
-							value="${user.userLevel}"></c:out>
+					<a data-toggle="popover"
+					style="color: black; text-decoration: none;" data-trigger="hover"
+					title="List of Levels" data-html="true"
+					data-content="<li>Master Chef</li><li>Executive Chef</li><li>Sous Chef</li><li>Prep Chef</li><li>Wise Chef</li><li>Gifted Chef</li><li>Amatuer Cook</li><li>Newbie</li>">
+						<c:out value="${user.userLevel}"></c:out>
 				</a></li>
 				<c:if test="${empty user.usersAllergys}">
 					<li class="list-group-item text-left"><a
 						href="${pageContext.request.contextPath}/editAllergy"><small><font
-								color="black">You Dont Have Any Allergies</font></small></a></li>
+								color="black">You Don't Have Any Allergies</font></small></a></li>
 				</c:if>
 				<c:if test="${not empty user.usersAllergys}">
 					<li class="list-group-item text-right"><span class="pull-left"><strong><a
@@ -73,8 +75,8 @@
 								<thead>
 									<tr>
 										<td><b>Recipe Name</b></td>
+										<td><b>Average Rating</b></td>
 										<td><b>Description</b></td>
-										<td><b>Rating</b></td>
 										<td><b>Calories</b></td>
 										<td><b>Serves</b></td>
 									</tr>
@@ -167,7 +169,8 @@
 					<hr>
 					<div class="leftDiv">
 						<form class="form"
-							action="${pageContext.request.contextPath}/createingredientsowned"	method="post">
+							action="${pageContext.request.contextPath}/createingredientsowned"
+							method="post">
 							<label for="last_name"><h4>Ingredients You Own</h4></label> <br>
 							<c:forEach var="ingredientsOwned"
 								items="${user.ingredientsOwned}">
@@ -175,16 +178,13 @@
 								<div class="form-group">
 									<div class="leftDiv">
 										<div class="col-xs-6">
-
-											<input name="ingredientName" type="text" class="form-control"
+											<input id ="0" name="ingredientName" type="text" class="form-control"
 												value="<c:out value="${ingredientsOwned.ingredientOwned}" ></c:out>">
 										</div>
 									</div>
 								</div>
-
 								<br>
 							</c:forEach>
-
 							<div class="leftDiv">
 								<div class="form-group">
 									<div class="col-xs-6">
@@ -415,6 +415,7 @@
 		for (var i = 0; i < n; i++) {
 			var textBox = document.createElement("input");
 
+			textBox.setAttribute("id", i+1);
 			textBox.setAttribute("name", "ingredientName");
 			textBox.setAttribute("class", "form-control");
 			textBox.setAttribute("type", "text");
@@ -445,6 +446,9 @@
 			return true;
 		}
 	}
+	function deleteText(i){
+		document.getElementById(i).value= "";
+		}
 
 	function checkPasswordsMatch() {
 		var password = $("#password").val();
@@ -468,7 +472,7 @@
 
 	$(document).ready(function() {
 		$('[data-toggle="popover"]').popover({
-		    container: 'body'
+			container : 'body'
 		});
 	});
 </script>
@@ -488,7 +492,14 @@ li {
 	margin: 0;
 	padding: 0;
 }
-.popover{
-    max-width: 100%; /* Max Width of the popover (depending on the container!) */
+
+.popover {
+	max-width: 100%;
+	/* Max Width of the popover (depending on the container!) */
+}
+
+#x {
+	margin-right: 234px;
+	color:red;
 }
 </style>

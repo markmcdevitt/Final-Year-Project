@@ -46,7 +46,7 @@
 				Plan Your Meals <span class="text-muted">With The Meal
 					Planner </span>
 			</h2>
-			<p class="lead">To help orgainise your meals for the week.
+			<p class="lead">To help organise your meals for the week.
 				Planning your meals will help you eat healthier, shop more
 				efficently and will save you money.</p>
 		</div>

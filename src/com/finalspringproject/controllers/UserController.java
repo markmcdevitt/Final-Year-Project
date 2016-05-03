@@ -54,7 +54,7 @@ public class UserController {
 		List<Recipe> recipeList = user.getRecipes();
 		
 		String level="Newbie";
-		if(!user.getRecipes().isEmpty()){
+		if(user.getRecipes().size()>1){
 		level = calculateUserLevel(user);
 		}
 		user.setUserLevel(level);
@@ -264,7 +264,7 @@ public class UserController {
 		} else if (userLevel > 20) {
 			level = "Gifted Chef";
 		} else if (userLevel > 16) {
-			level = "Amatuer Cook";
+			level = "Amateur Cook";
 		} else {
 			level = "Newbie";
 		}

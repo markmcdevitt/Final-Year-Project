@@ -25,7 +25,7 @@
 								<div class="row toggle" id="dropdown-detail-1"
 									data-toggle="detail-${i.index}">
 									<div class="col-xs-12 col-md-8">
-										<c:out value="${weeklyplan.date}"></c:out>
+										View Meals for <c:out value="${weeklyplan.date}"></c:out>
 									</div>
 									<div class="col-xs-2">
 										<i class="fa fa-chevron-down"></i>
@@ -41,8 +41,7 @@
 														<c:forEach var="recipe" items="${weeklyplan.recipe}">
 															<table>
 																<tr>
-																	<td><a
-																		href="${pageContext.request.contextPath}/recipe/${recipe.id}">
+																	<td><a href="${pageContext.request.contextPath}/recipe/${recipe.id}">
 																			<c:out value="${recipe.titleParse}"></c:out>
 																	</a></td>
 																	<td>&nbsp;&nbsp;</td>

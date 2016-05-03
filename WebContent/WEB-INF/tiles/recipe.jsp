@@ -34,7 +34,7 @@
 
 	<center>
 		<img src="${recipe.imageURLParse}" class="img-rounded" width="250"
-			height="250" alt="Responsive image">
+		 alt="Responsive image">
 	</center>
 
 	<br>
@@ -90,7 +90,7 @@
 	<c:forEach var="recipe" items="${recipe}">
 		<c:forEach var="ingredient" items="${recipe.ingredients}">
 			<tr>
-				<td width="13%"><c:out value="${ingredient.ingredientAmount}"></c:out></td>
+				<td width="15%"><c:out value="${ingredient.ingredientAmount}"></c:out></td>
 				<td><c:out value="${ingredient.ingredientName}"></c:out></td>
 			</tr>
 		</c:forEach>
@@ -140,7 +140,6 @@
 			<textarea name="message" class="form-control" rows="5" id="comment"></textarea>
 			<button id="myBtn" type="button" class="btn btn-info btn-lg"
 				data-toggle="modal" data-target="#myModal">Submit Review</button>
-
 		</div>
 
 		<div class="modal fade" id="myModal" role="dialog">
@@ -289,14 +288,12 @@ body {
 	} else {
 		document.getElementById("high").style = "color:#A00108"
 	}
-</script>
-<script type="text/javascript">
+
 	var review = document.getElementById('review').value;
 	if (review == "true") {
 		document.getElementById("myBtn").disabled = true;
 	}
-</script>
-<script type="text/javascript">
+
 	var fav = document.getElementById('fav').value;
 	if (fav == "true") {
 		document.getElementById("favb").style = "color:gold"
@@ -305,7 +302,11 @@ body {
 	$(document).ready(function() {
 		$('[data-toggle="popover"]').popover();
 	});
-</script>
+
+	$(document).ready(function(){
+	    $('[data-toggle="popover2"]').popover();   
+	});
+	</script>
 <style>
 .leftDiv {
 	float: left;

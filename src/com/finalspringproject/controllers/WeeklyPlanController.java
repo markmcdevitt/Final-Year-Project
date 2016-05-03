@@ -228,7 +228,7 @@ public class WeeklyPlanController {
 
 		for (IngredientsOwned s : ingredientsOwned) {
 			for (Ingredient ing : ingList) {
-				if (ing.getIngredientName().contains(" " + s.getIngredientOwned())
+				if (ing.getIngredientName().contains(s.getIngredientOwned())
 						|| ing.getIngredientName().contains(" " + s.getIngredientOwned() + "s ")
 						|| ing.getIngredientName().contains(" " + s.getIngredientOwned() + "'s ")) {
 					ingList.remove(ing);
@@ -347,7 +347,12 @@ public class WeeklyPlanController {
 		if (tea.indexOf("teaspoon") != -1) {
 
 			String arr[] = shoppingList2.getIngredient().split(" ", 2);
-			String ing = "grams of " + arr[1];
+			String ing;
+			if(arr[1].contains(" milk")||arr[1].contains("water")||arr[1].contains("oil")){
+				ing = "ml of " + arr[1];	
+			}else{
+				ing = "grams of " + arr[1];			
+			}
 			shoppingList.setIngredient(ing);
 
 			double total = 0;
@@ -372,7 +377,12 @@ public class WeeklyPlanController {
 		} else if (tea.indexOf("tablespoon") != -1) {
 
 			String arr[] = shoppingList2.getIngredient().split(" ", 2);
-			String ing = "grams of " + arr[1];
+			String ing;
+			if(arr[1].contains(" milk")||arr[1].contains("water")||arr[1].contains("oil")){
+				ing = "ml of " + arr[1];	
+			}else{
+				ing = "grams of " + arr[1];			
+			}
 
 			shoppingList.setIngredient(ing);
 			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 14.787;
@@ -382,7 +392,12 @@ public class WeeklyPlanController {
 
 		} else if (tea.indexOf("cup") != -1) {
 			String arr[] = shoppingList2.getIngredient().split(" ", 2);
-			String ing = "grams of " + arr[1];
+			String ing;
+			if(arr[1].contains(" milk")||arr[1].contains("water")||arr[1].contains("oil")){
+				ing = "ml of " + arr[1];	
+			}else{
+				ing = "grams of " + arr[1];			
+			}
 			shoppingList.setIngredient(ing);
 			double amountIng = Double.parseDouble(shoppingList2.getQuantity()) * 236.588;
 			int rounded = (int) Math.ceil(amountIng);

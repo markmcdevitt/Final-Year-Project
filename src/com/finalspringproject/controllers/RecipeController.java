@@ -1,4 +1,4 @@
-package com.finalspringproject.controllers;
+ package com.finalspringproject.controllers;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -163,9 +163,23 @@ public class RecipeController {
 
 			List<Recipe> recipeList = getOneRecipe(recipe.getId());
 			String ableToReview = "true";
+			
+			
+			int recipeLevel = levelCheck(level);
+			int userLevel = levelCheck(user.getUserLevel());
 
+			String answer;
+			if (userLevel >= recipeLevel) {
+				answer = level;
+			} else {
+				answer = "unknown";
+			}
+
+			model.addAttribute("answer", answer);
 			model.addAttribute("review", ableToReview);
 			model.addAttribute("recipe", recipeList);
+
+	
 			return "recipe";
 		} else {
 			recipeService.delete(recipe.getId());
@@ -482,7 +496,7 @@ public class RecipeController {
 		} else if (score > 20) {
 			level = "Gifted Chef";
 		} else if (score > 16) {
-			level = "Amatuer Cook";
+			level = "Amateur Cook";
 		} else {
 			level = "Newbie";
 		}
@@ -715,7 +729,6 @@ public class RecipeController {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("review catch");
 		}
 		return ableToReview;
 	}
