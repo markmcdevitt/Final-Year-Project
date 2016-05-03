@@ -66,7 +66,12 @@ public class FavouriteController {
 		
 		RecipeController recipeController = new RecipeController();
 		for(Ingredient r:recipeList.get(0).getIngredients()){
-			r.setIngredientAmount(recipeController.ingredientAmount(Double.parseDouble(r.getIngredientAmount())));
+			try {
+				r.setIngredientAmount(recipeController.ingredientAmount(Double.parseDouble(r.getIngredientAmount())));
+			} catch (Exception e) {
+				r.setIngredientAmount("-");
+			}
+			
 		}
 		
 		String ableToReview="false";

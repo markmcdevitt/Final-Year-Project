@@ -55,8 +55,7 @@
 				<li class="active"><a href="#home" data-toggle="tab">Your
 						Recipes</a></li>
 				<li><a href="#settings" data-toggle="tab">User Details</a></li>
-				<li><a href="#ingredients" data-toggle="tab">Your
-						Ingredients</a></li>
+				<li><a href="#ingredients" data-toggle="tab">My Cupboard</a></li>
 				<li><a href="#favourite" data-toggle="tab">Favourite</a></li>
 			</ul>
 
@@ -168,8 +167,7 @@
 					<hr>
 					<div class="leftDiv">
 						<form class="form"
-							action="${pageContext.request.contextPath}/createingredientsowned"
-							method="post">
+							action="${pageContext.request.contextPath}/createingredientsowned"	method="post">
 							<label for="last_name"><h4>Ingredients You Own</h4></label> <br>
 							<c:forEach var="ingredientsOwned"
 								items="${user.ingredientsOwned}">

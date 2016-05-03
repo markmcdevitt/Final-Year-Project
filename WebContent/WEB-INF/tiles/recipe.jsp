@@ -58,7 +58,7 @@
 	<div class="leftDiv">Recipe Level:</div>
 	<div id="high" class="high">
 		<button data-toggle="popover" class="astext" data-html="true"
-			data-content="<li>Green: Recipe is within your ability</li><br />
+			data-content="<li>Green: Recipe is within your ability</li>
 			 <li>Red: You might struggle</li>">
 			<c:out value="${recipe.level}" />
 		</button> <input id="level" name="level" type="hidden"

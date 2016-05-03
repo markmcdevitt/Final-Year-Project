@@ -87,6 +87,20 @@ public class WeeklyPlanController {
 			}
 		}
 		List<User> userList = new ArrayList<User>();
+		List<WeeklyPlan> wkPlan = user.getWeeklyPlan();
+
+		Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			@Override
+			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
+				try {
+					return dateFormat.parse(arg0.getDate()).compareTo(dateFormat.parse(arg1.getDate()));
+				} catch (ParseException e) {
+					throw new IllegalArgumentException(e);
+				}
+			}
+		});
+		user.setWeeklyPlan(wkPlan);
 		userList.add(user);
 		model.addAttribute("userList", userList);
 		return "allweeklyplans";
@@ -101,7 +115,6 @@ public class WeeklyPlanController {
 
 		Collections.sort(wkPlan, new Comparator<WeeklyPlan>() {
 			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
 			@Override
 			public int compare(WeeklyPlan arg0, WeeklyPlan arg1) {
 				try {

@@ -18,6 +18,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.taglibs.standard.functions.Functions;
 import org.apache.velocity.runtime.parser.node.MathUtils;
@@ -295,9 +297,9 @@ public class RecipeController {
 		}
 		ArrayList<Integer> anotherList = new ArrayList<Integer>();
 		ArrayList<Recipe> anotherList2 = new ArrayList<Recipe>();
-		
-		for(Recipe recipe:r){
-			if((recipe.getIngredients().size()>4)){
+
+		for (Recipe recipe : r) {
+			if ((recipe.getIngredients().size() > 4)) {
 				anotherList2.add(recipe);
 			}
 		}
@@ -578,8 +580,8 @@ public class RecipeController {
 		String aString = Double.toString(amount);
 		String[] fraction = aString.split("\\.");
 		denominator = (int) Math.pow(10, fraction[1].length());
-
-		if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")) {
+		if (fraction[1].equals("333333333333333") || fraction[1].contains("3333333333333333")
+				|| fraction[1].contains("3333333333333333") && denominator == 2147483647) {
 			fraction[1] = "33";
 			denominator = 99;
 		} else if (fraction[1].contains("1666") || fraction[1].contains("166666")) {
@@ -602,6 +604,7 @@ public class RecipeController {
 		}
 
 		numerator = Integer.parseInt(fraction[0] + "" + fraction[1]);
+
 		for (int i2 = 2; i2 <= 33; i2++) {
 			if (numerator % i2 == 0 && denominator % i2 == 0) {
 				numerator = numerator / i2;
@@ -612,8 +615,21 @@ public class RecipeController {
 
 		if (numerator > denominator && !(denominator == 1)) {
 			int whole = (int) Math.floor(numerator / denominator);
-			int newNum2 = numerator - (whole * denominator);
-			if (name.contains("teaspoon") && whole >= 3) {/// HERE
+			int newNum2;
+			if (!(numerator == 233) && !(numerator == 133) && !(numerator == 266) && !(numerator == 166)
+					&& !(numerator == 333) && !(numerator == 366) && !(numerator == 433) && !(numerator == 466)
+					&& !(numerator == 533) && !(numerator == 566) && !(numerator == 666) && !(numerator == 633)) {
+				newNum2 = numerator - (whole * denominator);
+			} else if ((numerator == 166) || (numerator == 266) || (numerator == 366) || (numerator == 466)
+					|| (numerator == 566)) {
+				newNum2 = 2;
+				denominator = 3;
+			} else {
+				newNum2 = 1;
+				denominator = 3;
+			}
+
+			if (name.contains("teaspoon") && whole >= 3) {
 				int tablespoon = 0;
 				if (whole % 3 == 0) {
 					tablespoon = whole / 3;
@@ -635,15 +651,20 @@ public class RecipeController {
 			} else {
 
 				finishedAmount = whole + "-" + newNum2 + "/" + denominator;
+				System.out.println("in here 3 " + finishedAmount);
 				ingredient.setIngredientAmount(finishedAmount);
 				ingredient.setIngredientName(name);
 			}
 		} else if (numerator > denominator && (denominator == 1) || numerator > denominator && (denominator == 0)) {
+
 			finishedAmount = String.valueOf(numerator);
+			System.out.println("in here2 " + finishedAmount);
 			ingredient.setIngredientAmount(finishedAmount);
 			ingredient.setIngredientName(name);
 		} else {
+
 			finishedAmount = numerator + "/" + denominator;
+			System.out.println("in here " + finishedAmount);
 			ingredient.setIngredientAmount(finishedAmount);
 			ingredient.setIngredientName(name);
 		}

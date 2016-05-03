@@ -5,7 +5,7 @@
 
 <div class="row">
 	<div class="col-xs-12 col-md-10">
-		<c:forEach var="user" items="${userList}">
+		<c:forEach var="user" items="${userList}" >
 			<c:if test="${user.weeklyPlan.size()==0}">
 				<p>You have not added any recipes to the weekly plan</p>
 				<p>Get started by finding a recipe you like.</p>
@@ -20,8 +20,6 @@
 					</div>
 					<c:forEach var="weeklyplan" items="${user.weeklyPlan}"
 						varStatus="i">
-
-
 						<ul class="list-group">
 							<li class="list-group-item">
 								<div class="row toggle" id="dropdown-detail-1"
@@ -42,14 +40,17 @@
 													<div>
 														<c:forEach var="recipe" items="${weeklyplan.recipe}">
 															<table>
-															<tr>
-																<td><a href="${pageContext.request.contextPath}/recipe/${recipe.id}">
-																<c:out value="${recipe.titleParse}"></c:out> </a></td>
-																<td>&nbsp;&nbsp;</td>
-																<td><a href="${pageContext.request.contextPath}/deleteRecipeFromPlan/${weeklyplan.id}/${recipe.titleParse}">
-																<span><div class="red-x">&#10006;</div></span>
-																</a></td>
-															</tr>	
+																<tr>
+																	<td><a
+																		href="${pageContext.request.contextPath}/recipe/${recipe.id}">
+																			<c:out value="${recipe.titleParse}"></c:out>
+																	</a></td>
+																	<td>&nbsp;&nbsp;</td>
+																	<td><a
+																		href="${pageContext.request.contextPath}/deleteRecipeFromPlan/${weeklyplan.id}/${recipe.titleParse}">
+																			<span><div class="red-x">&#10006;</div></span>
+																	</a></td>
+																</tr>
 															</table>
 														</c:forEach>
 													</div>
